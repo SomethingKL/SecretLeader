@@ -12,13 +12,13 @@ import ui.SLPanel;
 
 public class Entity {
 	/**box around the entity*/
-	protected Rectangle box;
+	private Rectangle box;
 	/**image for this part*/
-	public Image image;
+	private Image image;
 	
 	public Entity(Point location, Dimension size, Image image){
 		box = new Rectangle(location.x, location.y, size.width, size.height);
-		this.image = image;
+		this.image = image.getScaledInstance(size.width, size.height, 0);
 	}
 	
 	/**{@literal} draws the image on the graphics panel
@@ -33,12 +33,5 @@ public class Entity {
 	/**@return y gets location of the top left corner*/
 	public int getY(){
 		return box.y;
-	}
-	/**@param x sets x location of the top left corner
-	 * @param y sets y location of the top left corner
-	 */
-	public void setXY(int x, int y) {
-		this.box.x = x;
-		this.box.y = y;
 	}
 }

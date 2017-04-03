@@ -6,6 +6,9 @@ package ui;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+import framework.Controller;
 
 public class SLPanel extends SLCanvas{
 	/**Utility*/
@@ -17,13 +20,18 @@ public class SLPanel extends SLCanvas{
 	private final long GAME_UPDATE_PERIOD = secInNanosecond/GAME_FPS;
 	
 	/**State
-	 * these can change when we decide what the different states are*/
-	private static enum GameState{FIRST, SECOND, THIRD}
+	 * playing for your turn and waiting when it's not your turn*/
+	private static enum GameState{JOINING, PLAYING, WAITING, GAMEOVER}
 	private static GameState state;
+	
+	/**Used for implementing the game
+	 */
+	private Controller control;
 	
 	public SLPanel(){
 		super();
-		state = GameState.FIRST;
+		state = GameState.PLAYING;
+		control = new Controller();
 		
 		/**refreshes the game in a new thread
 		 */
@@ -65,6 +73,13 @@ public class SLPanel extends SLCanvas{
 		// TODO Auto-generated method stub
 		// maybe if First state then controller paint x
 		// and if Second state then controller paint y
+		if(state == GameState.PLAYING){
+			try{ 
+				control.draw(g2d, this);
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
