@@ -16,7 +16,7 @@ public class SLPanel extends SLCanvas{
 	private final long milisecInNanosec = 1000000L;
 	
 	/**Used for managing FPS*/
-	private final int GAME_FPS = 30;
+	private final int GAME_FPS = 20;
 	private final long GAME_UPDATE_PERIOD = secInNanosecond/GAME_FPS;
 	
 	/**State
@@ -31,7 +31,11 @@ public class SLPanel extends SLCanvas{
 	public SLPanel(){
 		super();
 		state = GameState.PLAYING;
-		control = new Controller();
+		try{
+			control = new Controller();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 		
 		/**refreshes the game in a new thread
 		 */
@@ -43,7 +47,6 @@ public class SLPanel extends SLCanvas{
 		};
 		gameThread.start();
 	}
-	
 	/**MAIN GAME LOOP
 	 */
 	private void loop() {
@@ -62,18 +65,18 @@ public class SLPanel extends SLCanvas{
                 timeLeft = 10;
             try{
             	Thread.sleep(timeLeft);
-            } catch (InterruptedException ex){}
+            }catch(InterruptedException ex){
+            	ex.printStackTrace();
+            }
 		}
 	}
-
 	@Override
 	/**{@literal} called from repaint()
 	 */
 	public void canvasDraw(Graphics2D g2d) {
-		// TODO Auto-generated method stub
 		// maybe if First state then controller paint x
 		// and if Second state then controller paint y
-		if(state == GameState.PLAYING){
+		if(state != GameState.JOINING){
 			try{ 
 				control.draw(g2d, this);
 			}catch(IOException e){
@@ -81,11 +84,10 @@ public class SLPanel extends SLCanvas{
 			}
 		}
 	}
-
 	@Override
 	/**{@literal} called when mouse is clicked
 	 */
 	public void mouseReleasedFramework(MouseEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println("clicked!");
 	}
 }
