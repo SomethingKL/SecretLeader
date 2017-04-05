@@ -1,5 +1,5 @@
-/**This is our secret leader victory card.
- * It represents policies that each team must pass to win.
+/**This is our secret leader official card.
+ * It represents whether the player is president or chancellor.
  */
 package entity;
 
@@ -10,13 +10,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class VictoryCard extends Entity{
+public class Official extends Entity{
 	/**final width of the frame*/
-	private static final int WIDTH  = 130;
+	private static final int WIDTH  = 570;
 	/**final height of the frame*/
-	private static final int HEIGHT = 180;
+	private static final int HEIGHT = 160;
 	
-	public VictoryCard(Point point, String name) throws IOException{
+	public Official(Point point, String name) throws IOException{
 		super(point, new Dimension(WIDTH, HEIGHT), ImageIO.read(new File("data/"+name)));
 	}
 }

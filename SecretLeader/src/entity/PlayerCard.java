@@ -1,3 +1,7 @@
+/**This is our secret leader player card.
+ * It shows the players current role in the game.
+ * eg, if they are blue or red or the red leader.
+ */
 package entity;
 
 import java.awt.Dimension;

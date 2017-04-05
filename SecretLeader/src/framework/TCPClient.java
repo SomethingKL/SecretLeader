@@ -19,17 +19,19 @@ public class TCPClient {
 	 * @return a string array containing the information from a file
 	 */
 	public String[] readFile(String name){
-		try (BufferedReader br = new BufferedReader(new FileReader(name))){
-		    ArrayList<String> stream = new ArrayList<>();
-		    br.lines().forEach(stream::add);
-		    int size = stream.size();
-		    String[] answer = new String[size];
-		    for(int k=0;k<size;k++)
-		    	answer[k]=stream.get(k);
+		try(BufferedReader br = new BufferedReader(new FileReader(name))){
+		    ArrayList<String> nonComments = new ArrayList<>();
+		    String line;
+		    while((line = br.readLine()) != null)
+		    	if(line.charAt(0) != '#')
+		    		nonComments.add(line);
+		    int length = nonComments.size();
+		    String[] answer = new String[length];
+		    for(int k=0;k<length;k++)
+		    	answer[k] = nonComments.get(k);
 			br.close();
 			return answer;
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			System.out.println(e);
 		}
 		return null;
@@ -39,8 +41,7 @@ public class TCPClient {
 	public void openToWrite(String name){
 		try{
 			writer = new FileWriter(name);
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			System.out.println(e);
 		}
 	}
@@ -49,8 +50,7 @@ public class TCPClient {
 	public void writeToFile(String input){
 		try{
 			writer.write(input + newline);
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			System.out.println(e);
 		}
 	}
@@ -59,8 +59,7 @@ public class TCPClient {
 	public void close(){
 		try{
 			writer.close();
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			System.out.println(e);
 		}
 	}

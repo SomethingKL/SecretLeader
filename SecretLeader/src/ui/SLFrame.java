@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 
 public class SLFrame extends JFrame{
 	/**final width of the frame*/
-	private static final int WIDTH  = 1280;
+	private static final int WIDTH  = 1180;
 	/**final height of the frame*/
-	private static final int HEIGHT = 720;
+	private static final int HEIGHT = 825;
 
 	public SLFrame() {
 		initWindow();
@@ -23,6 +23,6 @@ public class SLFrame extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setSize(WIDTH, HEIGHT);
 		this.setVisible(true);
-		this.setResizable(false);
+		this.setResizable(true);
 	}
 }

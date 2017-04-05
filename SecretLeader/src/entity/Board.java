@@ -1,3 +1,6 @@
+/**This is our secret leader board.
+ * It holds all the board information for one team.
+ */
 package entity;
 
 import java.awt.Dimension;
@@ -18,10 +21,8 @@ public class Board extends Entity{
 	/**an array holding the VictoryCards*/
 	private VictoryCard[] cards;
 	
-	public Board(Point point, String name, int num) throws IOException{
+	public Board(Point point, String name) throws IOException{
 		super(point, new Dimension(WIDTH, HEIGHT), ImageIO.read(new File("data/"+name)));
-		if(name == "Blue.jpg")blue(num);
-		else red(num);
 	}
 	/**@param num is the number of blue policies on the board
 	 * @throws IOException
@@ -48,7 +49,7 @@ public class Board extends Entity{
 		cards = new VictoryCard[number];
 		for(int k=0;k<number;k++){
 			int x = this.getX()+64+k*138;
-			int y = this.getY()+60;
+			int y = this.getY()+61;
 			VictoryCard vc = new VictoryCard(new Point(x,y),"RedPolicy.jpg");
 			cards[k] = vc;
 		}

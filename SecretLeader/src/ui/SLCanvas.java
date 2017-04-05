@@ -31,9 +31,9 @@ public abstract class SLCanvas extends JPanel implements MouseListener{
 
 	@Override
 	/**{@literal} Draws everything
-	 * called whenever you call repaint()
+	 * called from within JPanel
 	 */
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
 		super.paintComponent(g2d);
 		this.canvasDraw(g2d);
@@ -42,27 +42,33 @@ public abstract class SLCanvas extends JPanel implements MouseListener{
 	/**============== MOUSE ===============
 	 */
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent e){
 		// TODO Auto-generated method stub
 	}
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(MouseEvent e){
 		// TODO Auto-generated method stub
 	}
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e){
 		// TODO Auto-generated method stub
 	}
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e){
 		// TODO Auto-generated method stub
 	}
 	/**{@literal} When the mouse is clicked 
-	 * it calls the sub class method
+	 * it calls the sub class method as a separate thread
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e){
-		mouseReleasedFramework(e);
+		Thread click = new Thread(){
+			@Override
+			public void run() {
+				mouseReleasedFramework(e);
+			}
+		};
+		click.start();
 	}
 	
 	/**{@literal} Implemented in SLPanel

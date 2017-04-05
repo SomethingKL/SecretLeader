@@ -11,16 +11,8 @@ import java.io.IOException;
 import framework.Controller;
 
 public class SLPanel extends SLCanvas{
-	/**Utility*/
-	private final long secInNanosecond = 1000000000L;
-	private final long milisecInNanosec = 1000000L;
-	
-	/**Used for managing FPS*/
-	private final int GAME_FPS = 20;
-	private final long GAME_UPDATE_PERIOD = secInNanosecond/GAME_FPS;
-	
 	/**State
-	 * playing for your turn and waiting when it's not your turn*/
+	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
 	private static enum GameState{JOINING, PLAYING, WAITING, GAMEOVER}
 	private static GameState state;
 	
@@ -36,39 +28,6 @@ public class SLPanel extends SLCanvas{
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-		
-		/**refreshes the game in a new thread
-		 */
-		Thread gameThread = new Thread(){
-			@Override
-			public void run() {
-				loop();
-			}
-		};
-		gameThread.start();
-	}
-	/**MAIN GAME LOOP
-	 */
-	private void loop() {
-		//Used for calculating wait time during the FPS
-		long beginTime, timeTaken, timeLeft;
-		
-		while(true){
-			beginTime = System.nanoTime();
-			
-			//Render
-			repaint();
-			
-			timeTaken = System.nanoTime() - beginTime;
-            timeLeft = (GAME_UPDATE_PERIOD - timeTaken) / milisecInNanosec; // In milliseconds
-            if(timeLeft < 10) 
-                timeLeft = 10;
-            try{
-            	Thread.sleep(timeLeft);
-            }catch(InterruptedException ex){
-            	ex.printStackTrace();
-            }
-		}
 	}
 	@Override
 	/**{@literal} called from repaint()
@@ -79,7 +38,7 @@ public class SLPanel extends SLCanvas{
 		if(state != GameState.JOINING){
 			try{ 
 				control.draw(g2d, this);
-			}catch(IOException e){
+			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
@@ -87,7 +46,7 @@ public class SLPanel extends SLCanvas{
 	@Override
 	/**{@literal} called when mouse is clicked
 	 */
-	public void mouseReleasedFramework(MouseEvent e) {
+	public void mouseReleasedFramework(MouseEvent e){
 		System.out.println("clicked!");
 	}
 }
