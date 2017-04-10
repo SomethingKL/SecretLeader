@@ -4,11 +4,12 @@
  */
 package ui;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import framework.Controller;
+import framework.*;
 
 public class SLPanel extends SLCanvas{
 	/**State
@@ -19,12 +20,19 @@ public class SLPanel extends SLCanvas{
 	/**Used for implementing the game
 	 */
 	private Controller control;
+	private MainMenu begin;
 	
 	public SLPanel(){
 		super();
 		state = GameState.PLAYING;
 		try{
+			begin = new MainMenu(this);
+			this.removeAll();
+			//state = GameState.JOINING;
 			control = new Controller();
+		
+			
+		
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -37,10 +45,18 @@ public class SLPanel extends SLCanvas{
 		// and if Second state then controller paint y
 		if(state != GameState.JOINING){
 			try{ 
+				this.setBackground(new Color(255,255,255));
 				control.draw(g2d, this);
+				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
+		}
+		else if(state == GameState.JOINING){
+			//maybe a try and catch block
+			begin.setTextArea();
+			
+			
 		}
 	}
 	@Override

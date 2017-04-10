@@ -24,6 +24,7 @@ public class Board extends Entity{
 	public Board(Point point, String name) throws IOException{
 		super(point, new Dimension(WIDTH, HEIGHT), ImageIO.read(new File("data/"+name)));
 	}
+	
 	/**@param num is the number of blue policies on the board
 	 * @throws IOException
 	 */
@@ -39,6 +40,7 @@ public class Board extends Entity{
 			cards[k] = vc;
 		}
 	}
+	
 	/**@param num is the number of red policies on the board
 	 * @throws IOException
 	 */
@@ -54,6 +56,7 @@ public class Board extends Entity{
 			cards[k] = vc;
 		}
 	}
+	
 	@Override
 	/**{@literal} draws the board on the graphics panel
 	 * and the cards that are on the board

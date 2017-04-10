@@ -14,6 +14,7 @@ public class SLFrame extends JFrame{
 	public SLFrame() {
 		initWindow();
 	}
+	
 	/**{@literal} Initializes game window
 	 */
 	private void initWindow() {
