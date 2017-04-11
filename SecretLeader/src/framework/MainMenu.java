@@ -1,5 +1,10 @@
 package framework;
 
+/**This runs the beginning frame
+ * There is currently a warning at line ?. The program doesn't like to read in a null string from a file. 
+ * It has something to do with the action submitActionListener
+ * 
+ */
 import java.awt.Font;
 import java.awt.Component.*;
 import java.awt.Color;
@@ -15,7 +20,8 @@ import javax.swing.text.*;
 
 //import javax.awt.DocumentSizeFilter;
 public class MainMenu {
-
+	/**reads relevant game information*/
+	private TCPClient client = new TCPClient();
 	//I do not want this to repaint another button everytime
 	private boolean repaint= false;
 	private SLPanel slPanel;
@@ -27,13 +33,29 @@ public class MainMenu {
 	private JButton submit;
 	//the name of the user for the game
 	private String userName = "User";
-	
+	//where the screen should be at
+	private boolean waitingScreen = false;
+	//whether the game can go to the next state or not
+	private boolean nextScreen = false;
 	
 	public MainMenu(SLPanel slPanelIn){
 		slPanel = slPanelIn;
 		slPanel.setLayout(null);
 		setTextArea();
 		repaint = true;
+	}
+	
+	public void draw(Graphics2D g2d, SLPanel slPanel){
+		slPanel.revalidate();
+		slPanel.repaint();
+		
+	}
+	
+	/**This decides whether or not to move onto the next part of the game.
+	 * @return nextScreen, whether the game should go to the next screen or not.
+	 */
+	public boolean getNextScreen(){
+		return nextScreen;
 	}
 		
 		//String[] scores = client.readFile("data/Board.txt");
@@ -83,6 +105,46 @@ public class MainMenu {
 		slPanel.add(field);
 	}
 	
+	public void waitingScreen(){
+		
+		if(waitingScreen == false){
+			return;
+		}
+		
+		String[] scores = client.readFile("data/Players.txt");
+		//System.out.println(scores.length);
+		JLabel waitingLabel = new JLabel("Waiting for All Users to Join...");
+		
+		//settings for the waitingLabel
+		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC,25);
+		waitingLabel.setFont(font);
+		waitingLabel.setPreferredSize(new Dimension(600,50));
+		waitingLabel.setBounds(150,150,600,50);
+		waitingLabel.setForeground(new Color(200,20,20));
+		
+		
+		if (scores == null || scores.length == 0){
+			
+		}
+		else if(scores.length >= 4){
+			
+			JButton startGame = new JButton("Click here to start!");
+			startGame.setFont(font);
+			startGame.setPreferredSize(new Dimension(400,50));
+			startGame.setBounds(150,400,400,50);
+			
+			startGame.addActionListener(event -> nextScreen = true);
+			
+			slPanel.add(startGame);
+			//submit.addActionListener(new submitButtonAction());
+			
+		}
+		
+		slPanel.add(waitingLabel);
+		slPanel.revalidate();
+		slPanel.repaint();
+	}
+	
 	/**
 	 * If the button is clicked then the next screen is drawn up; for waiting.
 	 */
@@ -91,13 +153,32 @@ public class MainMenu {
 			//this will put the game to the waiting screen
 				String tmpString = field.getText();
 				if(tmpString != null && !tmpString.isEmpty()){
-					System.out.println("bam");
 					userName = tmpString;
 					//make the person put a name!
 					slPanel.removeAll();
-					//got to make a new screen for the user; the waiting screen.
-					slPanel.revalidate();
-					slPanel.repaint();
+					//makes the new screen appear
+					waitingScreen = true;
+					
+					//outputs the user information to a file
+					String[] scores = client.readFile("data/Players.txt");
+					//scores.toString();
+					
+					if(scores == null || scores.length == 0){
+						client.openToWrite("data/Players.txt");
+						client.writeToFile("#Player Names");
+						client.writeToFile(userName);
+								
+					}
+					else{
+						client.openToWrite("data/Players.txt");
+						client.writeToFile("#Player Names");
+						for(int i = 0; i < scores.length; i++){
+							client.writeToFile(scores[i]);
+						}
+						client.writeToFile(userName);
+					}
+					client.close();
+					waitingScreen();
 				}
 				
 			

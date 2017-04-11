@@ -1,5 +1,6 @@
-#Players in the game
-Ross
+#Player Names
 Max
-Jacob
-Brewer
+John
+Ross
+Drew
+Gavin

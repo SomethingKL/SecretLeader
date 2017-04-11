@@ -26,10 +26,12 @@ public class SLPanel extends SLCanvas{
 		super();
 		state = GameState.PLAYING;
 		try{
-			begin = new MainMenu(this);
-			this.removeAll();
-			//state = GameState.JOINING;
 			control = new Controller();
+			this.removeAll();
+			begin = new MainMenu(this);
+			//
+			state = GameState.JOINING;
+			
 		
 			
 		
@@ -55,6 +57,12 @@ public class SLPanel extends SLCanvas{
 		else if(state == GameState.JOINING){
 			//maybe a try and catch block
 			begin.setTextArea();
+			begin.waitingScreen();
+			begin.draw(g2d,this);
+			if(begin.getNextScreen() == true){
+				removeAll();
+				state = GameState.PLAYING;
+			}
 			
 			
 		}
