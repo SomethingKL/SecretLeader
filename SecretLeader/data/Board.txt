@@ -1,4 +1,4 @@
 #number of Blue victories
-6
+4
 #number of Red victories
 3

@@ -39,6 +39,12 @@ public class MainMenu {
 	private boolean nextScreen = false;
 	
 	public MainMenu(SLPanel slPanelIn){
+		//Have to set the file to false to begin with; otherwise everyone will go to the wrong screen to start
+		client.openToWrite("data/leaveStarting.txt");
+		client.writeToFile("#Whether all screens should go to the nextScreen");
+		client.writeToFile("false");
+		client.close();
+		
 		slPanel = slPanelIn;
 		slPanel.setLayout(null);
 		setTextArea();
@@ -67,7 +73,7 @@ public class MainMenu {
 		if(repaint == true){
 			return;
 		}
-		
+
 		//this sets the character limit for the username
 		DefaultStyledDocument fieldDoc = new DefaultStyledDocument();
 		fieldDoc.setDocumentFilter(new DocumentSizeFilter(10));
@@ -111,6 +117,19 @@ public class MainMenu {
 			return;
 		}
 		
+		String[] goToNextScreen = new String[1];
+		try{
+			goToNextScreen = client.readFile("data/leaveStarting.txt");
+		}
+		catch(Exception e){
+			System.out.println("THe file was not read in correctly");
+		}
+		
+		//Objects.equals("test", new String("test"))
+		if(goToNextScreen[0].equals("true")){
+			nextScreen = true;
+		}
+		
 		String[] scores = client.readFile("data/Players.txt");
 		//System.out.println(scores.length);
 		JLabel waitingLabel = new JLabel("Waiting for All Users to Join...");
@@ -132,8 +151,8 @@ public class MainMenu {
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
 			startGame.setBounds(150,400,400,50);
-			
-			startGame.addActionListener(event -> nextScreen = true);
+			startGame.addActionListener(new nextScreenButton());
+			//startGame.addActionListener(event -> nextScreen = true);
 			
 			slPanel.add(startGame);
 			//submit.addActionListener(new submitButtonAction());
@@ -144,46 +163,49 @@ public class MainMenu {
 		slPanel.revalidate();
 		slPanel.repaint();
 	}
-	
+	private class nextScreenButton implements ActionListener{
+		public void  actionPerformed(ActionEvent event){
+			client.openToWrite("data/leaveStarting.txt");
+			client.writeToFile("#Whether all screens should go to the nextScreen");
+			client.writeToFile("true");
+			client.close();
+		}
+	}
 	/**
 	 * If the button is clicked then the next screen is drawn up; for waiting.
 	 */
 	private class submitButtonAction implements ActionListener{
-		public synchronized void  actionPerformed(ActionEvent event){
+		public void  actionPerformed(ActionEvent event){
 			//this will put the game to the waiting screen
-				String tmpString = field.getText();
-				if(tmpString != null && !tmpString.isEmpty()){
-					userName = tmpString;
-					//make the person put a name!
-					slPanel.removeAll();
-					//makes the new screen appear
-					waitingScreen = true;
-					
-					//outputs the user information to a file
-					String[] scores = client.readFile("data/Players.txt");
-					//scores.toString();
-					
-					if(scores == null || scores.length == 0){
-						client.openToWrite("data/Players.txt");
-						client.writeToFile("#Player Names");
-						client.writeToFile(userName);
-								
-					}
-					else{
-						client.openToWrite("data/Players.txt");
-						client.writeToFile("#Player Names");
-						for(int i = 0; i < scores.length; i++){
-							client.writeToFile(scores[i]);
-						}
-						client.writeToFile(userName);
-					}
-					client.close();
-					waitingScreen();
-				}
+			String tmpString = field.getText();
+			if(tmpString != null && !tmpString.isEmpty()){
+				userName = tmpString;
+				//make the person put a name!
+				slPanel.removeAll();
+				//makes the new screen appear
+				waitingScreen = true;
 				
-			
-			
+				//outputs the user information to a file
+				String[] scores = client.readFile("data/Players.txt");
+				//scores.toString();
+				
+				if(scores == null || scores.length == 0){
+					client.openToWrite("data/Players.txt");
+					client.writeToFile("#Player Names");
+					client.writeToFile(userName);
+							
+				}
+				else{
+					client.openToWrite("data/Players.txt");
+					client.writeToFile("#Player Names");
+					for(int i = 0; i < scores.length; i++){
+						client.writeToFile(scores[i]);
+					}
+					client.writeToFile(userName);
+				}
+				client.close();
+				waitingScreen();
+			}
 		}
 	}
-	
 }

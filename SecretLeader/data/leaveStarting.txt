@@ -1,0 +1,2 @@
+#Whether all screens should go to the nextScreen
+false
