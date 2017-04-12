@@ -63,4 +63,13 @@ public class TCPClient {
 			System.out.println(e);
 		}
 	}
+	
+	/**Gets the length, in terms of how many lines, are in the file.
+	 * @param file, the file wanting to be used
+	 */
+	public int getLength(String file){
+		String[] str = readFile(file);
+		return str.length;
+		
+	}
 }

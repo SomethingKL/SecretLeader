@@ -12,6 +12,8 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import ui.SLPanel;
 import javax.swing.*;
@@ -51,6 +53,11 @@ public class MainMenu {
 		repaint = true;
 	}
 	
+	/**
+	 * 
+	 * @param g2d, the graphic that is being drawn
+	 * @param slPanel, the panel that is changing, from the level above
+	 */
 	public void draw(Graphics2D g2d, SLPanel slPanel){
 		slPanel.revalidate();
 		slPanel.repaint();
@@ -63,8 +70,6 @@ public class MainMenu {
 	public boolean getNextScreen(){
 		return nextScreen;
 	}
-		
-		//String[] scores = client.readFile("data/Board.txt");
 	
 	/**
 	 * This sets the panel up for the initial part of the game.
@@ -85,8 +90,9 @@ public class MainMenu {
 		userNameLabel = new JLabel("Please enter a username:");
 		submit = new JButton("Submit");
 		
+	
 		//need to set the bounds of the button to add it.
-		field.setBounds(200,200,300,50);
+		field.setBounds(450,300,300,50);
 		field.setPreferredSize(new Dimension(300,50));
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC,25);
 		field.setFont(font);
@@ -95,14 +101,16 @@ public class MainMenu {
 		//userNameLabel settings
 		userNameLabel.setFont(font);
 		userNameLabel.setPreferredSize(new Dimension(400,50));
-		userNameLabel.setBounds(150,150,400,50);
+		userNameLabel.setBounds(410,250,400,50);
 		userNameLabel.setForeground(new Color(200,20,20));
 		
 		//submit button settings
 		submit.setFont(font);
 		submit.setPreferredSize(new Dimension(400,50));
-		submit.setBounds(150,400,400,50);
+		submit.setBounds(400,400,400,50);
 		submit.addActionListener(new submitButtonAction());
+		submit.setBackground(new Color(200,20,20));
+		//submit.addMouseListener(new colorChange(submit,new Color(0,0,0)));
 
 		
 		//adding the pieces to the panel
@@ -113,10 +121,12 @@ public class MainMenu {
 	
 	public void waitingScreen(){
 		
+		//will only print the screen when the user has enter a name
 		if(waitingScreen == false){
 			return;
 		}
 		
+		//whether the game should end the waiting section and continue on to the board
 		String[] goToNextScreen = new String[1];
 		try{
 			goToNextScreen = client.readFile("data/leaveStarting.txt");
@@ -130,7 +140,16 @@ public class MainMenu {
 			nextScreen = true;
 		}
 		
-		String[] scores = client.readFile("data/Players.txt");
+		//the amount of users that are able to go into the game
+		//**NOte: if over 12 the game will break
+		String[] scores = new String[client.getLength("data/Players.txt")];
+		try{
+			scores = client.readFile("data/Players.txt");
+		}
+		catch(Exception e){
+			System.out.println("THe file was not read in correctly");
+		}
+		
 		//System.out.println(scores.length);
 		JLabel waitingLabel = new JLabel("Waiting for All Users to Join...");
 		
@@ -138,31 +157,32 @@ public class MainMenu {
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC,25);
 		waitingLabel.setFont(font);
 		waitingLabel.setPreferredSize(new Dimension(600,50));
-		waitingLabel.setBounds(150,150,600,50);
+		waitingLabel.setBounds(375,250,600,50);
 		waitingLabel.setForeground(new Color(200,20,20));
 		
 		
 		if (scores == null || scores.length == 0){
-			
+			//just wanted to make sure the scores didn't go haywire
 		}
 		else if(scores.length >= 4){
 			
 			JButton startGame = new JButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
-			startGame.setBounds(150,400,400,50);
+			startGame.setBounds(400,400,400,50);
 			startGame.addActionListener(new nextScreenButton());
+			startGame.setBackground(new Color(200,20,20));
 			//startGame.addActionListener(event -> nextScreen = true);
 			
 			slPanel.add(startGame);
 			//submit.addActionListener(new submitButtonAction());
-			
 		}
 		
 		slPanel.add(waitingLabel);
 		slPanel.revalidate();
 		slPanel.repaint();
 	}
+	
 	private class nextScreenButton implements ActionListener{
 		public void  actionPerformed(ActionEvent event){
 			client.openToWrite("data/leaveStarting.txt");
@@ -175,9 +195,17 @@ public class MainMenu {
 	 * If the button is clicked then the next screen is drawn up; for waiting.
 	 */
 	private class submitButtonAction implements ActionListener{
+	
 		public void  actionPerformed(ActionEvent event){
 			//this will put the game to the waiting screen
 			String tmpString = field.getText();
+			
+			System.out.println("play nice");
+			
+			//if there are '\n's the game will break. So, I take them out.
+			tmpString = tmpString.replace('\n',' ');
+			tmpString = tmpString.replaceAll("\\s", "");
+			System.out.println(tmpString);
 			if(tmpString != null && !tmpString.isEmpty()){
 				userName = tmpString;
 				//make the person put a name!
@@ -207,5 +235,37 @@ public class MainMenu {
 				waitingScreen();
 			}
 		}
+	}
+	
+	/**
+	 * Trying to make the Button not have a blue background when it's been pressed!
+	 * @author Max
+	 *
+	 */
+	private class colorChange implements MouseListener{
+		private JButton button;
+		private Color c;
+		public colorChange(JButton buttonIn, Color cIn){
+			button = buttonIn;
+			c = cIn;
+		}
+	    public void mousePressed(MouseEvent e) {
+	    	 button.setBackground(c);
+	     }
+
+	     public void mouseReleased(MouseEvent e) {
+	        button.setBackground(new Color(200,20,20));
+	     }
+
+	     public void mouseEntered(MouseEvent e){
+	    	//nothing should happen here
+	     }
+
+	     public void mouseExited(MouseEvent e) {
+	    	 button.setBackground(c);
+	     }
+
+	     public void mouseClicked(MouseEvent e) {
+	     }
 	}
 }

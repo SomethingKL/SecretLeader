@@ -21,9 +21,9 @@ public class SLFrame extends JFrame{
 		this.setContentPane(new SLPanel());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("SecretLeader");
-		this.setLocationRelativeTo(null);
+		//this.setLocationRelativeTo(null);
 		this.setSize(WIDTH, HEIGHT);
 		this.setVisible(true);
-		this.setResizable(true);
+		this.setResizable(false);
 	}
 }
