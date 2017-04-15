@@ -72,5 +72,6 @@ public class SLPanel extends SLCanvas{
 	 */
 	public void mouseReleasedFramework(MouseEvent e){
 		System.out.println("clicked!");
+		control.click(e);
 	}
 }

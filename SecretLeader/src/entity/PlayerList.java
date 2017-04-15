@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import framework.TCPClient;
@@ -41,6 +42,12 @@ public class PlayerList {
 			Rectangle player = new Rectangle(box.x, y, WIDTH, HEIGHT/10);
 			g2d.draw(player);
 			g2d.drawString(players[k], box.x+2, y+HEIGHT/11);
+		}
+	}
+	public void click(MouseEvent e) {
+		//this is the border of things that can be clicked
+		if(box.contains(e.getPoint())){
+		
 		}
 	}
 }

@@ -8,6 +8,7 @@ package framework;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import entity.*;
@@ -77,5 +78,8 @@ public class Controller{
 			position = new Official(new Point(0,600), "Chancellor.jpg");
 			position.draw(g2d, slPanel);
 		}
+	}
+	public void click(MouseEvent e) {
+		players.click(e);
 	}
 }
