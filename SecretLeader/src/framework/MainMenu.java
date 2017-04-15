@@ -203,7 +203,6 @@ public class MainMenu {
 			//if there are '\n's the game will break. So, I take them out.
 			tmpString = tmpString.replace('\n',' ');
 			tmpString = tmpString.replaceAll("\\s", "");
-			System.out.println(tmpString);
 			if(tmpString != null && !tmpString.isEmpty()){
 				userName = tmpString;
 				//make the person put a name!
@@ -272,5 +271,10 @@ public class MainMenu {
 	 */
 	public String getUserName() {
 		return userName;
+	}
+
+	public void click(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

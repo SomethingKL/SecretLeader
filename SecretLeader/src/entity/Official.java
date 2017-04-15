@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class Official extends Entity{
 	/**final width of the frame*/
-	private static final int WIDTH  = 570;
+	private static final int WIDTH  = 550;
 	/**final height of the frame*/
 	private static final int HEIGHT = 160;
 	

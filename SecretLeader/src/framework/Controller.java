@@ -5,16 +5,17 @@
  * The main point of this is to reduce the work of our panel.
  */
 package framework;
-
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-
 import entity.*;
 import ui.SLPanel;
+import ui.SLPanel.GameState;
 
 public class Controller{
 	/**reads relevant game information*/
@@ -29,6 +30,14 @@ public class Controller{
 	private Board blueBoard;
 	/**holds the red team information*/
 	private Board redBoard;
+	// all of the different game states
+	private SLPanel.GameState state;
+	//the yes card image to be displayed on the screen
+	private Votecard yes;
+	//the no card image to be displayed on the screen
+	private Votecard no;
+	//whether the player has voted or not
+	private boolean votes;
 
 	public Controller(String userNameIn) throws IOException{
 		firstPresident();
@@ -38,28 +47,41 @@ public class Controller{
 		players = new PlayerList(new Point(5,305));
 		blueBoard = new Board(new Point(200,0), "Blue.jpg");
 		redBoard = new Board(new Point(200,300), "Red.jpg");
+		yes = new Votecard(new Point(650,610),ImageIO.read(new File("data/YesCard.PNG")),"yes");
+		no = new Votecard(new Point(905,610),ImageIO.read(new File("data/NoCard.PNG")),"no");
+		votes = false;
 		firstPresident();
 	}
 	/**{@literal}draws all the current game images
 	 */
-	public void draw(Graphics2D g2d, SLPanel slPanel) throws IOException{
-		updateBoard(g2d, slPanel);
+	public void draw(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
+		updateBoard(g2d, slPanel,state);
+		
+		updateSelction(g2d,slPanel,state);
 		
 		//display the player card
 		role.draw(g2d, slPanel);
 		//display the playerList
 		players.draw(g2d, slPanel);
-		
+		//yes.draw(g2d,slPanel);
 		displayOfficialPosition(g2d, slPanel);
+	}
+	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) {
+		if(state2 == state.VOTING){
+			yes.draw(g2d, slPanel);
+			no.draw(g2d, slPanel);
+		}
 	}
 	/**{@literal}draws the board as it currently is
 	 */
-	private void updateBoard(Graphics2D g2d, SLPanel slPanel) throws IOException{
+	
+	//want to put the current state of the game right. Ye and ne cards
+	private void updateBoard(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
 		//get the current scores
 		String[] scores = client.readFile("data/Board.txt");
 		int numBlueVictories = Integer.parseInt(scores[0]);
 		int numRedVictories = Integer.parseInt(scores[1]);
-		
+
 		//display the blue board
 		blueBoard.blue(numBlueVictories);;
 		blueBoard.draw(g2d, slPanel);
@@ -88,8 +110,24 @@ public class Controller{
 		}
 	}
 	
+	/**
+	 * The click
+	 * @param e
+	 */
 	public void click(MouseEvent e) {
 		players.click(e);
+		boolean yesBool = yes.click(e);
+		boolean noBool = no.click(e);
+		if(yesBool || noBool){
+			votes = true;
+		}
+	}
+	
+	/**
+	 * @return votes, whether the player has voted or not
+	 */
+	public boolean hasVoted(){
+		return votes;
 	}
 	
 	/**
@@ -107,7 +145,6 @@ public class Controller{
 				tmpS = scores[i];
 				String [] tmpA = tmpS.split(" ");
 				tmpS = tmpA[1];
-				System.out.println(tmpS);
 				
 				//display that this character is the secret leader.
 				if(tmpS.equals("Secret")){

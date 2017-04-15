@@ -16,7 +16,14 @@ public class Entity {
 	/**image for this part*/
 	private Image image;
 	
+	/**final width of the frame*/
+	private static final int WIDTH  = 540;
+	/**final height of the frame*/
+	private static final int HEIGHT = 610;
+	
+	
 	public Entity(Point location, Dimension size, Image image){
+		
 		box = new Rectangle(location.x, location.y, size.width, size.height);
 		this.image = image.getScaledInstance(size.width, size.height, 0);
 	}
@@ -26,6 +33,7 @@ public class Entity {
 	public void draw(Graphics2D g2d, SLPanel panel){
 		g2d.drawImage(this.image, box.x, box.y, panel);
 	}
+	
 	/**@return x gets location of the top left corner*/
 	public int getX(){
 		return box.x;

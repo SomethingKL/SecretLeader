@@ -24,6 +24,6 @@ public class SLFrame extends JFrame{
 		//this.setLocationRelativeTo(null);
 		this.setSize(WIDTH, HEIGHT);
 		this.setVisible(true);
-		this.setResizable(false);
+		this.setResizable(true);
 	}
 }
