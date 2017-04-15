@@ -47,7 +47,7 @@ public class PlayerList {
 	public void click(MouseEvent e) {
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint())){
-		
+			System.out.println("box!");
 		}
 	}
 }

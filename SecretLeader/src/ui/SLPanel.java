@@ -14,30 +14,28 @@ import framework.*;
 public class SLPanel extends SLCanvas{
 	/**State
 	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
-	private static enum GameState{JOINING, PLAYING, WAITING, GAMEOVER}
+	private static enum GameState{JOINING, PLAYING, VOTING, WAITING, GAMEOVER}
 	private static GameState state;
-	
 	/**Used for implementing the game
 	 */
 	private Controller control;
 	private MainMenu begin;
+	private String userName;
 	
 	public SLPanel(){
 		super();
 		state = GameState.PLAYING;
-		try{
-			control = new Controller();
+		//try{
 			this.removeAll();
 			begin = new MainMenu(this);
-			//
 			state = GameState.JOINING;
 			
-		
-			
+		//}
+			/*
 		
 		}catch(IOException e){
 			e.printStackTrace();
-		}
+		}*/
 	}
 	@Override
 	/**{@literal} called from repaint()
@@ -55,16 +53,30 @@ public class SLPanel extends SLCanvas{
 			}
 		}
 		else if(state == GameState.JOINING){
-			//maybe a try and catch block
-			begin.setTextArea();
-			begin.waitingScreen();
-			begin.draw(g2d,this);
-			if(begin.getNextScreen() == true){
-				removeAll();
-				state = GameState.PLAYING;
+			try{
+				//maybe a try and catch block
+				begin.setTextArea();
+				begin.waitingScreen();
+				begin.draw(g2d,this);
+				if(begin.getNextScreen() == true){
+					userName = begin.getUserName();
+					removeAll();
+					setRoles();
+					state = GameState.PLAYING;
+					control = new Controller(userName);
+				}
+			} catch(IOException e){
+			e.printStackTrace();
 			}
-			
-			
+		}
+		else if(state == GameState.VOTING){
+			try{ 
+				this.setBackground(new Color(255,255,255));
+				control.draw(g2d, this);
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override
@@ -73,5 +85,36 @@ public class SLPanel extends SLCanvas{
 	public void mouseReleasedFramework(MouseEvent e){
 		System.out.println("clicked!");
 		control.click(e);
+	}
+	
+	/**
+	 * Sets the roles of the players in the file
+	 */
+	public void setRoles(){
+		TCPClient getFile = new TCPClient();
+		String[] scores = new String[getFile.getLength("data/Players.txt")];
+		int length = getFile.getLength("data/Players.txt");
+		scores = getFile.readFile("data/Players.txt");
+		getFile.openToWrite("data/Roles.txt");
+		getFile.writeToFile("#Player Names");
+		for(int i =0; i < length; i++){
+			String fileString = scores[i];
+			if(i == 1){
+				fileString += " Secret Leader";
+				getFile.writeToFile(fileString);
+			}
+			else if(i%2 == 0){
+				fileString += " Blue Team";
+				getFile.writeToFile(fileString);
+			}
+			else if(i % 2 == 1){
+				fileString += " Red Team";
+				getFile.writeToFile(fileString);
+			}
+			else{
+				System.out.println("Should never get here");
+			}
+		}
+		getFile.close();
 	}
 }

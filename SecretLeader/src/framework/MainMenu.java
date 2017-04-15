@@ -200,8 +200,6 @@ public class MainMenu {
 			//this will put the game to the waiting screen
 			String tmpString = field.getText();
 			
-			System.out.println("play nice");
-			
 			//if there are '\n's the game will break. So, I take them out.
 			tmpString = tmpString.replace('\n',' ');
 			tmpString = tmpString.replaceAll("\\s", "");
@@ -267,5 +265,12 @@ public class MainMenu {
 
 	     public void mouseClicked(MouseEvent e) {
 	     }
+	}
+
+	/**
+	 * @return the userName of the user
+	 */
+	public String getUserName() {
+		return userName;
 	}
 }
