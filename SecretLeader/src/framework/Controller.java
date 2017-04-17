@@ -8,7 +8,9 @@ package framework;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -94,8 +96,16 @@ public class Controller{
 	//want to put the current state of the game right. Ye and ne cards
 	private void updateBoard(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
 		//get the current scores
+		
+		//this gets the current scores
+		client.close();
 		String[] scores = client.readFile("data/Board.txt");
-
+		while(scores.length <2)
+		{
+			scores = client.readFile("data/Board.txt");
+	
+		}
+		//the while loop is needed up above so that the file has time to update itself. Otherwise, the numbers won't be read correctly.
 		int numBlueVictories = Integer.parseInt(scores[0]);
 		int numRedVictories = Integer.parseInt(scores[1]);
 
@@ -161,6 +171,7 @@ public class Controller{
 		int length = client.getLength("data/Roles.txt");
 		String[] scores = new String[length];
 		scores = client.readFile("data/Roles.txt");
+		client.close();
 		String tmpS= scores[0];
 		for(int i = 0; i <length; i++){
 			if(scores[i].startsWith(userName)){
@@ -195,6 +206,7 @@ public class Controller{
 	 */
 	public void firstPresident(){
 		int length = client.getLength("data/Players.txt");
+		client.close();
 		String[] scores = new String[length];
 		scores = client.readFile("data/Players.txt");
 		
@@ -206,6 +218,8 @@ public class Controller{
 		//no chancellor to start the game so random characters are selected
 		client.writeToFile("b");
 		client.close();
+		
+
 		
 	}
 	

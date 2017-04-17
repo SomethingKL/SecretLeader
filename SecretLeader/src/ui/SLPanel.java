@@ -87,9 +87,9 @@ public class SLPanel extends SLCanvas{
 			try{ 
 				control.draw(g2d, this, state);
 				if(control.hasVoted()){
-					state = GameState.POLICY;
-					control.setHasVoted(false);
 					state = GameState.PLAYING;
+					control.setHasVoted(false);
+					//state = GameState.PLAYING;
 				}
 			}catch(Exception e){
 				e.printStackTrace();

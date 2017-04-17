@@ -65,12 +65,14 @@ public class PolicySelection {
 		card3Box = new Rectangle(1040,620,WIDTH,HEIGHT);
 	}
 	
-	/**{@literal}creates the list of players playing
+	/**{@literal}
 	 * @throws IOException 
+	 * Will only put the cards down if the player is the chancellor or the president
 	 */
 	public void draw(Graphics2D g2d, SLPanel panel) throws IOException{
 		String[] turnInfo = client.readFile("data/Turn.txt");
 		String[] setPiece = client.readFile("data/leaveStarting.txt");
+		client.close();
 		
 		//the first stage of the game, where the president picks his cards
 		if(setPiece[0].contains(new String("1")) && turnInfo[0].equals(playerID)){
@@ -87,27 +89,6 @@ public class PolicySelection {
 			card5 = new PolicyCard(new Point(900, 620),setPiece[1]);
 			card4.draw(g2d, panel);
 			card5.draw(g2d, panel);
-			
-			/*
-			if(card1.getCardKept() && card2.getCardKept()){
-				card4 = new PolicyCard(new Point(760, 620),setPiece[0]);
-				card5 = new PolicyCard(new Point(900, 620),setPiece[1]);
-				card4.draw(g2d, panel);
-				card5.draw(g2d, panel);
-			}
-			else if(card1.getCardKept() && card3.getCardKept()){
-				card4 = new PolicyCard(new Point(760, 620),card1.getType());
-				card5 = new PolicyCard(new Point(900, 620),card3.getType());
-				card4.draw(g2d, panel);
-				card5.draw(g2d, panel);
-			}
-			else if(card2.getCardKept() && card3.getCardKept()){
-				card4 = new PolicyCard(new Point(760, 620),card2.getType());
-				card5 = new PolicyCard(new Point(900, 620),card3.getType());
-				card4.draw(g2d, panel);
-				card5.draw(g2d, panel);
-			}
-			*/
 		}
 	}
 	
@@ -201,17 +182,32 @@ public class PolicySelection {
 			}
 			
 			//update to the board file!
-			client.openToWrite("data/Board.txt");
-			client.writeToFile("#number of Blue victories");
-			client.writeToFile(String.valueOf(blue));
-			client.writeToFile("#number of Red victories");
-			client.writeToFile(String.valueOf(red));
-			client.close();
+			final int newBlue = blue;
+			final int newRed = red;
+			new Thread(() -> doWork(newBlue,newRed)).start();
+			
+			/*
+			try {
+			    Thread.sleep(10000);                 //1000 milliseconds is one second.
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}*/
 			//have to get the next screen to come up everytime
 			nextState = true;
 		}
 	}
 	
+	private void doWork(int blue, int red) {
+		client.openToWrite("data/Board.txt");
+		client.writeToFile("#number of Blue victories");
+		client.writeToFile(String.valueOf(blue));
+		client.writeToFile("#number of Red victories");
+		client.writeToFile(String.valueOf(red));
+		client.close();
+		return;
+	
+	}
+
 	/**
 	 * @return true or false, whether two cards have been selected or not
 	 */
