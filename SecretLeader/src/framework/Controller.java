@@ -78,7 +78,6 @@ public class Controller{
 			yes.draw(g2d, slPanel);
 			no.draw(g2d, slPanel);
 			if(yes.isNextState() || no.isNextState()){
-				System.out.println("getting to the vote");
 				nextScreen = true;
 			}
 			
@@ -103,7 +102,6 @@ public class Controller{
 		while(scores.length <2)
 		{
 			scores = client.readFile("data/Board.txt");
-	
 		}
 		//the while loop is needed up above so that the file has time to update itself. Otherwise, the numbers won't be read correctly.
 		int numBlueVictories = Integer.parseInt(scores[0]);
@@ -135,6 +133,10 @@ public class Controller{
 			position = new Official(new Point(0,600), "Chancellor.jpg");
 			position.draw(g2d, slPanel);
 		}
+		else{
+			position = new Official(new Point(0,600), "Blank.jpg");
+			position.draw(g2d, slPanel);
+		}
 	}
 	
 	/**
@@ -146,6 +148,15 @@ public class Controller{
 		boolean noBool = no.click(e, state);
 		if(yesBool || noBool){
 			nextScreen = true;
+			int players = client.getLength("data/Players.txt");
+			int votes = client.getLength("data/VotingFile.txt");
+			System.out.println(players +" " + votes);
+			if(votes == players){
+				System.out.println("Does it get here");
+				client.openToWrite("data/state.txt");
+				client.writeToFile("POLICY");
+				client.close();
+			}
 		}
 		players.click(e,state);
 		PS.click(e,state);
@@ -210,7 +221,8 @@ public class Controller{
 		String[] scores = new String[length];
 		scores = client.readFile("data/Players.txt");
 		
-		String firstPres = scores[3];
+		//String firstPres = scores[3];
+		String firstPres = "a";
 		client.openToWrite("data/Turn.txt");
 		client.writeToFile("#name of the President");
 		client.writeToFile(firstPres);
@@ -218,8 +230,6 @@ public class Controller{
 		//no chancellor to start the game so random characters are selected
 		client.writeToFile("b");
 		client.close();
-		
-
 		
 	}
 	

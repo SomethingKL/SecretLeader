@@ -59,6 +59,8 @@ public class PolicySelection {
 		card1 = new PolicyCard(new Point(760, 620),"Blue");
 		card2 = new PolicyCard(new Point(900, 620),"Red");
 		card3 = new PolicyCard(new Point(1040,620),"Blue");
+		//////////////how to change the image
+		card1.getNewImage("Red");
 		
 		card1Box = new Rectangle(760,620,WIDTH,HEIGHT);
 		card2Box = new Rectangle(900,620,WIDTH,HEIGHT);
@@ -197,6 +199,11 @@ public class PolicySelection {
 		}
 	}
 	
+	/**Sets the number of blue and red cards in a file
+	 * 
+	 * @param blue, the number of blue cards
+	 * @param red, the number of red cards
+	 */
 	private void doWork(int blue, int red) {
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");

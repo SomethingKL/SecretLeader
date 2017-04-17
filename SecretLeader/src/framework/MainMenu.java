@@ -43,16 +43,10 @@ public class MainMenu {
 	public MainMenu(SLPanel slPanelIn){
 		//Have to set the file to false to begin with; otherwise everyone will go to the wrong screen to start
 		//set the file
-		//set the file
-		int blue = 0;
-		int red = 0;
-		client.openToWrite("data/Board.txt");
-		client.writeToFile("#number of Blue victories");
-		client.writeToFile(String.valueOf(blue));
-		//client.writeToFile(Integer.toString(blue));
-		client.writeToFile("#number of Red victories");
-		client.writeToFile(String.valueOf(red));
-		client.close();
+		//set the files
+		initGameFiles();
+		
+		
 		
 		client.readFile("data/Board.txt");
 		System.out.println(client.getLength("data/Board.txt"));
@@ -71,6 +65,27 @@ public class MainMenu {
 		slPanel.setLayout(null);
 		setTextArea();
 		repaint = true;
+	}
+	
+	/**
+	 * Resets all of the files for the game
+	 */
+	public void initGameFiles(){
+		int blue = 0;
+		int red = 0;
+		client.openToWrite("data/Board.txt");
+		client.writeToFile("#number of Blue victories");
+		client.writeToFile(String.valueOf(blue));
+		//client.writeToFile(Integer.toString(blue));
+		client.writeToFile("#number of Red victories");
+		client.writeToFile(String.valueOf(red));
+		client.close();
+		
+		//client.openToWrite("data/VotingFile.txt");
+		client.close();
+		
+		///will have a ton more stuff for the initial game files here
+		
 	}
 	
 	/**
@@ -208,6 +223,10 @@ public class MainMenu {
 			client.openToWrite("data/leaveStarting.txt");
 			client.writeToFile("#Whether all screens should go to the nextScreen");
 			client.writeToFile("true");
+			client.close();
+			
+			client.openToWrite("data/state.txt");
+			client.writeToFile("VOTING");
 			client.close();
 		}
 	}

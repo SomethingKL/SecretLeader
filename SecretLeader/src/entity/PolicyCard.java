@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
@@ -44,5 +45,15 @@ public class PolicyCard extends Entity{
 			cardKept = true;
 		}
 		return;
+	}
+	
+	/**Sets a new picture for the policycard
+	 * 
+	 * @param type, the card; Red or Blue
+	 * @throws IOException, if the image does not exist
+	 */
+	public void getNewImage(String type) throws IOException{
+		this.resetImage(ImageIO.read(new File("data/"+type+"Policy.jpg")));
+		this.type = type;
 	}
 }

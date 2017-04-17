@@ -43,4 +43,14 @@ public class Entity {
 		return box.y;
 	}
 	
+	/**
+	 * Replaces the image inside of the box
+	 * @param image
+	 */
+	public void resetImage(Image image){
+		int width = image.getWidth(null);
+		int height = image.getHeight(null);
+		this.image = image.getScaledInstance(width,height,0);
+	}
+	
 }
