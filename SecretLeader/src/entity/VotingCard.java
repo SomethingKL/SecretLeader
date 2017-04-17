@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
+import ui.SLPanel;
 public class VotingCard extends Entity{
 	/**final width of the frame*/
 	private static final int WIDTH  = 240;
@@ -22,7 +22,7 @@ public class VotingCard extends Entity{
 		box = new Rectangle(point.x, point.y, WIDTH, HEIGHT);
 	}
 	
-	public void click(MouseEvent e) {
+	public void click(MouseEvent e, SLPanel.GameState state) {
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint())){
 			System.out.println("Voting Card!");

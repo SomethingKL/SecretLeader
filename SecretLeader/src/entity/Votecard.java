@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import framework.TCPClient;
 import ui.SLPanel;
+import ui.SLPanel.GameState;
 
 public class Votecard {
 	
@@ -47,9 +48,9 @@ public class Votecard {
 	 * @param e, the mouse clicking the button
 	 * @return true or false, whether something happened or not
 	 */
-	public boolean click(MouseEvent e) {
+	public boolean click(MouseEvent e,SLPanel.GameState state) {
 		//this is the border of things that can be clicked
-		if(box.contains(e.getPoint())){
+		if(box.contains(e.getPoint()) && state == GameState.VOTING){
 			int length = client.getLength("data/VotingFile.txt");
 			String[] votes = client.readFile("data/VotingFile.txt");
 			

@@ -42,4 +42,5 @@ public class Entity {
 	public int getY(){
 		return box.y;
 	}
+	
 }

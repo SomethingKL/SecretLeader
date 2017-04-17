@@ -44,7 +44,7 @@ public class PlayerList {
 			g2d.drawString(players[k], box.x+2, y+HEIGHT/11);
 		}
 	}
-	public void click(MouseEvent e) {
+	public void click(MouseEvent e, SLPanel.GameState state) {
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint())){
 			System.out.println("box!");

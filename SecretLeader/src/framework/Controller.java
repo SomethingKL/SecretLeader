@@ -37,8 +37,11 @@ public class Controller{
 	//the no card image to be displayed on the screen
 	private Votecard no;
 	//whether the player has voted or not
-	private boolean votes;
+	private boolean nextScreen;
+	
+	private PolicySelection PS;
 
+	//this builds all of the possible pieces on the board.
 	public Controller(String userNameIn) throws IOException{
 		firstPresident();
 		String tmpRole = getRole(userNameIn);
@@ -49,7 +52,8 @@ public class Controller{
 		redBoard = new Board(new Point(200,300), "Red.jpg");
 		yes = new Votecard(new Point(650,610),ImageIO.read(new File("data/YesCard.PNG")),"yes");
 		no = new Votecard(new Point(905,610),ImageIO.read(new File("data/NoCard.PNG")),"no");
-		votes = false;
+		PS = new PolicySelection(new Point(750,620),playerID);
+		nextScreen = false;
 		firstPresident();
 	}
 	/**{@literal}draws all the current game images
@@ -66,19 +70,25 @@ public class Controller{
 		//yes.draw(g2d,slPanel);
 		displayOfficialPosition(g2d, slPanel);
 	}
-	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) {
+	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) throws IOException {
+		state = state2;
 		if(state2 == state.VOTING){
 			yes.draw(g2d, slPanel);
 			no.draw(g2d, slPanel);
 		}
+		else if(state2 == state.POLICY){
+			//only display for the president then only for the chancellor
+			PS.draw(g2d, slPanel);
+		}
 	}
+	
 	/**{@literal}draws the board as it currently is
 	 */
-	
 	//want to put the current state of the game right. Ye and ne cards
 	private void updateBoard(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
 		//get the current scores
 		String[] scores = client.readFile("data/Board.txt");
+
 		int numBlueVictories = Integer.parseInt(scores[0]);
 		int numRedVictories = Integer.parseInt(scores[1]);
 
@@ -112,22 +122,23 @@ public class Controller{
 	
 	/**
 	 * The click
-	 * @param e
+	 * @param e, the event itself
 	 */
 	public void click(MouseEvent e) {
-		players.click(e);
-		boolean yesBool = yes.click(e);
-		boolean noBool = no.click(e);
+		boolean yesBool = yes.click(e,state);
+		boolean noBool = no.click(e, state);
 		if(yesBool || noBool){
-			votes = true;
+			nextScreen = true;
 		}
+		players.click(e,state);
+		PS.click(e,state);
 	}
 	
 	/**
 	 * @return votes, whether the player has voted or not
 	 */
 	public boolean hasVoted(){
-		return votes;
+		return nextScreen;
 	}
 	
 	/**
@@ -182,7 +193,7 @@ public class Controller{
 		client.writeToFile(firstPres);
 		client.writeToFile("#name of the Chancellor");
 		//no chancellor to start the game so random characters are selected
-		client.writeToFile("&&&&&&&&&&$");
+		client.writeToFile("b");
 		client.close();
 		
 	}

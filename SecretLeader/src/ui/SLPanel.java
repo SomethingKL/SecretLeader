@@ -4,7 +4,6 @@
  */
 package ui;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -15,7 +14,7 @@ import framework.*;
 public class SLPanel extends SLCanvas{
 	/**State
 	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
-	public static enum GameState{JOINING, PLAYING, VOTING, WAITING, GAMEOVER}
+	public static enum GameState{JOINING, PLAYING, VOTING, WAITING,POLICY, GAMEOVER}
 	private static GameState state;
 	/**Used for implementing the game
 	 */
@@ -74,9 +73,17 @@ public class SLPanel extends SLCanvas{
 				this.setBackground(new Color(255,255,255));
 				control.draw(g2d, this,state);
 				if(control.hasVoted() == true){
-					state = GameState.PLAYING;
+					state = GameState.POLICY;
+					//need to make the game decide whether the vote passed or not right here
 				}
 				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		else if(state == GameState.POLICY){
+			try{ 
+				control.draw(g2d, this, state);
 			}catch(Exception e){
 				e.printStackTrace();
 			}
