@@ -44,8 +44,8 @@ public class MainMenu {
 		//Have to set the file to false to begin with; otherwise everyone will go to the wrong screen to start
 		//set the file
 		//set the file
-		int blue = 1;
-		int red = 2;
+		int blue = 0;
+		int red = 0;
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");
 		client.writeToFile(String.valueOf(blue));

@@ -30,6 +30,8 @@ public class Votecard {
 	private Image image;
 	//what type of card is this
 	private String type;
+	//whether to move on from the last state or not
+	private boolean nextState = false;
 	
 	public Votecard(Point point,Image image,String typeIn) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH, HEIGHT);
@@ -60,9 +62,17 @@ public class Votecard {
 			}
 			client.writeToFile(type);
 			client.close();
-			
+			nextState = true;
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * @return true or false
+	 * true if the vote has been made, false otherwise
+	 */
+	public boolean isNextState() {
+		return nextState;
 	}
 }

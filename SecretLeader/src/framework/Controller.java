@@ -75,10 +75,17 @@ public class Controller{
 		if(state2 == state.VOTING){
 			yes.draw(g2d, slPanel);
 			no.draw(g2d, slPanel);
+			if(yes.isNextState() || no.isNextState()){
+				System.out.println("getting to the vote");
+				nextScreen = true;
+			}
+			
+			
 		}
 		else if(state2 == state.POLICY){
 			//only display for the president then only for the chancellor
 			PS.draw(g2d, slPanel);
+			nextScreen = PS.isNextState();
 		}
 	}
 	
@@ -139,6 +146,10 @@ public class Controller{
 	 */
 	public boolean hasVoted(){
 		return nextScreen;
+	}
+	
+	public void setHasVoted(boolean voted){
+		nextScreen = voted;
 	}
 	
 	/**

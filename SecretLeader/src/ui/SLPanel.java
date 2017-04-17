@@ -73,7 +73,9 @@ public class SLPanel extends SLCanvas{
 				this.setBackground(new Color(255,255,255));
 				control.draw(g2d, this,state);
 				if(control.hasVoted() == true){
+					System.out.println("Change state?");
 					state = GameState.POLICY;
+					control.setHasVoted(false);
 					//need to make the game decide whether the vote passed or not right here
 				}
 				
@@ -84,6 +86,11 @@ public class SLPanel extends SLCanvas{
 		else if(state == GameState.POLICY){
 			try{ 
 				control.draw(g2d, this, state);
+				if(control.hasVoted()){
+					state = GameState.POLICY;
+					control.setHasVoted(false);
+					state = GameState.PLAYING;
+				}
 			}catch(Exception e){
 				e.printStackTrace();
 			}
