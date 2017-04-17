@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.awt.Color;
 import java.awt.Color.*;
 import javax.imageio.ImageIO;
-
+import java.util.*;
 import framework.TCPClient;
 import ui.SLPanel;
 
@@ -42,8 +42,12 @@ public class PolicySelection {
 	private String playerID;
 	//string for the policies
 	private String cat;
-	//whether the next screen should be choosen
+	//whether the next screen should be chosen
 	private boolean nextState = false;
+	//however many cards we want to create
+		private int cardAmount = 3;
+		//random integer to decide if a card is red or blue
+		private int randInt = 0;
 	
 	public PolicySelection(Point point,String userName) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH*4, HEIGHT);
@@ -56,11 +60,37 @@ public class PolicySelection {
 		//sets the ID of the player
 		playerID = userName;
 		//need to make these randomized
+		
+		//need to make these randomized
+		Random cardRandomizer = new Random();
+		
 		card1 = new PolicyCard(new Point(760, 620),"Blue");
 		card2 = new PolicyCard(new Point(900, 620),"Red");
 		card3 = new PolicyCard(new Point(1040,620),"Blue");
 		//////////////how to change the image
-		card1.getNewImage("Red");
+		//card1.getNewImage("Red");
+		
+		//mapping to assign card values in a loop
+				Map<String,PolicyCard> cardMap = new HashMap<String,PolicyCard>();
+				(cardMap).put("card1", card1);
+				(cardMap).put("card2", card2);
+				(cardMap).put("card3", card3);
+				//for loop that will assign blue or red to each card in the hash map
+				for(int i = 1; i < cardAmount+1; i++){
+					randInt = cardRandomizer.nextInt(2);
+					System.out.println(randInt + " random");
+					String cardName = "card" + i;
+					System.out.println(cardName);
+					PolicyCard card = cardMap.get(cardName);
+					if(randInt == 0){
+						card.getNewImage("Blue");
+						System.out.println("card gets blue");
+					}
+					if(randInt == 1){
+						card.getNewImage("Red");
+						System.out.println("card gets red");
+					}
+				}
 		
 		card1Box = new Rectangle(760,620,WIDTH,HEIGHT);
 		card2Box = new Rectangle(900,620,WIDTH,HEIGHT);
