@@ -70,28 +70,6 @@ public class PolicySelection {
 		//////////////how to change the image
 		//card1.getNewImage("Red");
 		
-		//mapping to assign card values in a loop
-				Map<String,PolicyCard> cardMap = new HashMap<String,PolicyCard>();
-				(cardMap).put("card1", card1);
-				(cardMap).put("card2", card2);
-				(cardMap).put("card3", card3);
-				//for loop that will assign blue or red to each card in the hash map
-				for(int i = 1; i < cardAmount+1; i++){
-					randInt = cardRandomizer.nextInt(2);
-					System.out.println(randInt + " random");
-					String cardName = "card" + i;
-					System.out.println(cardName);
-					PolicyCard card = cardMap.get(cardName);
-					if(randInt == 0){
-						card.getNewImage("Blue");
-						System.out.println("card gets blue");
-					}
-					if(randInt == 1){
-						card.getNewImage("Red");
-						System.out.println("card gets red");
-					}
-				}
-		
 		card1Box = new Rectangle(760,620,WIDTH,HEIGHT);
 		card2Box = new Rectangle(900,620,WIDTH,HEIGHT);
 		card3Box = new Rectangle(1040,620,WIDTH,HEIGHT);
