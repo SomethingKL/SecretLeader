@@ -160,7 +160,7 @@ public class Controller{
 				//if the vote has not passed, this goes to the waiting screen until the 
 				//president selects another chancellor
 				if(PS.getNoCount() >= players/2){
-					System.out.println("Vote has not passed");
+					
 					//need to display that the vote has not passed here somehow
 					client.openToWrite("data/state.txt");
 					client.writeToFile("WAITING");
