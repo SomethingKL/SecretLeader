@@ -52,7 +52,6 @@ public class PolicySelection {
 	//random integer to decide if a card is red or blue
 	private int randInt = 0;
 
-	
 	public PolicySelection(Point point,String userName) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH*4, HEIGHT);
 		
