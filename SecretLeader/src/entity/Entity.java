@@ -20,10 +20,12 @@ public class Entity {
 	private static final int WIDTH  = 540;
 	/**final height of the frame*/
 	private static final int HEIGHT = 610;
+	/**the size of the image**/
+	private Dimension dim;
 	
 	
 	public Entity(Point location, Dimension size, Image image){
-		
+		dim = size;
 		box = new Rectangle(location.x, location.y, size.width, size.height);
 		this.image = image.getScaledInstance(size.width, size.height, 0);
 	}
@@ -50,7 +52,7 @@ public class Entity {
 	public void resetImage(Image image){
 		int width = image.getWidth(null);
 		int height = image.getHeight(null);
-		this.image = image.getScaledInstance(width,height,0);
+		this.image = image.getScaledInstance(dim.width,dim.height,0);
 	}
 	
 }

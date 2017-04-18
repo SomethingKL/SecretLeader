@@ -6,6 +6,9 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Color.*;
 import javax.imageio.ImageIO;
@@ -44,6 +47,10 @@ public class PolicySelection {
 	private String cat;
 	//whether the next screen should be choosen
 	private boolean nextState = false;
+	//the number of cards needed
+	private int cardAmount = 3;
+	//random integer to decide if a card is red or blue
+	private int randInt = 0;
 	
 	public PolicySelection(Point point,String userName) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH*4, HEIGHT);
@@ -60,8 +67,8 @@ public class PolicySelection {
 		card2 = new PolicyCard(new Point(900, 620),"Red");
 		card3 = new PolicyCard(new Point(1040,620),"Blue");
 		//////////////how to change the image
-		card1.getNewImage("Red");
-		
+		//card1.getNewImage("Red");
+		resetCards();
 		card1Box = new Rectangle(760,620,WIDTH,HEIGHT);
 		card2Box = new Rectangle(900,620,WIDTH,HEIGHT);
 		card3Box = new Rectangle(1040,620,WIDTH,HEIGHT);
@@ -97,6 +104,7 @@ public class PolicySelection {
 	/**
 	 * @param e, the mouse clicking the button
 	 * @return true or false, whether something happened or not
+	 * @throws IOException 
 	 */
 	public void click(MouseEvent e, SLPanel.GameState state) {
 		String[] setPiece = client.readFile("data/leaveStarting.txt");
@@ -147,35 +155,30 @@ public class PolicySelection {
 				
 			}
 		}
-		
+		//the chancellor picks the policy
 		else if(box.contains(e.getPoint()) && state == SLPanel.GameState.POLICY && setPiece[0].equals(new String("2"))){
 			//getting the board information from the file
 			String[] boardInfo = client.readFile("data/Board.txt");
 			int blue = Integer.parseInt(boardInfo[0]);
 			int red = Integer.parseInt(boardInfo[1]);
 			if(card1Box.contains(e.getPoint())){
-				
 
 				//the first card
 				if(card4.getType().equals(new String("Red"))){
-					System.out.println("card 1 red");
 					red += 1;
 				}
 				else if (card4.getType().equals(new String("Blue"))){
 					blue +=1;
-					System.out.println("card 1 blue");
 				}
 			}
 			//the second card
 			else if(card2Box.contains(e.getPoint())){
 				//the new card to go on the screen
 				if(card5.getType().equals(new String("Red"))){
-					System.out.println("card 2 red");
 					red += 1;
 					
 				}
 				else if (card5.getType().equals(new String("Blue"))){
-					System.out.println("card 2 blue");
 					blue +=1;
 				}
 			}
@@ -186,7 +189,10 @@ public class PolicySelection {
 			//update to the board file!
 			final int newBlue = blue;
 			final int newRed = red;
-			new Thread(() -> doWork(newBlue,newRed)).start();
+			//some point here the president needs to be reset
+			//the chancellor should also be changed right here.
+			
+			
 			
 			/*
 			try {
@@ -194,23 +200,52 @@ public class PolicySelection {
 			} catch(InterruptedException ex) {
 			    Thread.currentThread().interrupt();
 			}*/
+			
 			//have to get the next screen to come up everytime
-			nextState = true;
+			//cuts out the third box area!
+			if(card1Box.contains(e.getPoint()) || card2Box.contains(e.getPoint())){
+				System.out.println("Cut out that box!");
+				new Thread(() -> doWork(newBlue,newRed)).start();
+				//setNewPositions();
+				try{
+					resetCards();
+				}
+				catch(Exception ee){
+					ee.printStackTrace();
+				}
+				
+				
+				nextState = true;
+			}
 		}
 	}
 	
-	/**Sets the number of blue and red cards in a file
+	
+	private void setNewPositions() {
+		String[] roles = client.readFile("data/Roles.txt");
+		client.openToWrite("data/Roles.txt");
+		
+	}
+
+	/**Sets the number of blue and red cards in a file. Which updates the board
 	 * 
 	 * @param blue, the number of blue cards
 	 * @param red, the number of red cards
 	 */
 	private void doWork(int blue, int red) {
+		//set the board
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");
 		client.writeToFile(String.valueOf(blue));
 		client.writeToFile("#number of Red victories");
 		client.writeToFile(String.valueOf(red));
 		client.close();
+		
+		//set the file to move on to the next stage of the game
+		client.openToWrite("data/state.txt");
+		client.writeToFile("WAITING");
+		client.close();
+		
 		return;
 	
 	}
@@ -242,5 +277,51 @@ public class PolicySelection {
 	 */
 	public boolean isNextState(){
 		return nextState;
+	}
+	
+	/**Gets the amount of no's in the file
+	 * @return no, the amount of no's in the VotingFile.txt
+	 */
+	public int getNoCount(){
+		int no = 0;
+		String[] voteString = client.readFile("data/VotingFile.txt");
+		for(int i = 0; i <client.getLength("data/VotingFile.txt"); i++){
+			if(voteString[i].equals(new String("no"))){
+				no+=1;
+			}
+		}
+		return no;
+	}
+	
+	/**
+	 * Will reset the cards for the president
+	 * @throws IOException, if the picture doesn't open
+	 */
+	public void resetCards() throws IOException{
+		Random cardRandomizer = new Random();
+		
+		//mapping to assign card values in a loop
+		Map<String,PolicyCard> cardMap = new HashMap<String,PolicyCard>();
+		(cardMap).put("card1", card1);
+		(cardMap).put("card2", card2);
+		(cardMap).put("card3", card3);
+		//for loop that will assign blue or red to each card in the hash map
+		for(int i = 1; i < cardAmount+1; i++){
+			randInt = cardRandomizer.nextInt(2);
+			System.out.println(randInt + " random");
+			String cardName = "card" + i;
+			System.out.println(cardName);
+			PolicyCard card = cardMap.get(cardName);
+			if(randInt == 0){
+				card.getNewImage("Blue");
+				System.out.println("card gets blue");
+			}
+			if(randInt == 1){
+				card.getNewImage("Red");
+				System.out.println("card gets red");
+			}
+		}
+		//this can reset the card
+		//card1.getNewImage("Red");
 	}
 }

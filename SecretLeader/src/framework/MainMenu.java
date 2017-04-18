@@ -21,7 +21,7 @@ import javax.swing.event.*;
 import javax.swing.text.*;
 
 //import javax.awt.DocumentSizeFilter;
-public class MainMenu {
+public class MainMenu extends JPanel {
 	/**reads relevant game information*/
 	private TCPClient client = new TCPClient();
 	//I do not want this to repaint another button everytime
@@ -51,11 +51,6 @@ public class MainMenu {
 		client.readFile("data/Board.txt");
 		System.out.println(client.getLength("data/Board.txt"));
 		
-		
-		
-		
-		
-		
 		client.openToWrite("data/leaveStarting.txt");
 		client.writeToFile("#Whether all screens should go to the nextScreen");
 		client.writeToFile("false");
@@ -81,8 +76,11 @@ public class MainMenu {
 		client.writeToFile(String.valueOf(red));
 		client.close();
 		
-		//client.openToWrite("data/VotingFile.txt");
+		client.openToWrite("data/Roles.txt");
+		client.writeToFile("");
 		client.close();
+		//client.openToWrite("data/VotingFile.txt");
+		//client.close();
 		
 		///will have a ton more stuff for the initial game files here
 		
@@ -162,15 +160,12 @@ public class MainMenu {
 		}
 		
 		//whether the game should end the waiting section and continue on to the board
-		String[] goToNextScreen = new String[1];
-		try{
+		
+		String[] goToNextScreen = client.readFile("data/leaveStarting.txt");
+		while(goToNextScreen.length < 1){
 			goToNextScreen = client.readFile("data/leaveStarting.txt");
 		}
-		catch(Exception e){
-			System.out.println("THe file was not read in correctly");
-		}
 		
-		//Objects.equals("test", new String("test"))
 		if(goToNextScreen[0].equals("true")){
 			nextScreen = true;
 		}
@@ -217,9 +212,50 @@ public class MainMenu {
 		slPanel.revalidate();
 		slPanel.repaint();
 	}
-	
+	/**
+	 * 
+	 * @param userName, the name of the player
+	 * @return Red or Blue, to set the player card
+	 */
+	public String getRole(String userName){
+		setRoles();
+		int length = client.getLength("data/Roles.txt");
+		String[] scores = new String[length];
+		scores = client.readFile("data/Roles.txt");
+		client.close();
+		String[] players = client.readFile("data/Players.txt");
+		String tmpS= scores[0];
+		for(int i = 0; i <length; i++){
+			if(players[i].equals(userName)){
+				System.out.println(scores[i]);
+				tmpS = scores[i];
+				String [] tmpA = tmpS.split(" ");
+				tmpS = tmpA[1];
+				
+				 if(tmpS.equals(new String("Red"))){
+					
+					String redString = "";
+					for(int j = 1; j < length; j+=2){
+						System.out.println(scores[j]);
+						redString += scores[j];
+						redString+= "\n ";
+					}
+					JOptionPane.showMessageDialog(this,"You are on the Red Team! Your teammates are: \n" + redString,"Role Message", JOptionPane.PLAIN_MESSAGE);
+				 }
+						
+				else if(tmpS.equals(new String("Secret"))){
+					//JOptionPane.showMessageDialog(null, "You are the Secret Leader for the red team! Shhh!");
+					tmpS = "Red";
+					JOptionPane.showMessageDialog(this,"You are the Secret Leader for the red team! Shhh!","Role Message", JOptionPane.PLAIN_MESSAGE);
+				}
+			}	
+
+		}
+		return tmpS;
+	}
 	private class nextScreenButton implements ActionListener{
 		public void  actionPerformed(ActionEvent event){
+			String tmp = getRole(userName);
 			client.openToWrite("data/leaveStarting.txt");
 			client.writeToFile("#Whether all screens should go to the nextScreen");
 			client.writeToFile("true");
@@ -272,6 +308,39 @@ public class MainMenu {
 			}
 		}
 	}
+	
+	/**
+	 * Sets the roles of the players in the file
+	 */
+	public void setRoles(){
+		TCPClient getFile = new TCPClient();
+		String[] scores = new String[getFile.getLength("data/Players.txt")];
+		int length = getFile.getLength("data/Players.txt");
+		scores = getFile.readFile("data/Players.txt");
+		getFile.openToWrite("data/Roles.txt");
+		getFile.writeToFile("#Player Names");
+		for(int i =0; i < length; i++){
+			String fileString = scores[i];
+			if(i == 1){
+				fileString += " Secret Leader";
+				getFile.writeToFile(fileString);
+			}
+			else if(i%2 == 0){
+				fileString += " Blue Team";
+				getFile.writeToFile(fileString);
+			}
+			else if(i % 2 == 1){
+				fileString += " Red Team";
+				getFile.writeToFile(fileString);
+			}
+			else{
+				assert(false);
+				System.out.println("Should never get here");
+			}
+		}
+		getFile.close();
+	}
+	
 	
 	/**
 	 * Trying to make the Button not have a blue background when it's been pressed!

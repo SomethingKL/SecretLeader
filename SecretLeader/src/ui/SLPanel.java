@@ -23,14 +23,13 @@ public class SLPanel extends SLCanvas{
 	private TCPClient client = new TCPClient();
 	//the userName of the player
 	private String userName;
+	private int presidentSpot = 3;
 	
 	public SLPanel(){
 		super();
 		client.openToWrite("data/state.txt");
 		client.writeToFile("JOINING");
 		client.close();
-		
-		state = GameState.PLAYING;
 		//try{
 		
 			this.removeAll();
@@ -55,6 +54,7 @@ public class SLPanel extends SLCanvas{
 			try{ 
 				this.setBackground(new Color(255,255,255));
 				control.draw(g2d, this,state);
+				//if the game gets here while in the policy stage then the new chancellor needs to get selected
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -71,7 +71,7 @@ public class SLPanel extends SLCanvas{
 					this.setBackground(new Color(255,255,255));
 					userName = begin.getUserName();
 					removeAll();
-					setRoles();
+					//setRoles();
 					state = GameState.POLICY;
 					control = new Controller(userName);
 				}
@@ -100,19 +100,25 @@ public class SLPanel extends SLCanvas{
 			try{ 
 				control.draw(g2d, this, state);
 				if(control.hasVoted()){
-					state = GameState.PLAYING;
+					//if the policy has been set then the president needs to be moved up one.
 					control.setHasVoted(false);
 					//state = GameState.PLAYING;
 				}
+				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
-		//System.out.println(state);
-		//need to wait for all people to vote
 		
+		//need to wait for all people to vote
+		//this is here because there is a time or two in the game where 
+		//the game needs to stay in waiting for a few players but remain in
+		//a different state for the other.
 		String [] tmp = client.readFile("data/state.txt");
 		if(state != GameState.WAITING || client.readFile("data/state.txt")[0].equals(new String("POLICY"))){
+			setState();
+		}
+		else if(state == GameState.POLICY && client.readFile("data/state.txt")[0].equals(new String("WAITING"))){
 			setState();
 		}
 	}
@@ -123,11 +129,9 @@ public class SLPanel extends SLCanvas{
 	private void setState() {
 		String[] stateInfo = client.readFile("data/state.txt");
 		while(stateInfo.length == 0){
-			System.out.println("asfdasfd");
 			stateInfo = client.readFile("data/state.txt");
 		}
 		client.close();
-		
 		if(stateInfo[0].equals("JOINING")){
 			state = GameState.JOINING;
 		}
@@ -143,6 +147,9 @@ public class SLPanel extends SLCanvas{
 		else if(stateInfo[0].equals("GAMEOVER")){
 			state = GameState.GAMEOVER;
 		}
+		else if(stateInfo[0].equals("WAITING")){
+			state = GameState.WAITING;
+		}
 		
 	}
 	
@@ -152,37 +159,13 @@ public class SLPanel extends SLCanvas{
 	 */
 	public void mouseReleasedFramework(MouseEvent e){
 		begin.click(e);
-		control.click(e);
-	}
-	
-	/**
-	 * Sets the roles of the players in the file
-	 */
-	public void setRoles(){
-		TCPClient getFile = new TCPClient();
-		String[] scores = new String[getFile.getLength("data/Players.txt")];
-		int length = getFile.getLength("data/Players.txt");
-		scores = getFile.readFile("data/Players.txt");
-		getFile.openToWrite("data/Roles.txt");
-		getFile.writeToFile("#Player Names");
-		for(int i =0; i < length; i++){
-			String fileString = scores[i];
-			if(i == 1){
-				fileString += " Secret Leader";
-				getFile.writeToFile(fileString);
-			}
-			else if(i%2 == 0){
-				fileString += " Blue Team";
-				getFile.writeToFile(fileString);
-			}
-			else if(i % 2 == 1){
-				fileString += " Red Team";
-				getFile.writeToFile(fileString);
-			}
-			else{
-				System.out.println("Should never get here");
-			}
+		
+		//at the beginning of the game this won't be up. 
+		//So, once the game has been started this clicking can be on.
+		//Otherwise, a ton of error will be thrown.
+		if(state != GameState.JOINING){
+			control.click(e);
 		}
-		getFile.close();
 	}
+
 }

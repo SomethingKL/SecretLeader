@@ -46,7 +46,8 @@ public class Controller{
 	//this builds all of the possible pieces on the board.
 	public Controller(String userNameIn) throws IOException{
 		firstPresident();
-		String tmpRole = getRole(userNameIn);
+		//String tmpRole = getRole(userNameIn);
+		String tmpRole = "Blue";
 		playerID = userNameIn;
 		role = new PlayerCard(new Point(0,0), tmpRole + "Card.jpg");
 		players = new PlayerList(new Point(5,305));
@@ -80,8 +81,6 @@ public class Controller{
 			if(yes.isNextState() || no.isNextState()){
 				nextScreen = true;
 			}
-			
-			
 		}
 		else if(state2 == state.POLICY){
 			//only display for the president then only for the chancellor
@@ -119,7 +118,11 @@ public class Controller{
 	 */
 	private void displayOfficialPosition(Graphics2D g2d, SLPanel slPanel) throws IOException{
 		//get the current turn information
+		//need the loop to ensure that the file has updated
 		String[] turnInfo = client.readFile("data/Turn.txt");
+		while(turnInfo.length < 2){
+			turnInfo = client.readFile("data/Turn.txt");
+		}
 		Official position;
 		
 		//check if you are the president
@@ -151,11 +154,34 @@ public class Controller{
 			int players = client.getLength("data/Players.txt");
 			int votes = client.getLength("data/VotingFile.txt");
 			System.out.println(players +" " + votes);
+			
+			//makes sure that all of the players have voted
 			if(votes == players){
-				System.out.println("Does it get here");
-				client.openToWrite("data/state.txt");
-				client.writeToFile("POLICY");
-				client.close();
+				//if the vote has not passed, this goes to the waiting screen until the 
+				//president selects another chancellor
+				if(PS.getNoCount() >= players/2){
+					System.out.println("Vote has not passed");
+					//need to display that the vote has not passed here somehow
+					client.openToWrite("data/state.txt");
+					client.writeToFile("WAITING");
+					client.close();
+				}
+				
+				//if the vote has passed, this goes to the policy selection screen
+				else{
+					//need to display that the vote has passed somehow
+					//need to set the new chancellor, at this point!
+					//so, the file that holds the chancellor being voted on would open and
+					//set the new chancellor here
+					//might need a loop in order to make sure that the file sets correctly.
+					System.out.println("Vote has passed!");
+					client.openToWrite("data/state.txt");
+					client.writeToFile("POLICY");
+					client.close();
+
+				}
+			//if all players haven't voted yet
+				
 			}
 		}
 		players.click(e,state);
@@ -173,44 +199,7 @@ public class Controller{
 		nextScreen = voted;
 	}
 	
-	/**
-	 * 
-	 * @param userName, the name of the player
-	 * @return Red or Blue, to set the player card
-	 */
-	public String getRole(String userName){
-		int length = client.getLength("data/Roles.txt");
-		String[] scores = new String[length];
-		scores = client.readFile("data/Roles.txt");
-		client.close();
-		String tmpS= scores[0];
-		for(int i = 0; i <length; i++){
-			if(scores[i].startsWith(userName)){
-				tmpS = scores[i];
-				String [] tmpA = tmpS.split(" ");
-				tmpS = tmpA[1];
-				
-				//display that this character is the secret leader.
-				if(tmpS.equals("Secret")){
-					//JOptionPane.showMessageDialog(null, "You are the Secret Leader for the red team! Shhh!");
-					tmpS = "Red";
-				}
-				
-				//display who the red teams are and who the secret leader is to the red team
-				//red team is odd numbers (starting from 0), secret leader is always #1
-				else if(tmpS.equals("Red")){
-					/*
-					String redString = "";
-					redString +="is the Secret Leader";
-					for(int j = 1; j < length; j++){
-						
-					}*/
-					//JOptionPane.showMessageDialog(null, "You are on the Red Team! Your teammates are");
-				}
-			}
-		}
-		return tmpS;
-	}
+
 	
 	/**
 	 * Sets up the first president in the "Turn.txt" file. Does not set chancellor
@@ -227,9 +216,16 @@ public class Controller{
 		client.writeToFile("#name of the President");
 		client.writeToFile(firstPres);
 		client.writeToFile("#name of the Chancellor");
+		
 		//no chancellor to start the game so random characters are selected
 		client.writeToFile("b");
 		client.close();
+	}
+	
+	/**
+	 * Will pick three random policy cards for the user to draw in the policy selection class
+	 */
+	public void resetCards(){
 		
 	}
 	
