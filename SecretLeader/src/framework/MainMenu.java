@@ -79,6 +79,9 @@ public class MainMenu extends JPanel {
 		client.openToWrite("data/Roles.txt");
 		client.writeToFile("");
 		client.close();
+		/*
+		client.openToWrite("data/Voting.txt");
+		client.close();*/
 		//client.openToWrite("data/VotingFile.txt");
 		//client.close();
 		
@@ -339,39 +342,6 @@ public class MainMenu extends JPanel {
 			}
 		}
 		getFile.close();
-	}
-	
-	
-	/**
-	 * Trying to make the Button not have a blue background when it's been pressed!
-	 * @author Max
-	 *
-	 */
-	private class colorChange implements MouseListener{
-		private JButton button;
-		private Color c;
-		public colorChange(JButton buttonIn, Color cIn){
-			button = buttonIn;
-			c = cIn;
-		}
-	    public void mousePressed(MouseEvent e) {
-	    	 button.setBackground(c);
-	     }
-
-	     public void mouseReleased(MouseEvent e) {
-	        button.setBackground(new Color(200,20,20));
-	     }
-
-	     public void mouseEntered(MouseEvent e){
-	    	//nothing should happen here
-	     }
-
-	     public void mouseExited(MouseEvent e) {
-	    	 button.setBackground(c);
-	     }
-
-	     public void mouseClicked(MouseEvent e) {
-	     }
 	}
 
 	/**

@@ -167,5 +167,10 @@ public class SLPanel extends SLCanvas{
 			control.click(e);
 		}
 	}
+	
+	//need to find a way to display the dialog boxes on here 
+	//if:
+		//who the proposed chancellor is
+		//whether the vote passed or not
 
 }

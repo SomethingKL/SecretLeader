@@ -1,2 +1,2 @@
 #Which screen to be on; 1 for the presidents screen; 2 for the chancellors screen
-2
+1

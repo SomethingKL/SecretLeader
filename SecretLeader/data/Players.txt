@@ -1,24 +1,6 @@
 #Player Names
 Jake
+gavin
+max
 Max
-Drew
-a
-aaaaa
-bbbbb
-afd
-fffffff
-asdf
-asfdas
-asfdas
-asfdasfd
-asdfas
-maxie
-a
-b
-a
-b
-a
-b
-a
-b
-a
+c

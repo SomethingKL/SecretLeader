@@ -62,6 +62,10 @@ public class Votecard {
 			}
 			client.writeToFile(type);
 			client.close();
+			
+			//may be an issue here; for reading and writing to the voting file at the same time!
+			//may also be an issue with the mainmenu later on
+			
 			nextState = true;
 			return true;
 		}

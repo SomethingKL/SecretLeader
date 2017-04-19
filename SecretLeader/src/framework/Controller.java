@@ -47,7 +47,7 @@ public class Controller{
 	public Controller(String userNameIn) throws IOException{
 		firstPresident();
 		//String tmpRole = getRole(userNameIn);
-		String tmpRole = "Blue";
+		String tmpRole = getRole(userNameIn);
 		playerID = userNameIn;
 		role = new PlayerCard(new Point(0,0), tmpRole + "Card.jpg");
 		players = new PlayerList(new Point(5,305));
@@ -93,8 +93,6 @@ public class Controller{
 	 */
 	//want to put the current state of the game right. Ye and ne cards
 	private void updateBoard(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
-		//get the current scores
-		
 		//this gets the current scores
 		client.close();
 		String[] scores = client.readFile("data/Board.txt");
@@ -172,17 +170,35 @@ public class Controller{
 					//need to display that the vote has passed somehow
 					//need to set the new chancellor, at this point!
 					//so, the file that holds the chancellor being voted on would open and
-					//set the new chancellor here
-					//might need a loop in order to make sure that the file sets correctly.
+					
+					//get new chancellor here from a file
+					String tmpChan = new String("c");
+					
+					//write the chancellor to the file
+					String[] full=	client.readFile("data/Turn.txt");
+					client.openToWrite("data/Turn.txt");
+					client.writeToFile("#name of the President");
+					client.writeToFile(full[0]);
+					client.writeToFile("#name of the Chancellor");
+					client.writeToFile(tmpChan);
+					client.close();
+					
+					//sets the file for the mode
 					System.out.println("Vote has passed!");
 					client.openToWrite("data/state.txt");
 					client.writeToFile("POLICY");
 					client.close();
 
 				}
-			//if all players haven't voted yet
+				
+			//this will reset the voting file after the vote has been completed.
+			/**
+			 * client.openToWrite("data/VotingFile.txt");
+			 * client.close();
+			 */
 				
 			}
+			//if all players haven't voted yet
 		}
 		players.click(e,state);
 		PS.click(e,state);
@@ -198,9 +214,6 @@ public class Controller{
 	public void setHasVoted(boolean voted){
 		nextScreen = voted;
 	}
-	
-
-	
 	/**
 	 * Sets up the first president in the "Turn.txt" file. Does not set chancellor
 	 */
@@ -211,7 +224,7 @@ public class Controller{
 		scores = client.readFile("data/Players.txt");
 		
 		//String firstPres = scores[3];
-		String firstPres = "a";
+		String firstPres = "Max";
 		client.openToWrite("data/Turn.txt");
 		client.writeToFile("#name of the President");
 		client.writeToFile(firstPres);
@@ -222,11 +235,28 @@ public class Controller{
 		client.close();
 	}
 	
-	/**
-	 * Will pick three random policy cards for the user to draw in the policy selection class
-	 */
-	public void resetCards(){
-		
+	public String getRole(String userName){
+		String[] players = client.readFile("data/Players.txt");
+		String [] scores = client.readFile("data/Roles.txt");
+		while(players.length != scores.length){
+			scores = client.readFile("data/Roles.txt");
+		}
+		client.close();
+		String tmpS= scores[0];
+		for(int i = 0; i <scores.length; i++){
+			if(players[i].equals(userName)){
+				System.out.println(scores[i]);
+				tmpS = scores[i];
+				String [] tmpA = tmpS.split(" ");
+				tmpS = tmpA[1];
+						
+				if(tmpS.equals(new String("Secret"))){
+					tmpS = "Red";
+					
+				}
+			}	
+
+		}
+		return tmpS;
 	}
-	
 }

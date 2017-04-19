@@ -127,7 +127,6 @@ public class PolicySelection {
 					card1.flipKept();
 				}
 			}
-			
 			else if(card2Box.contains(e.getPoint())){
 				if(card2.getCardKept()){
 					card2.flipKept();
@@ -195,22 +194,13 @@ public class PolicySelection {
 			final int newBlue = blue;
 			final int newRed = red;
 			//some point here the president needs to be reset
-			//the chancellor should also be changed right here.
-			
-			
-			
-			/*
-			try {
-			    Thread.sleep(10000);                 //1000 milliseconds is one second.
-			} catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
-			}*/
-			
-			//have to get the next screen to come up everytime
+		
 			//cuts out the third box area!
 			if(card1Box.contains(e.getPoint()) || card2Box.contains(e.getPoint())){
 				System.out.println("Cut out that box!");
 				new Thread(() -> doWork(newBlue,newRed)).start();
+				
+				//resets the cards for the next policy selection
 				//setNewPositions();
 				try{
 					resetCards();
@@ -218,7 +208,12 @@ public class PolicySelection {
 				catch(Exception ee){
 					ee.printStackTrace();
 				}
-				
+				setNewPositions();
+				//need to reset the file to appear on the presidents screen after the vote
+				client.openToWrite("data/leaveStarting.txt");
+				client.writeToFile("#Which screen to be on; 1 for the presidents screen; 2 for the chancellors screen");
+				client.writeToFile("1");
+				client.close();
 				
 				nextState = true;
 			}
@@ -227,9 +222,30 @@ public class PolicySelection {
 	
 	
 	private void setNewPositions() {
-		String[] roles = client.readFile("data/Roles.txt");
-		client.openToWrite("data/Roles.txt");
+		//gets the roles of the game currently
+		String[] roles = client.readFile("data/Turn.txt");
+		String[] players = client.readFile("data/Players.txt");
 		
+		int spot = 0;
+		for(int i = 0; i < players.length;i++){
+			if(roles[0].equals(players[i])){
+				spot = i;
+			}
+		}
+		//sets the new spot for the president
+		if(spot == players.length){
+			spot = 0;
+		}
+		else{
+			spot +=1;
+		}
+		System.out.println(players[spot]);
+		client.openToWrite("data/Turn.txt");
+		client.writeToFile("#name of the President");
+		client.writeToFile(players[spot]);
+		client.writeToFile("#name of the Chancellor");
+		client.writeToFile(roles[1]);
+		client.close();
 	}
 
 	/**Sets the number of blue and red cards in a file. Which updates the board
@@ -277,7 +293,6 @@ public class PolicySelection {
 	}
 	
 	/**
-	 * 
 	 * @return true or false, whether the next state of the game should happen
 	 */
 	public boolean isNextState(){
