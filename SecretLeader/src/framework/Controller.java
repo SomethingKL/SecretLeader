@@ -224,13 +224,14 @@ public class Controller{
 		scores = client.readFile("data/Players.txt");
 		
 		//String firstPres = scores[3];
-		String firstPres = "Max";
+		String firstPres = "a";
 		client.openToWrite("data/Turn.txt");
 		client.writeToFile("#name of the President");
 		client.writeToFile(firstPres);
 		client.writeToFile("#name of the Chancellor");
 		
 		//no chancellor to start the game so random characters are selected
+		client.writeToFile("&&&&&&&&&&&&&&&&&&$");
 		client.writeToFile("b");
 		client.close();
 	}

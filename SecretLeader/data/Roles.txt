@@ -4,3 +4,5 @@ gavin Secret Leader
 max Blue Team
 Max Red Team
 c Blue Team
+Max Red Team
+c Blue Team

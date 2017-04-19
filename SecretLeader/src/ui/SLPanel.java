@@ -23,7 +23,6 @@ public class SLPanel extends SLCanvas{
 	private TCPClient client = new TCPClient();
 	//the userName of the player
 	private String userName;
-	private int presidentSpot = 3;
 	
 	public SLPanel(){
 		super();
