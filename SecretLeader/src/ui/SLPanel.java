@@ -14,7 +14,7 @@ import framework.*;
 public class SLPanel extends SLCanvas{
 	/**State
 	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
-	public static enum GameState{JOINING, PLAYING, VOTING, WAITING,POLICY, GAMEOVER}
+	public static enum GameState{JOINING, PLAYING, VOTING, WAITING, POLICY, BLUEGAMEOVER, REDGAMEOVER}
 	private static GameState state;
 	/**Used for implementing the game
 	 */
@@ -143,8 +143,11 @@ public class SLPanel extends SLCanvas{
 		else if(stateInfo[0].equals("VOTING")){
 			state = GameState.VOTING;
 		}
-		else if(stateInfo[0].equals("GAMEOVER")){
-			state = GameState.GAMEOVER;
+		else if(stateInfo[0].equals("BLUEGAMEOVER")){
+			state = GameState.BLUEGAMEOVER;
+		}
+		else if(stateInfo[0].equals("REDGAMEOVER")){
+			state = GameState.REDGAMEOVER;
 		}
 		else if(stateInfo[0].equals("WAITING")){
 			state = GameState.WAITING;

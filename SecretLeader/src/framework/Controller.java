@@ -40,6 +40,10 @@ public class Controller{
 	private Votecard no;
 	//whether the player has voted or not
 	private boolean nextScreen;
+	/**sets to draw blue game over screen*/
+	private BlueGameOver BlueGameOver;
+	/**sets to draw red game over screen*/
+	private RedGameOver RedGameOver;
 	
 	private PolicySelection PS;
 
@@ -56,6 +60,8 @@ public class Controller{
 		yes = new Votecard(new Point(650,610),ImageIO.read(new File("data/YesCard.PNG")),"yes");
 		no = new Votecard(new Point(905,610),ImageIO.read(new File("data/NoCard.PNG")),"no");
 		PS = new PolicySelection(new Point(750,620),playerID);
+		BlueGameOver = new BlueGameOver(new Point(0,0),"GameOverBackground.png");
+		RedGameOver = new RedGameOver(new Point(0,0),"GameOverBackground.png");
 		nextScreen = false;
 		firstPresident();
 	}
@@ -71,6 +77,12 @@ public class Controller{
 		//display the playerList
 		players.draw(g2d, slPanel);
 		//yes.draw(g2d,slPanel);
+		if(state == GameState.BLUEGAMEOVER){
+			BlueGameOver.draw(g2d, slPanel);
+		}
+		if(state == GameState.BLUEGAMEOVER){
+			RedGameOver.draw(g2d, slPanel);
+		}
 		displayOfficialPosition(g2d, slPanel);
 	}
 	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) throws IOException {
@@ -260,4 +272,5 @@ public class Controller{
 		}
 		return tmpS;
 	}
+	
 }

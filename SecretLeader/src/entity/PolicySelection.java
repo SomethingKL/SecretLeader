@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import java.util.*;
 import framework.TCPClient;
 import ui.SLPanel;
+import ui.SLPanel.GameState;
 
 public class PolicySelection {
 	/**box around the list*/
@@ -261,11 +262,24 @@ public class PolicySelection {
 		client.writeToFile("#number of Red victories");
 		client.writeToFile(String.valueOf(red));
 		client.close();
+		//check if there are 5 blue policies and change state
+		if(blue == 5){
+			client.openToWrite("data/state.txt");
+			client.writeToFile("BLUEGAMEOVER");
+			client.close();
+		}
+		else if(red == 6){
+			client.openToWrite("data/state.txt");
+			client.writeToFile("REDGAMEOVER");
+			client.close();
+		}
 		
 		//set the file to move on to the next stage of the game
+		else{
 		client.openToWrite("data/state.txt");
 		client.writeToFile("WAITING");
 		client.close();
+		}
 		
 		return;
 	
