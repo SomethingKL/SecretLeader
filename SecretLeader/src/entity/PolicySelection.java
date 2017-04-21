@@ -201,7 +201,6 @@ public class PolicySelection {
 				new Thread(() -> doWork(newBlue,newRed)).start();
 				
 				//resets the cards for the next policy selection
-				//setNewPositions();
 				try{
 					resetCards();
 				}
@@ -209,6 +208,7 @@ public class PolicySelection {
 					ee.printStackTrace();
 				}
 				setNewPositions();
+		
 				//need to reset the file to appear on the presidents screen after the vote
 				client.openToWrite("data/leaveStarting.txt");
 				client.writeToFile("#Which screen to be on; 1 for the presidents screen; 2 for the chancellors screen");
@@ -320,6 +320,7 @@ public class PolicySelection {
 	public void resetCards() throws IOException{
 		Random cardRandomizer = new Random();
 		
+		//need to set these to appropriate percentages.
 		//mapping to assign card values in a loop
 		Map<String,PolicyCard> cardMap = new HashMap<String,PolicyCard>();
 		(cardMap).put("card1", card1);

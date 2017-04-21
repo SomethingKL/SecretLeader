@@ -46,7 +46,6 @@ public class Votecard {
 	}
 	
 	/**
-	 * 
 	 * @param e, the mouse clicking the button
 	 * @return true or false, whether something happened or not
 	 */

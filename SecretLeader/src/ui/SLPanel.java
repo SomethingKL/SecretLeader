@@ -9,12 +9,22 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import framework.*;
 
 public class SLPanel extends SLCanvas{
+	//Enumeration stages:
 	/**State
-	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
-	public static enum GameState{JOINING, PLAYING, VOTING, WAITING,POLICY, GAMEOVER}
+	 *JOINING: The period in the game where all players are putting in a userName
+	 *PLAYING: 
+	 *VOTING: The stage in the game where the players are voting yes or no for the chancellor
+	 *WAITING: The stage in the game where the game is paused until an action happens
+	 *POLICY: Where the president selects two cards from the three and the chancellor selects one
+	 *SELECTION: Where the president selects a chancellor nomination
+	 *GAMEOVER: The stage in the game where the game has ended
+	 */
+	public static enum GameState{JOINING, PLAYING, VOTING, WAITING,POLICY,DIALOGDISPLAY,SELECTION,GAMEOVER}
 	private static GameState state;
 	/**Used for implementing the game
 	 */
@@ -120,17 +130,26 @@ public class SLPanel extends SLCanvas{
 		else if(state == GameState.POLICY && client.readFile("data/state.txt")[0].equals(new String("WAITING"))){
 			setState();
 		}
+		else if(client.readFile("data/state.txt")[0].equals(new String("DIALOGDISPLAY"))){
+			setState();
+		}
 	}
 	
 	/**
-	 * Tells the game what stage it should be in
+	 * Tells the game what stage it should be in based off of the text file
 	 */
 	private void setState() {
 		String[] stateInfo = client.readFile("data/state.txt");
+		//JOptionPane.showMessageDialog(this,stateInfo[0],"Voting Results", JOptionPane.PLAIN_MESSAGE);
 		while(stateInfo.length == 0){
 			stateInfo = client.readFile("data/state.txt");
 		}
-		client.close();
+		if(stateInfo[0].equals(new String("DIALOGDISPLAY"))){
+			while(stateInfo.length < 2){
+				stateInfo = client.readFile("data/state.txt");
+			}
+		}
+		
 		if(stateInfo[0].equals("JOINING")){
 			state = GameState.JOINING;
 		}
@@ -149,7 +168,9 @@ public class SLPanel extends SLCanvas{
 		else if(stateInfo[0].equals("WAITING")){
 			state = GameState.WAITING;
 		}
-		
+		else if(stateInfo[0].equals("SELECTION")){
+			state = GameState.SELECTION;
+		}
 	}
 	
 	

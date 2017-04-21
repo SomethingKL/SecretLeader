@@ -66,8 +66,8 @@ public class MainMenu extends JPanel {
 	 * Resets all of the files for the game
 	 */
 	public void initGameFiles(){
-		int blue = 0;
-		int red = 0;
+		int blue = 4;
+		int red = 5;
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");
 		client.writeToFile(String.valueOf(blue));
@@ -78,6 +78,11 @@ public class MainMenu extends JPanel {
 		
 		client.openToWrite("data/Roles.txt");
 		client.writeToFile("");
+		client.close();
+		
+		client.openToWrite("data/displayInfo.txt");
+		client.writeToFile("#What should be displayed in the top corner");
+		client.writeToFile("0");
 		client.close();
 		/*
 		client.openToWrite("data/Voting.txt");

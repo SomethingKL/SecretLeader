@@ -40,13 +40,13 @@ public class Controller{
 	private Votecard no;
 	//whether the player has voted or not
 	private boolean nextScreen;
-	
+	//the section that checks off the policy cards
 	private PolicySelection PS;
-
+	//displays the information in the top right corner for the user
+	private ResultsBox informationBox;
 	//this builds all of the possible pieces on the board.
 	public Controller(String userNameIn) throws IOException{
 		firstPresident();
-		//String tmpRole = getRole(userNameIn);
 		String tmpRole = getRole(userNameIn);
 		playerID = userNameIn;
 		role = new PlayerCard(new Point(0,0), tmpRole + "Card.jpg");
@@ -57,6 +57,7 @@ public class Controller{
 		no = new Votecard(new Point(905,610),ImageIO.read(new File("data/NoCard.PNG")),"no");
 		PS = new PolicySelection(new Point(750,620),playerID);
 		nextScreen = false;
+		informationBox= new ResultsBox(new Point(1150,15));
 		firstPresident();
 	}
 	/**{@literal}draws all the current game images
@@ -70,9 +71,18 @@ public class Controller{
 		role.draw(g2d, slPanel);
 		//display the playerList
 		players.draw(g2d, slPanel);
+		
+		informationBox.draw(g2d, slPanel);
 		//yes.draw(g2d,slPanel);
 		displayOfficialPosition(g2d, slPanel);
 	}
+	/**Updates items based on the state and user of the game
+	 * 
+	 * @param g2d, the graphics being used.
+	 * @param slPanel, the panel that's being displayed
+	 * @param state2, the current enumeration state
+	 * @throws IOException, if there's an issue with the reading of a picture
+	 */
 	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) throws IOException {
 		state = state2;
 		if(state2 == state.VOTING){
@@ -158,8 +168,11 @@ public class Controller{
 				//if the vote has not passed, this goes to the waiting screen until the 
 				//president selects another chancellor
 				if(PS.getNoCount() >= players/2){
-					
-					//need to display that the vote has not passed here somehow
+				
+					client.openToWrite("data/displayInfo.txt");
+					client.writeToFile("2");
+					client.close();
+					//need to display that the vote results somehow has not passed here somehow
 					client.openToWrite("data/state.txt");
 					client.writeToFile("WAITING");
 					client.close();
@@ -167,9 +180,10 @@ public class Controller{
 				
 				//if the vote has passed, this goes to the policy selection screen
 				else{
-					//need to display that the vote has passed somehow
-					//need to set the new chancellor, at this point!
-					//so, the file that holds the chancellor being voted on would open and
+					client.openToWrite("data/displayInfo.txt");
+					client.writeToFile("1");
+					client.close();
+					
 					
 					//get new chancellor here from a file
 					String tmpChan = new String("c");
@@ -182,7 +196,7 @@ public class Controller{
 					client.writeToFile("#name of the Chancellor");
 					client.writeToFile(tmpChan);
 					client.close();
-					
+		
 					//sets the file for the mode
 					System.out.println("Vote has passed!");
 					client.openToWrite("data/state.txt");
@@ -231,7 +245,7 @@ public class Controller{
 		client.writeToFile("#name of the Chancellor");
 		
 		//no chancellor to start the game so random characters are selected
-		client.writeToFile("&&&&&&&&&&&&&&&&&&$");
+		//client.writeToFile("&&&&&&&&&&&&&&&&&&$");
 		client.writeToFile("b");
 		client.close();
 	}
@@ -256,7 +270,6 @@ public class Controller{
 					
 				}
 			}	
-
 		}
 		return tmpS;
 	}
