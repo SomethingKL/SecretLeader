@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Color.*;
 import javax.imageio.ImageIO;
 import java.util.*;
@@ -88,12 +91,15 @@ public class PolicySelection {
 		String[] turnInfo = client.readFile("data/Turn.txt");
 		String[] setPiece = client.readFile("data/leaveStarting.txt");
 		client.close();
-		
+	
+
 		//the first stage of the game, where the president picks his cards
 		if(setPiece[0].contains(new String("1")) && turnInfo[0].equals(playerID)){
 			card1.draw(g2d,panel);
 			card2.draw(g2d, panel);
 			card3.draw(g2d, panel);
+			//set up the fonts for the graphic
+
 		}
 		
 		//the second stage of the game, where the chancellor picks his cards
@@ -128,6 +134,7 @@ public class PolicySelection {
 					card1.flipKept();
 				}
 			}
+			//if card2 has a click
 			else if(card2Box.contains(e.getPoint())){
 				if(card2.getCardKept()){
 					card2.flipKept();
@@ -136,6 +143,7 @@ public class PolicySelection {
 					card2.flipKept();
 				}
 			}
+			//if card3 has a click
 			else if(card3Box.contains(e.getPoint())){
 				if(card3.getCardKept()){
 					card3.flipKept();
@@ -160,15 +168,16 @@ public class PolicySelection {
 				
 			}
 		}
+		
 		//the chancellor picks the policy
 		else if(box.contains(e.getPoint()) && state == SLPanel.GameState.POLICY && setPiece[0].equals(new String("2"))){
 			//getting the board information from the file
 			String[] boardInfo = client.readFile("data/Board.txt");
 			int blue = Integer.parseInt(boardInfo[0]);
 			int red = Integer.parseInt(boardInfo[1]);
+			//the first card is selected
 			if(card1Box.contains(e.getPoint())){
 
-				//the first card
 				if(card4.getType().equals(new String("Red"))){
 					red += 1;
 				}
@@ -176,6 +185,7 @@ public class PolicySelection {
 					blue +=1;
 				}
 			}
+			
 			//the second card
 			else if(card2Box.contains(e.getPoint())){
 				//the new card to go on the screen
@@ -187,6 +197,7 @@ public class PolicySelection {
 					blue +=1;
 				}
 			}
+			//anything is wrong; so throw error
 			else{
 				assert(false);
 			}
@@ -222,6 +233,9 @@ public class PolicySelection {
 	}
 	
 	
+	/**
+	 * Sets the positions of the new president
+	 */
 	private void setNewPositions() {
 		//gets the roles of the game currently
 		String[] roles = client.readFile("data/Turn.txt");
@@ -240,7 +254,6 @@ public class PolicySelection {
 		else{
 			spot +=1;
 		}
-		System.out.println(players[spot]);
 		client.openToWrite("data/Turn.txt");
 		client.writeToFile("#name of the President");
 		client.writeToFile(players[spot]);
@@ -250,7 +263,6 @@ public class PolicySelection {
 	}
 
 	/**Sets the number of blue and red cards in a file. Which updates the board
-	 * 
 	 * @param blue, the number of blue cards
 	 * @param red, the number of red cards
 	 */
@@ -276,9 +288,9 @@ public class PolicySelection {
 		
 		//set the file to move on to the next stage of the game
 		else{
-		client.openToWrite("data/state.txt");
-		client.writeToFile("WAITING");
-		client.close();
+			client.openToWrite("data/state.txt");
+			client.writeToFile("WAITING");
+			client.close();
 		}
 		
 		return;
