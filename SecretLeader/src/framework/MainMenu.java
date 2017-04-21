@@ -76,6 +76,10 @@ public class MainMenu extends JPanel {
 		client.writeToFile(String.valueOf(red));
 		client.close();
 		
+		client.openToWrite("data/displayInfo.txt");
+		client.writeToFile("0");
+		client.close();
+		
 		client.openToWrite("data/Roles.txt");
 		client.writeToFile("");
 		client.close();
@@ -180,7 +184,7 @@ public class MainMenu extends JPanel {
 			scores = client.readFile("data/Players.txt");
 		}
 		catch(Exception e){
-			System.out.println("THe file was not read in correctly");
+			System.out.println("The file was not read in correctly");
 		}
 		
 		//System.out.println(scores.length);
@@ -215,6 +219,7 @@ public class MainMenu extends JPanel {
 		slPanel.revalidate();
 		slPanel.repaint();
 	}
+	
 	/**
 	 * 
 	 * @param userName, the name of the player
@@ -233,29 +238,19 @@ public class MainMenu extends JPanel {
 				System.out.println(scores[i]);
 				tmpS = scores[i];
 				String [] tmpA = tmpS.split(" ");
-				tmpS = tmpA[1];
-				
-				 if(tmpS.equals(new String("Red"))){
-					
-					String redString = "";
-					for(int j = 1; j < length; j+=2){
-						System.out.println(scores[j]);
-						redString += scores[j];
-						redString+= "\n ";
-					}
-					JOptionPane.showMessageDialog(this,"You are on the Red Team! Your teammates are: \n" + redString,"Role Message", JOptionPane.PLAIN_MESSAGE);
-				 }
-						
-				else if(tmpS.equals(new String("Secret"))){
-					//JOptionPane.showMessageDialog(null, "You are the Secret Leader for the red team! Shhh!");
+				tmpS = tmpA[1];	
+				//if the person is the leader then they need the role card to be a red team member.
+				if(tmpS.equals(new String("Secret"))){
 					tmpS = "Red";
-					JOptionPane.showMessageDialog(this,"You are the Secret Leader for the red team! Shhh!","Role Message", JOptionPane.PLAIN_MESSAGE);
 				}
 			}	
-
 		}
 		return tmpS;
 	}
+	
+	/**This action listener sends the whole game into the next stage of the game.
+	 *If one person selects the submit button then all screns will change.
+	 */
 	private class nextScreenButton implements ActionListener{
 		public void  actionPerformed(ActionEvent event){
 			String tmp = getRole(userName);
@@ -263,12 +258,14 @@ public class MainMenu extends JPanel {
 			client.writeToFile("#Whether all screens should go to the nextScreen");
 			client.writeToFile("true");
 			client.close();
-			
 			client.openToWrite("data/state.txt");
+			//this needs to be the waiting screen where the president has a chance to select
+			//his chancellor
 			client.writeToFile("VOTING");
 			client.close();
 		}
 	}
+	
 	/**
 	 * If the button is clicked then the next screen is drawn up; for waiting.
 	 */
@@ -281,6 +278,7 @@ public class MainMenu extends JPanel {
 			//if there are '\n's the game will break. So, I take them out.
 			tmpString = tmpString.replace('\n',' ');
 			tmpString = tmpString.replaceAll("\\s", "");
+			//to make sure all of the inputs are correct.
 			if(tmpString != null && !tmpString.isEmpty()){
 				userName = tmpString;
 				//make the person put a name!
@@ -290,8 +288,6 @@ public class MainMenu extends JPanel {
 				
 				//outputs the user information to a file
 				String[] scores = client.readFile("data/Players.txt");
-				//scores.toString();
-				
 				if(scores == null || scores.length == 0){
 					client.openToWrite("data/Players.txt");
 					client.writeToFile("#Player Names");
@@ -307,6 +303,7 @@ public class MainMenu extends JPanel {
 					client.writeToFile(userName);
 				}
 				client.close();
+				//activates the waiting for all users to join screen.
 				waitingScreen();
 			}
 		}

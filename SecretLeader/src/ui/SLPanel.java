@@ -9,6 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import framework.*;
 
 public class SLPanel extends SLCanvas{
@@ -29,18 +31,9 @@ public class SLPanel extends SLCanvas{
 		client.openToWrite("data/state.txt");
 		client.writeToFile("JOINING");
 		client.close();
-		//try{
-		
-			this.removeAll();
-			begin = new MainMenu(this);
-			state = GameState.JOINING;
-			
-		//}
-			/*
-		
-		}catch(IOException e){
-			e.printStackTrace();
-		}*/
+
+		begin = new MainMenu(this);
+		state = GameState.JOINING;
 	}
 	@Override
 	/**{@literal} called from repaint()
@@ -73,6 +66,8 @@ public class SLPanel extends SLCanvas{
 					//setRoles();
 					state = GameState.POLICY;
 					control = new Controller(userName);
+					getRole(userName);
+					
 				}
 			} catch(IOException e){
 				e.printStackTrace();
@@ -108,6 +103,17 @@ public class SLPanel extends SLCanvas{
 				e.printStackTrace();
 			}
 		}
+		//if the blue team has won
+		else if(state == GameState.BLUEGAMEOVER){
+			//Brewer, do your thing here
+			System.out.println("blue win");
+		}
+		//if the red team has won
+		else if(state == GameState.REDGAMEOVER){
+			//Brewer, do your thing here
+			System.out.println("red win");
+		}
+		
 		
 		//need to wait for all people to vote
 		//this is here because there is a time or two in the game where 
@@ -169,7 +175,46 @@ public class SLPanel extends SLCanvas{
 			control.click(e);
 		}
 	}
-	
+	/**
+	 * 
+	 * @param userName, the name of the player
+	 * @return Red or Blue, to set the player card
+	 */
+	public String getRole(String userName){
+		int length = client.getLength("data/Roles.txt");
+		String[] scores = new String[length];
+		scores = client.readFile("data/Roles.txt");
+		client.close();
+		String[] players = client.readFile("data/Players.txt");
+		String tmpS= scores[0];
+		for(int i = 0; i <length; i++){
+			if(players[i].equals(userName)){
+				System.out.println(scores[i]);
+				tmpS = scores[i];
+				String [] tmpA = tmpS.split(" ");
+				tmpS = tmpA[1];
+				
+				 if(tmpS.equals(new String("Red"))){
+					
+					String redString = "";
+					for(int j = 1; j < length; j+=2){
+						System.out.println(scores[j]);
+						redString += scores[j];
+						redString+= "\n ";
+					}
+					JOptionPane.showMessageDialog(this,"You are on the Red Team! Your teammates are: \n" + redString,"Role Message", JOptionPane.PLAIN_MESSAGE);
+				 }
+						
+				else if(tmpS.equals(new String("Secret"))){
+					//JOptionPane.showMessageDialog(null, "You are the Secret Leader for the red team! Shhh!");
+					tmpS = "Red";
+					JOptionPane.showMessageDialog(this,"You are the Secret Leader for the red team! Shhh!","Role Message", JOptionPane.PLAIN_MESSAGE);
+				}
+			}	
+
+		}
+		return tmpS;
+	}
 	//need to find a way to display the dialog boxes on here 
 	//if:
 		//who the proposed chancellor is

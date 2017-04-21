@@ -44,8 +44,10 @@ public class Controller{
 	private BlueGameOver BlueGameOver;
 	/**sets to draw red game over screen*/
 	private RedGameOver RedGameOver;
-	
+	/**Where the policy is selected at**/
 	private PolicySelection PS;
+	/** Where game information is displayed**/
+	private ResultsBox informationBox;
 
 	//this builds all of the possible pieces on the board.
 	public Controller(String userNameIn) throws IOException{
@@ -63,8 +65,10 @@ public class Controller{
 		BlueGameOver = new BlueGameOver(new Point(0,0),ImageIO.read(new File("data/GameOverBackground.png")));
 		RedGameOver = new RedGameOver(new Point(0,0),ImageIO.read(new File("data/GameOverBackground.png")));
 		nextScreen = false;
+		informationBox= new ResultsBox(new Point(1150,15));
 		firstPresident();
 	}
+	
 	/**{@literal}draws all the current game images
 	 */
 	public void draw(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
@@ -83,8 +87,16 @@ public class Controller{
 		if(state == GameState.BLUEGAMEOVER){
 			RedGameOver.draw(g2d, slPanel);
 		}
+		informationBox.draw(g2d, slPanel);
 		displayOfficialPosition(g2d, slPanel);
 	}
+	
+	/**Decides which section needs to be drawn
+	 * @param g2d, the graphic
+	 * @param slPanel, the panel in use
+	 * @param state2, the enumeration
+	 * @throws IOException, if the picture doesn't open up
+	 */
 	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) throws IOException {
 		state = state2;
 		if(state2 == state.VOTING){
@@ -171,6 +183,9 @@ public class Controller{
 				//president selects another chancellor
 				if(PS.getNoCount() >= players/2){
 					
+					client.openToWrite("data/displayInfo.txt");
+					client.writeToFile("2");
+					client.close();
 					//need to display that the vote has not passed here somehow
 					client.openToWrite("data/state.txt");
 					client.writeToFile("WAITING");
@@ -182,7 +197,9 @@ public class Controller{
 					//need to display that the vote has passed somehow
 					//need to set the new chancellor, at this point!
 					//so, the file that holds the chancellor being voted on would open and
-					
+					client.openToWrite("data/displayInfo.txt");
+					client.writeToFile("1");
+					client.close();
 					//get new chancellor here from a file
 					String tmpChan = new String("c");
 					
