@@ -60,8 +60,8 @@ public class Controller{
 		yes = new Votecard(new Point(650,610),ImageIO.read(new File("data/YesCard.PNG")),"yes");
 		no = new Votecard(new Point(905,610),ImageIO.read(new File("data/NoCard.PNG")),"no");
 		PS = new PolicySelection(new Point(750,620),playerID);
-		BlueGameOver = new BlueGameOver(new Point(0,0),"GameOverBackground.png");
-		RedGameOver = new RedGameOver(new Point(0,0),"GameOverBackground.png");
+		BlueGameOver = new BlueGameOver(new Point(0,0),ImageIO.read(new File("data/GameOverBackground.png")));
+		RedGameOver = new RedGameOver(new Point(0,0),ImageIO.read(new File("data/GameOverBackground.png")));
 		nextScreen = false;
 		firstPresident();
 	}
