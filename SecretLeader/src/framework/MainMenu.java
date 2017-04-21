@@ -67,7 +67,7 @@ public class MainMenu extends JPanel {
 	 */
 	public void initGameFiles(){
 		int blue = 4;
-		int red = 0;
+		int red = 5;
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");
 		client.writeToFile(String.valueOf(blue));
