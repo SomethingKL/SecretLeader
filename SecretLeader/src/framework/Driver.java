@@ -1,4 +1,4 @@
-/**This is just to begin the the program
+ /**This is just to begin the the program
  */
 package framework;
 

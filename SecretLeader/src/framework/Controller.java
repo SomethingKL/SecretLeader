@@ -74,21 +74,16 @@ public class Controller{
 	public void draw(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
 		updateBoard(g2d, slPanel,state);
 		
-		updateSelction(g2d,slPanel,state);
+		
 		
 		//display the player card
 		role.draw(g2d, slPanel);
 		//display the playerList
 		players.draw(g2d, slPanel);
 		//yes.draw(g2d,slPanel);
-		if(state == GameState.BLUEGAMEOVER){
-			BlueGameOver.draw(g2d, slPanel);
-		}
-		if(state == GameState.BLUEGAMEOVER){
-			RedGameOver.draw(g2d, slPanel);
-		}
 		informationBox.draw(g2d, slPanel);
 		displayOfficialPosition(g2d, slPanel);
+		updateSelction(g2d,slPanel,state);
 	}
 	
 	/**Decides which section needs to be drawn
@@ -111,6 +106,13 @@ public class Controller{
 			PS.draw(g2d, slPanel);
 			nextScreen = PS.isNextState();
 		}
+		else if(state == GameState.BLUEGAMEOVER){
+			BlueGameOver.draw(g2d, slPanel);
+		}
+		else if(state == GameState.BLUEGAMEOVER){
+			RedGameOver.draw(g2d, slPanel);
+		}
+		
 	}
 	
 	/**{@literal}draws the board as it currently is

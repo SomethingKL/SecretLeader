@@ -55,6 +55,8 @@ public class PolicySelection {
 	private int cardAmount = 3;
 	//random integer to decide if a card is red or blue
 	private int randInt = 0;
+	/** the number of players in the game */
+	private int  playerInt;
 
 	public PolicySelection(Point point,String userName) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH*4, HEIGHT);
@@ -81,6 +83,9 @@ public class PolicySelection {
 		card1Box = new Rectangle(760,620,WIDTH,HEIGHT);
 		card2Box = new Rectangle(900,620,WIDTH,HEIGHT);
 		card3Box = new Rectangle(1040,620,WIDTH,HEIGHT);
+		
+		playerInt = client.getLength("data/Players.txt");
+		
 	}
 	
 	/**{@literal}
@@ -90,7 +95,10 @@ public class PolicySelection {
 	public void draw(Graphics2D g2d, SLPanel panel) throws IOException{
 		String[] turnInfo = client.readFile("data/Turn.txt");
 		String[] setPiece = client.readFile("data/leaveStarting.txt");
-		client.close();
+		while(setPiece.length < 1 && turnInfo.length< 2){
+			setPiece = client.readFile("data/leaveStarting.txt");
+			turnInfo = client.readFile("data/Turn.txt");
+		}
 	
 
 		//the first stage of the game, where the president picks his cards
@@ -240,6 +248,9 @@ public class PolicySelection {
 		//gets the roles of the game currently
 		String[] roles = client.readFile("data/Turn.txt");
 		String[] players = client.readFile("data/Players.txt");
+		while(players.length < playerInt){
+			players = client.readFile("data/Players.txt");
+		}
 		
 		int spot = 0;
 		for(int i = 0; i < players.length;i++){
@@ -248,7 +259,7 @@ public class PolicySelection {
 			}
 		}
 		//sets the new spot for the president
-		if(spot == players.length){
+		if(spot == players.length-1){
 			spot = 0;
 		}
 		else{

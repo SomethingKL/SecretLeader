@@ -8,9 +8,11 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.swing.JComponent;
+
 import ui.SLPanel;
 
-public class Entity {
+public class Entity{
 	/**box around the entity*/
 	private Rectangle box;
 	/**image for this part*/

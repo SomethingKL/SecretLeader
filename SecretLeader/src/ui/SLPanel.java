@@ -11,6 +11,8 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import entity.BlueGameOver;
+import entity.RedGameOver;
 import framework.*;
 
 public class SLPanel extends SLCanvas{
@@ -25,6 +27,8 @@ public class SLPanel extends SLCanvas{
 	private TCPClient client = new TCPClient();
 	//the userName of the player
 	private String userName;
+	private BlueGameOver BlueGameOver;
+	private RedGameOver RedGameOver;
 	
 	public SLPanel(){
 		super();
@@ -66,7 +70,7 @@ public class SLPanel extends SLCanvas{
 					//setRoles();
 					state = GameState.POLICY;
 					control = new Controller(userName);
-					getRole(userName);
+//					//getRole(userName);
 					
 				}
 			} catch(IOException e){
@@ -106,12 +110,24 @@ public class SLPanel extends SLCanvas{
 		//if the blue team has won
 		else if(state == GameState.BLUEGAMEOVER){
 			//Brewer, do your thing here
-			System.out.println("blue win");
+			try{
+				control.draw(g2d, this, state);
+				System.out.println("blue win");
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		//if the red team has won
 		else if(state == GameState.REDGAMEOVER){
 			//Brewer, do your thing here
-			System.out.println("red win");
+			try{
+				control.draw(g2d, this, state);
+				System.out.println("red win");
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		
 		
