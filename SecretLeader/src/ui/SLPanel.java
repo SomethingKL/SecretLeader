@@ -9,31 +9,26 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import framework.*;
+import framework.Controller;
+import framework.MainMenu;
 
 public class SLPanel extends SLCanvas{
 	/**State
 	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
-	public static enum GameState{JOINING, PLAYING, VOTING, WAITING,POLICY, GAMEOVER}
+	public static enum GameState{JOINING, APOINTMENT, VOTING, SELECTION, VICTORY, GAMEOVER}
 	private static GameState state;
 	/**Used for implementing the game
 	 */
 	private Controller control;
-	private MainMenu begin;
+	private MainMenu menu;
 	private String userName;
 	
 	public SLPanel(){
 		super();
-		state = GameState.PLAYING;
 		//try{
-			this.removeAll();
-			begin = new MainMenu(this);
+			menu = new MainMenu(this);
 			state = GameState.JOINING;
-			
-		//}
-			/*
-		
-		}catch(IOException e){
+		/*}catch(IOException e){
 			e.printStackTrace();
 		}*/
 	}
@@ -41,19 +36,9 @@ public class SLPanel extends SLCanvas{
 	/**{@literal} called from repaint()
 	 */
 	public void canvasDraw(Graphics2D g2d) {
-		// maybe if First state then controller paint x
-		// and if Second state then controller paint y
-		if(state == GameState.PLAYING){
-			try{ 
-				this.setBackground(new Color(255,255,255));
-				control.draw(g2d, this,state);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		else if(state == GameState.JOINING){
+		if(state == GameState.JOINING){
 			try{
-				//maybe a try and catch block
+				
 				begin.setTextArea();
 				begin.waitingScreen();
 				begin.draw(g2d,this);
@@ -64,8 +49,16 @@ public class SLPanel extends SLCanvas{
 					state = GameState.VOTING;
 					control = new Controller(userName);
 				}
-			} catch(IOException e){
-			e.printStackTrace();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+		else if(state == GameState.PLAYING){
+			try{ 
+				this.setBackground(new Color(255,255,255));
+				control.draw(g2d, this,state);
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		else if(state == GameState.VOTING){

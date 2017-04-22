@@ -36,6 +36,9 @@ public class TCPClient {
 		}
 		return null;
 	}
+	public void init(){
+		
+	}
 	/**@param name of the file to be opened
 	 */
 	public void openToWrite(String name){
