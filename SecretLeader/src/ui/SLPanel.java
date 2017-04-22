@@ -9,65 +9,46 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-<<<<<<< HEAD
-import framework.Controller;
-import framework.MainMenu;
-=======
+import framework.*;
 import javax.swing.JOptionPane;
 
 import entity.BlueGameOver;
 import entity.RedGameOver;
-import framework.*;
->>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 
 public class SLPanel extends SLCanvas{
 	/**State
 	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
-<<<<<<< HEAD
-	public static enum GameState{JOINING, APOINTMENT, VOTING, SELECTION, VICTORY, GAMEOVER}
-=======
 	public static enum GameState{JOINING, PLAYING, VOTING, WAITING, POLICY, BLUEGAMEOVER, REDGAMEOVER}
->>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 	private static GameState state;
 	/**Used for implementing the game
 	 */
 	private Controller control;
-<<<<<<< HEAD
 	private MainMenu menu;
-=======
-	private MainMenu begin;
 	private TCPClient client = new TCPClient();
 	//the userName of the player
->>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 	private String userName;
 	private BlueGameOver BlueGameOver;
 	private RedGameOver RedGameOver;
 	
 	public SLPanel(){
 		super();
-<<<<<<< HEAD
 		//try{
 			menu = new MainMenu(this);
 			state = GameState.JOINING;
 		/*}catch(IOException e){
 			e.printStackTrace();
 		}*/
-=======
 		client.openToWrite("data/state.txt");
 		client.writeToFile("JOINING");
 		client.close();
 
-		begin = new MainMenu(this);
+		menu = new MainMenu(this);
 		state = GameState.JOINING;
->>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 	}
 	@Override
 	/**{@literal} called from repaint()
 	 */
 	public void canvasDraw(Graphics2D g2d) {
-<<<<<<< HEAD
-		if(state == GameState.JOINING){
-=======
 		// maybe if First state then controller paint x
 		// and if Second state then controller paint y
 
@@ -83,23 +64,20 @@ public class SLPanel extends SLCanvas{
 		
 		//the beginning screen of the game
 		else if(state == GameState.JOINING){
->>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 			try{
 				
-				begin.setTextArea();
-				begin.waitingScreen();
-				begin.draw(g2d,this);
-				if(begin.getNextScreen() == true){
+				menu.setTextArea();
+				menu.waitingScreen();
+				menu.draw(g2d,this);
+				if(menu.getNextScreen() == true){
 					this.setBackground(new Color(255,255,255));
-					userName = begin.getUserName();
+					userName = menu.getUserName();
 					removeAll();
 					//setRoles();
 					state = GameState.POLICY;
 					control = new Controller(userName);
-//					//getRole(userName);
-					
+					//getRole(userName);
 				}
-<<<<<<< HEAD
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -108,10 +86,7 @@ public class SLPanel extends SLCanvas{
 			try{ 
 				this.setBackground(new Color(255,255,255));
 				control.draw(g2d, this,state);
-			}catch(Exception e){
-=======
 			} catch(IOException e){
->>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 				e.printStackTrace();
 			}
 		}
@@ -220,7 +195,7 @@ public class SLPanel extends SLCanvas{
 	/**{@literal} called when mouse is clicked
 	 */
 	public void mouseReleasedFramework(MouseEvent e){
-		begin.click(e);
+		menu.click(e);
 		
 		//at the beginning of the game this won't be up. 
 		//So, once the game has been started this clicking can be on.

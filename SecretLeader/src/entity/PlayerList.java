@@ -17,7 +17,11 @@ import ui.SLPanel;
 
 public class PlayerList {
 	/**box around the list*/
-	private Rectangle box;
+	private Rectangle[] box;
+	/**list of names in the game*/
+	private String[] players;
+	/**top left corner for the player list*/
+	private Point point;
 	/**final width of the frame*/
 	private static final int WIDTH  = 190;
 	/**final height of the frame*/
@@ -25,8 +29,16 @@ public class PlayerList {
 	/**used to get the list of players*/
 	private TCPClient client = new TCPClient();
 	
-	public PlayerList(Point point) throws IOException{
-		box = new Rectangle(point.x, point.y, WIDTH, HEIGHT);
+	public PlayerList(Point start) throws IOException{
+		this.point = start;
+		//get the current players
+		players = client.readFile("data/Players.txt");
+		box = new Rectangle[players.length];
+		for(int k=0;k<players.length&&k<10;k++){
+			int y = point.y+k*HEIGHT/10;
+			Rectangle player = new Rectangle(point.x, y, WIDTH, HEIGHT/10);
+			box[k] = player;
+		}
 	}
 	/**{@literal}creates the list of players playing
 	 */
@@ -34,20 +46,17 @@ public class PlayerList {
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC, HEIGHT/10);
 		g2d.setFont(font);
 		g2d.setStroke(new BasicStroke(2));
-		g2d.draw(box);
-		//get the current players
-		String[] players = client.readFile("data/Players.txt");
 		for(int k=0;k<players.length&&k<10;k++){
-			int y = box.y+k*HEIGHT/10;
-			Rectangle player = new Rectangle(box.x, y, WIDTH, HEIGHT/10);
-			g2d.draw(player);
-			g2d.drawString(players[k], box.x+2, y+HEIGHT/11);
+			int y = point.y+k*HEIGHT/10;
+			g2d.draw(box[k]);
+			g2d.drawString(players[k], point.x+2, y+HEIGHT/11);
 		}
 	}
 	public void click(MouseEvent e, SLPanel.GameState state) {
-		//this is the border of things that can be clicked
-		if(box.contains(e.getPoint())){
-			System.out.println("box!");
+		for(int k=0;k<players.length&&k<10;k++){
+			if(box[k].contains(e.getPoint())){
+				System.out.println(players[k]);
+			}
 		}
 	}
 }
