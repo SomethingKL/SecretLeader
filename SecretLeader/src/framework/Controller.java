@@ -109,7 +109,7 @@ public class Controller{
 		else if(state == GameState.BLUEGAMEOVER){
 			BlueGameOver.draw(g2d, slPanel);
 		}
-		else if(state == GameState.BLUEGAMEOVER){
+		else if(state == GameState.REDGAMEOVER){
 			RedGameOver.draw(g2d, slPanel);
 		}
 		
