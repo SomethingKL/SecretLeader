@@ -1,6 +1,41 @@
 #Player Names
+<<<<<<< HEAD
 Ross Blue Team
 Max Secret Leader
 Jacob Blue Team
 Brewer Red Team
 jk Blue Team
+=======
+Max Blue Team
+Gavin Secret Leader
+Jake Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+c Red Team
+a Blue Team
+c Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+c Blue Team
+a Red Team
+>>>>>>> dc12f0767a5d30662018e77624708b5e35376de0

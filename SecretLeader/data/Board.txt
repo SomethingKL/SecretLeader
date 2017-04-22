@@ -1,4 +1,8 @@
 #number of Blue victories
+<<<<<<< HEAD
 0
+=======
+5
+>>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 #number of Red victories
-0
+5

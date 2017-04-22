@@ -1,4 +1,8 @@
 #name of the President
+<<<<<<< HEAD
 Brewer
+=======
+Max
+>>>>>>> dc12f0767a5d30662018e77624708b5e35376de0
 #name of the Chancellor
-b
+c

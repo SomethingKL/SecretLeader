@@ -1,3 +1,7 @@
 #The voting policies to be passed
 Blue
+<<<<<<< HEAD
 Red
+=======
+Blue
+>>>>>>> dc12f0767a5d30662018e77624708b5e35376de0

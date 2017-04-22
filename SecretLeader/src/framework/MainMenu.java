@@ -6,13 +6,18 @@ package framework;
  * 
  */
 import java.awt.Font;
+import java.awt.Component.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
 import ui.SLPanel;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.text.*;
 
 //import javax.awt.DocumentSizeFilter;
@@ -36,7 +41,31 @@ public class MainMenu {
 	private boolean nextScreen = false;
 	
 	public MainMenu(SLPanel slPanelIn){
-		client.init();
+		//Have to set the file to false to begin with; otherwise everyone will go to the wrong screen to start
+		//set the file
+		//set the file
+		int blue = 0;
+		int red = 0;
+		client.openToWrite("data/Board.txt");
+		client.writeToFile("#number of Blue victories");
+		client.writeToFile(String.valueOf(blue));
+		//client.writeToFile(Integer.toString(blue));
+		client.writeToFile("#number of Red victories");
+		client.writeToFile(String.valueOf(red));
+		client.close();
+		
+		client.readFile("data/Board.txt");
+		System.out.println(client.getLength("data/Board.txt"));
+		
+		
+		
+		
+		
+		
+		client.openToWrite("data/leaveStarting.txt");
+		client.writeToFile("#Whether all screens should go to the nextScreen");
+		client.writeToFile("false");
+		client.close();
 		
 		slPanel = slPanelIn;
 		slPanel.setLayout(null);
@@ -223,5 +252,49 @@ public class MainMenu {
 				waitingScreen();
 			}
 		}
+	}
+	
+	/**
+	 * Trying to make the Button not have a blue background when it's been pressed!
+	 * @author Max
+	 *
+	 */
+	private class colorChange implements MouseListener{
+		private JButton button;
+		private Color c;
+		public colorChange(JButton buttonIn, Color cIn){
+			button = buttonIn;
+			c = cIn;
+		}
+	    public void mousePressed(MouseEvent e) {
+	    	 button.setBackground(c);
+	     }
+
+	     public void mouseReleased(MouseEvent e) {
+	        button.setBackground(new Color(200,20,20));
+	     }
+
+	     public void mouseEntered(MouseEvent e){
+	    	//nothing should happen here
+	     }
+
+	     public void mouseExited(MouseEvent e) {
+	    	 button.setBackground(c);
+	     }
+
+	     public void mouseClicked(MouseEvent e) {
+	     }
+	}
+
+	/**
+	 * @return the userName of the user
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	public void click(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

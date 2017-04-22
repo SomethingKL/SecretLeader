@@ -62,6 +62,10 @@ public class Votecard {
 			}
 			client.writeToFile(type);
 			client.close();
+			
+			//may be an issue here; for reading and writing to the voting file at the same time!
+			//may also be an issue with the mainmenu later on
+			
 			nextState = true;
 			return true;
 		}
@@ -74,5 +78,28 @@ public class Votecard {
 	 */
 	public boolean isNextState() {
 		return nextState;
+	}
+	
+	/**If more yes's then it passes. If more no's then it doesn't pass.
+	 * If there's a tie then the vote doesn't pass
+	 * @return true or false, true if the vote passed false otherwise.
+	 */
+	public boolean votePass(){
+		String[] votes = client.readFile("data/VotingFile.txt");
+		int yes = 0;
+		int no = 0;
+		for(int i = 0; i < votes.length; i++){
+			if(votes[i].equals(new String("yes"))){
+				yes +=1;
+			}
+			else if(votes[i].equals(new String("no"))){
+				no +=1;
+			}
+		}
+		//doesn't pass in a tie
+		if(yes > no){
+			return true;
+		}
+		return false;
 	}
 }
