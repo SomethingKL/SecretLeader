@@ -3,14 +3,17 @@
  */
 package ui;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class SLFrame extends JFrame{
 	/**final width of the frame*/
-	private static final int WIDTH  = 1300;
+	private static final int WIDTH  = 1400;
 	/**final height of the frame*/
 	private static final int HEIGHT = 825;
-
+	
 	public SLFrame() {
 		initWindow();
 	}
@@ -24,6 +27,9 @@ public class SLFrame extends JFrame{
 		//this.setLocationRelativeTo(null);
 		this.setSize(WIDTH, HEIGHT);
 		this.setVisible(true);
-		this.setResizable(true);
+		this.setResizable(false);
+		
+		Image icon = new ImageIcon("data/GameIcon.JPG").getImage();
+		this.setIconImage(icon);
 	}
 }

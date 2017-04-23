@@ -14,16 +14,20 @@ import java.io.IOException;
 
 import framework.TCPClient;
 import ui.SLPanel;
+
+
 public class ResultsBox {
 
 	/**box around the list*/
 	private Rectangle box;
 	/**final width of the frame*/
-	private static final int WIDTH  = 190;
+	private static final int WIDTH  = 240;
 	/**final height of the frame*/
-	private static final int HEIGHT = 100;
+	private static final int HEIGHT = 150;
 	/**used to get the list of players*/
 	private TCPClient client = new TCPClient();
+	
+	private final String header = "Status Area";
 	
 	public ResultsBox(Point point) throws IOException{
 		box = new Rectangle(point.x, point.y, WIDTH, HEIGHT);
@@ -42,25 +46,26 @@ public class ResultsBox {
 			//display nothing
 		}
 		else if(info[0].equals(new String("1"))){
-			string1st= "Vote:";
-			string2nd = "Passed";
+			string1st= "Vote PASSED";
+			string2nd = "";
 		}
 		else if(info[0].equals(new String("2"))){
-			string1st= "Vote:";
-			string2nd = "Not Passed";
+			string1st= "Vote NOT PASSED";
+			string2nd = "";
 		}
 		else if(info[0].equals(new String("3"))){
 			String[] chan = client.readFile("data/ProposedChancellor.txt");
-			string1st = "Chancellor Nom:";
+			string1st = "Chancellor Nomination";
 			string2nd = chan[0];
 		}
-		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC, HEIGHT/4);
+		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC, 18);
 		g2d.setFont(font);
 		g2d.setStroke(new BasicStroke(2));
 		//g2d.draw(box);
 		g2d.draw(box);
-		g2d.drawString(string1st, box.x,box.y+HEIGHT/4);
-		g2d.drawString(string2nd, box.x,box.y+HEIGHT/2);
+		g2d.drawString(header, box.x + WIDTH/4, 40);
+		g2d.drawString(string1st, box.x,box.y+HEIGHT/2);
+		g2d.drawString(string2nd, box.x,box.y+HEIGHT/2+20);
 	}
 	public void click(MouseEvent e, SLPanel.GameState state) {
 		//this is the border of things that can be clicked
