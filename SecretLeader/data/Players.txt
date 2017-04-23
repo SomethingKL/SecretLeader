@@ -1,12 +1,5 @@
 #Player Names
-Drew
-Gavin
-Jake
 a
-Jak
-a
-a
-a
-a
-a
-a
+asdf
+johnny
+drew

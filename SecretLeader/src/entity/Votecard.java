@@ -53,13 +53,18 @@ public class Votecard {
 	public boolean click(MouseEvent e,SLPanel.GameState state) {
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint()) && state == GameState.VOTING){
-			int length = client.getLength("data/VotingFile.txt");
+			//int length = client.getLength("data/VotingFile.txt");
 			String[] votes = client.readFile("data/VotingFile.txt");
 			
 			client.openToWrite("data/VotingFile.txt");
-			for(int i = 0;i < length; i++){
-				client.writeToFile(votes[i]);
+			try{
+				for(int i = 0;i < votes.length; i++){
+					client.writeToFile(votes[i]);
+				}
+			}catch(Exception er){
+				System.out.println("The file is empty at the beginning of the game");
 			}
+
 			client.writeToFile(type);
 			client.close();
 			

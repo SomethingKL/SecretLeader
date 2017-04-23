@@ -30,7 +30,7 @@ public class ChancellorButton extends Entity{
 		userName = userNameIn;
 	}
 
-	/**
+	/**Changes the state of the game once the chancellor has been successfully set
 	 *@param e, the mouse event
 	 * @param state, the current state of the game
 	 */
@@ -41,10 +41,12 @@ public class ChancellorButton extends Entity{
 		if(box.contains(e.getPoint()) && state == GameState.SELECTION && userName.equals(roles[0])){
 			String[] chan = client.readFile("data/ProposedChancellor.txt");
 			//the president cannot be elected as chancellor.
-		
-			if(userName.equals(chan[0]) == false){
+			if(userName.equals(chan[0]) == false && chan[0].equals(new String("None")) == false){
 				client.openToWrite("data/state.txt");
 				client.writeToFile("VOTING");
+				client.close();
+				client.openToWrite("data/displayInfo.txt");
+				client.writeToFile("3");
 				client.close();
 			}
 	

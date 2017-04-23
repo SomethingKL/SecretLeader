@@ -1,12 +1,5 @@
 #Player Names
-Drew Blue Team
-Gavin Secret Leader
-Jake Blue Team
-a Red Team
-Jak Blue Team
-a Red Team
 a Blue Team
-a Red Team
-a Blue Team
-a Red Team
-a Blue Team
+asdf Secret Leader
+johnny Blue Team
+drew Red Team
