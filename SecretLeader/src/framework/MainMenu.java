@@ -146,10 +146,12 @@ public class MainMenu extends JPanel {
 		field.setBackground(new Color(100, 100, 100));
 			// Get KeyStroke for enter key
 		KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0);
+		KeyStroke tabKey = KeyStroke.getKeyStroke(KeyEvent.VK_TAB,0);
 			// Override enter for a pane
 		String actionKey = "none";
 		InputMap map = field.getInputMap();
 		map.put(enterKey, actionKey);
+		map.put(tabKey, actionKey);
 		
 		//userNameLabel settings
 		userNameLabel.setFont(font);
