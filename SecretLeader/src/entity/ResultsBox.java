@@ -1,4 +1,8 @@
 package entity;
+/**This is our secret leader player list.
+ * it reads from a file containing the names of players in the game.
+ * and then draws those names on screen
+ */
 
 import java.awt.BasicStroke;
 import java.awt.Font;
@@ -11,11 +15,6 @@ import java.io.IOException;
 import framework.TCPClient;
 import ui.SLPanel;
 public class ResultsBox {
-	/**This is our secret leader player list.
-	 * it reads from a file containing the names of players in the game.
-	 * and then draws those names on screen
-	 */
-
 
 	/**box around the list*/
 	private Rectangle box;
@@ -34,6 +33,9 @@ public class ResultsBox {
 	public void draw(Graphics2D g2d, SLPanel panel){
 		
 		String[] info = client.readFile("data/displayInfo.txt");
+		while(info.length < 1){
+			info = client.readFile("data/displayInfo.txt");
+		}
 		String string1st = "";
 		String string2nd = "";
 		if(info[0].equals(new String("0"))){
@@ -48,10 +50,9 @@ public class ResultsBox {
 			string2nd = "Not Passed";
 		}
 		else if(info[0].equals(new String("3"))){
-			//get from the chancellor nomminee file
-			String chan = "maxwell";
+			String[] chan = client.readFile("data/ProposedChancellor.txt");
 			string1st = "Chancellor Nom:";
-			string2nd = chan;
+			string2nd = chan[0];
 		}
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC, HEIGHT/4);
 		g2d.setFont(font);

@@ -33,23 +33,23 @@ public class Controller{
 	private Board blueBoard;
 	/**holds the red team information*/
 	private Board redBoard;
-	// all of the different game states
+	/** all of the different game states */
 	private SLPanel.GameState state;
-	//the yes card image to be displayed on the screen
+	/** the yes card image to be displayed on the screen */
 	private Votecard yes;
-	//the no card image to be displayed on the screen
+	/** the no card image to be displayed on the screen */
 	private Votecard no;
-	//whether the player has voted or not
+	/** whether the player has voted or not */
 	private boolean nextScreen;
 	/**sets to draw blue game over screen*/
 	private BlueGameOver BlueGameOver;
 	/**sets to draw red game over screen*/
 	private RedGameOver RedGameOver;
-	/**Where the policy is selected at**/
+	/**Where the policy is selected at **/
 	private PolicySelection PS;
-	/** Where game information is displayed**/
+	/** Where game information is displayed **/
 	private ResultsBox informationBox;
-	/**The button to select the chancellor*/
+	/**The button to select the chancellor */
 	private ChancellorButton select;
 
 	//this builds all of the possible pieces on the board.
@@ -77,6 +77,7 @@ public class Controller{
 	/**{@literal}draws all the current game images
 	 */
 	public void draw(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
+		
 		updateBoard(g2d, slPanel,state);
 		
 		//display the player card
@@ -86,6 +87,7 @@ public class Controller{
 		//yes.draw(g2d,slPanel);
 		informationBox.draw(g2d, slPanel);
 		displayOfficialPosition(g2d, slPanel);
+		
 		updateSelction(g2d,slPanel,state);
 	}
 	
@@ -199,14 +201,13 @@ public class Controller{
 					client.close();
 					//need to display that the vote has not passed here somehow
 					client.openToWrite("data/state.txt");
-					client.writeToFile("WAITING");
+					client.writeToFile("SELECTION");
 					client.close();
 				}
 				
 				//if the vote has passed, this goes to the policy selection screen
 				else{
 					//need to display that the vote has passed somehow
-					//need to set the new chancellor, at this point!
 					//so, the file that holds the chancellor being voted on would open and
 					client.openToWrite("data/displayInfo.txt");
 					client.writeToFile("1");
@@ -224,12 +225,15 @@ public class Controller{
 					client.close();
 					
 					//sets the file for the mode
-					System.out.println("Vote has passed!");
 					client.openToWrite("data/state.txt");
 					client.writeToFile("POLICY");
 					client.close();
 
 				}
+				//resets the proposed chancellor file
+				client.openToWrite("data/ProposedChancellor.txt");
+				client.writeToFile("None");
+				client.close();
 			//this will reset the voting file after the vote has been completed.
 			/**
 			 * client.openToWrite("data/VotingFile.txt");

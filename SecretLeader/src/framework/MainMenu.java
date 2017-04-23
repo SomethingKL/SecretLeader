@@ -26,6 +26,7 @@ public class MainMenu extends JPanel {
 	private TCPClient client = new TCPClient();
 	//I do not want this to repaint another button everytime
 	private boolean repaint= false;
+	
 	private SLPanel slPanel;
 	//label above the text pane
 	private JLabel userNameLabel;
@@ -41,20 +42,9 @@ public class MainMenu extends JPanel {
 	private boolean nextScreen = false;
 	
 	public MainMenu(SLPanel slPanelIn){
-		//Have to set the file to false to begin with; otherwise everyone will go to the wrong screen to start
-		//set the file
 		//set the files
 		initGameFiles();
-		
-		
-		client.readFile("data/Board.txt");
-		System.out.println(client.getLength("data/Board.txt"));
-		
-		client.openToWrite("data/leaveStarting.txt");
-		client.writeToFile("#Whether all screens should go to the nextScreen");
-		client.writeToFile("false");
-		client.close();
-		
+
 		slPanel = slPanelIn;
 		slPanel.setLayout(null);
 		setTextArea();
@@ -67,22 +57,33 @@ public class MainMenu extends JPanel {
 	public void initGameFiles(){
 		int blue = 4;
 		int red = 4;
+		
+		//the starting screen information
+		client.readFile("data/Board.txt");
+		client.openToWrite("data/leaveStarting.txt");
+		client.writeToFile("#Whether all screens should go to the nextScreen");
+		client.writeToFile("false");
+		client.close();
+		
+		//board information reset
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");
 		client.writeToFile(String.valueOf(blue));
-		//client.writeToFile(Integer.toString(blue));
 		client.writeToFile("#number of Red victories");
 		client.writeToFile(String.valueOf(red));
 		client.close();
 		
+		//information in the box being reset
 		client.openToWrite("data/displayInfo.txt");
 		client.writeToFile("0");
 		client.close();
 		
+		//the roles of the players being reset
 		client.openToWrite("data/Roles.txt");
 		client.writeToFile("");
 		client.close();
 		
+		//chancellor proposed chancellor being reset
 		client.openToWrite("data/ProposedChancellor.txt");
 		client.writeToFile("None");
 		client.close();
@@ -162,6 +163,9 @@ public class MainMenu extends JPanel {
 		slPanel.add(field);
 	}
 	
+	/**
+	 * The screen where the users wait or go to the game!
+	 */
 	public void waitingScreen(){
 		
 		//will only print the screen when the user has enter a name
@@ -170,7 +174,6 @@ public class MainMenu extends JPanel {
 		}
 		
 		//whether the game should end the waiting section and continue on to the board
-		
 		String[] goToNextScreen = client.readFile("data/leaveStarting.txt");
 		while(goToNextScreen.length < 1){
 			goToNextScreen = client.readFile("data/leaveStarting.txt");
@@ -179,52 +182,34 @@ public class MainMenu extends JPanel {
 		if(goToNextScreen[0].equals("true")){
 			nextScreen = true;
 		}
-		
-		//the amount of users that are able to go into the game
-		//**NOte: if over 12 the game will break
-		String[] scores = new String[client.getLength("data/Players.txt")];
-		try{
-			scores = client.readFile("data/Players.txt");
-		}
-		catch(Exception e){
-			System.out.println("The file was not read in correctly");
-		}
-		
-		//System.out.println(scores.length);
-		JLabel waitingLabel = new JLabel("Waiting for All Users to Join...");
+		String [] scores = client.readFile("data/Players.txt");
 		
 		//settings for the waitingLabel
+		JLabel waitingLabel = new JLabel("Waiting for All Users to Join...");
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC,25);
 		waitingLabel.setFont(font);
 		waitingLabel.setPreferredSize(new Dimension(600,50));
 		waitingLabel.setBounds(375,250,600,50);
 		waitingLabel.setForeground(new Color(200,20,20));
 		
-		
-		if (scores == null || scores.length == 0){
-			//just wanted to make sure the scores didn't go haywire
-		}
-		else if(scores.length >= 4){
-			
+		//once the game has enough players to play
+		if(scores.length >= 4){
 			JButton startGame = new JButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
 			startGame.setBounds(400,400,400,50);
 			startGame.addActionListener(new nextScreenButton());
 			startGame.setBackground(new Color(200,20,20));
-			//startGame.addActionListener(event -> nextScreen = true);
-			
 			slPanel.add(startGame);
-			//submit.addActionListener(new submitButtonAction());
 		}
 		
+		//adding everything to the panel
 		slPanel.add(waitingLabel);
 		slPanel.revalidate();
 		slPanel.repaint();
 	}
 	
-	/**
-	 * 
+	/**Setting the roles for all of the players
 	 * @param userName, the name of the player
 	 * @return Red or Blue, to set the player card
 	 */
@@ -252,7 +237,7 @@ public class MainMenu extends JPanel {
 	}
 	
 	/**This action listener sends the whole game into the next stage of the game.
-	 *If one person selects the submit button then all screns will change.
+	 *If one person selects the submit button then all screens will change.
 	 */
 	private class nextScreenButton implements ActionListener{
 		public void  actionPerformed(ActionEvent event){
@@ -261,9 +246,9 @@ public class MainMenu extends JPanel {
 			client.writeToFile("#Whether all screens should go to the nextScreen");
 			client.writeToFile("true");
 			client.close();
+			
+			//the next state of the game
 			client.openToWrite("data/state.txt");
-			//this needs to be the waiting screen where the president has a chance to select
-			//his chancellor
 			client.writeToFile("SELECTION");
 			client.close();
 		}
@@ -281,8 +266,9 @@ public class MainMenu extends JPanel {
 			//if there are '\n's the game will break. So, I take them out.
 			tmpString = tmpString.replace('\n',' ');
 			tmpString = tmpString.replaceAll("\\s", "");
+			
 			//to make sure all of the inputs are correct.
-			if(tmpString != null && !tmpString.isEmpty()){
+			if(tmpString != null && !tmpString.isEmpty()){ //&& isRepeat(tmpString) == false will go here when the real game is ran
 				userName = tmpString;
 				//make the person put a name!
 				slPanel.removeAll();
@@ -310,6 +296,22 @@ public class MainMenu extends JPanel {
 				waitingScreen();
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param name, the string entered by the user
+	 * @return true if the name has been used and false if it has not been used
+	 */
+	public boolean isRepeat(String name){
+		String[] checkPlayers = client.readFile("data/Players.txt");
+		for(int k = 0; k < checkPlayers.length; k++){
+			if(checkPlayers[0].equals(name)){
+				//dialog box?
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -349,10 +351,5 @@ public class MainMenu extends JPanel {
 	 */
 	public String getUserName() {
 		return userName;
-	}
-
-	public void click(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }

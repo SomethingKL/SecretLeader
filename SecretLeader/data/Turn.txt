@@ -1,5 +1,4 @@
 #name of the President
 a
 #name of the Chancellor
-&&&&&&&&&&&&&&&&&&$
-b
+max
