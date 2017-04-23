@@ -1,24 +1,27 @@
 package framework;
 
+import java.awt.Color;
+import java.awt.Dimension;
 /**This runs the beginning frame
  * There is currently a warning at line ?. The program doesn't like to read in a null string from a file. 
  * It has something to do with the action submitActionListener
  * 
  */
 import java.awt.Font;
-import java.awt.Component.*;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
+import java.awt.event.KeyEvent;
+
+import javax.swing.InputMap;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.text.DefaultStyledDocument;
+
 import ui.SLPanel;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
 
 //import javax.awt.DocumentSizeFilter;
 public class MainMenu extends JPanel {
@@ -33,7 +36,7 @@ public class MainMenu extends JPanel {
 	//where the user puts their input
 	private JTextPane field;
 	//the button that sends the user to the next screen
-	private JButton submit;
+	private ColorButton submit;
 	//the name of the user for the game
 	private String userName = "User";
 	//where the screen should be at
@@ -132,7 +135,7 @@ public class MainMenu extends JPanel {
 		//initializing my attributes
 		field = new JTextPane(fieldDoc);
 		userNameLabel = new JLabel("Please enter a username:");
-		submit = new JButton("Submit");
+		submit = new ColorButton("Submit");
 		
 	
 		//need to set the bounds of the button to add it.
@@ -141,6 +144,12 @@ public class MainMenu extends JPanel {
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC,25);
 		field.setFont(font);
 		field.setBackground(new Color(100, 100, 100));
+			// Get KeyStroke for enter key
+		KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0);
+			// Override enter for a pane
+		String actionKey = "none";
+		InputMap map = field.getInputMap();
+		map.put(enterKey, actionKey);
 		
 		//userNameLabel settings
 		userNameLabel.setFont(font);
@@ -154,6 +163,8 @@ public class MainMenu extends JPanel {
 		submit.setBounds(400,400,400,50);
 		submit.addActionListener(new submitButtonAction());
 		submit.setBackground(new Color(200,20,20));
+		submit.setHoverBackgroundColor(Color.GRAY);
+		submit.setPressedBackgroundColor(Color.GRAY);
 		//submit.addMouseListener(new colorChange(submit,new Color(0,0,0)));
 
 		
