@@ -103,9 +103,9 @@ public class PolicySelection {
 
 		//the first stage of the game, where the president picks his cards
 		if(setPiece[0].contains(new String("1")) && turnInfo[0].equals(playerID)){
-			card1.draw(g2d,panel);
-			card2.draw(g2d, panel);
-			card3.draw(g2d, panel);
+			card1.draw(g2d,panel, card1.getCardKept());
+			card2.draw(g2d, panel, card2.getCardKept());
+			card3.draw(g2d, panel,card3.getCardKept());
 			//set up the fonts for the graphic
 
 		}
