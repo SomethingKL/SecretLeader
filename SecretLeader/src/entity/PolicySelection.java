@@ -365,17 +365,13 @@ public class PolicySelection {
 		//for loop that will assign blue or red to each card in the hash map
 		for(int i = 1; i < cardAmount+1; i++){
 			randInt = cardRandomizer.nextInt(18);
-			System.out.println(randInt + " random");
 			String cardName = "card" + i;
-			System.out.println(cardName);
 			PolicyCard card = cardMap.get(cardName);
 			if(randInt < 6){
 				card.getNewImage("Blue");
-				System.out.println("card gets blue");
 			}
 			if(randInt > 5){
 				card.getNewImage("Red");
-				System.out.println("card gets red");
 			}
 		}
 		//this can reset the card

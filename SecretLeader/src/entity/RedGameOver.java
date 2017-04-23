@@ -35,7 +35,13 @@ public class RedGameOver{
 		this.image = image.getScaledInstance(WIDTH, HEIGHT, 0);
 		}
 	public void draw(Graphics2D g2d, SLPanel panel){
-
+		// I put a delay in for the game over screen; because why not!?
+		/*
+		try{
+			Thread.sleep(5 *1000); // *5s* = 1s * 5= 1s = 1000 ms 
+		}catch(Exception e){
+			e.printStackTrace();
+		}*/
 
 		g2d.drawImage(this.image, box.x, box.y, panel);
 

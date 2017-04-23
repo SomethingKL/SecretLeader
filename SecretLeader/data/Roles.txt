@@ -2,5 +2,5 @@
 a Blue Team
 a Secret Leader
 ccc Blue Team
-max Red Team
-a Blue Team
+a Red Team
+asfdasdf Blue Team
