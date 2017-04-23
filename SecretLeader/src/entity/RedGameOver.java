@@ -48,14 +48,13 @@ public class RedGameOver{
 		roles = client.readFile("data/Roles.txt");
 		int blueY = 440;
 		int redY = 440;
+		g2d.setColor(Color.WHITE);
 		for(int i = 0; i < roles.length; i++){
 			if(i%2 == 0){
-				g2d.setColor(Color.BLUE);
 				g2d.drawString(roles[i], 250, blueY);
 				blueY += 30;
 			}
 			if(i%2 == 1){
-				g2d.setColor(Color.RED);
 				g2d.drawString(roles[i], 650, redY);
 				redY += 30;
 			}

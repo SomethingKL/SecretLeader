@@ -49,26 +49,16 @@ public class BlueGameOver{
 		roles = client.readFile("data/Roles.txt");
 		int blueY = 412;
 		int redY = 412;
+		g2d.setColor(Color.WHITE);
 		for(int i = 0; i < roles.length; i++){
-			if(i%2 == 0){
-				g2d.setColor(Color.BLUE);
+			if(i%2 == 0){		
 				g2d.drawString(roles[i], 250, blueY);
 				blueY += 30;
 			}
 			if(i%2 == 1){
-				g2d.setColor(Color.RED);
 				g2d.drawString(roles[i], 650, redY);
 				redY += 30;
 			}
-		}
-		
-	}
-	public void labels(SLPanel slPanel){
-		
-		JLabel label = new JLabel(complete);
-		label.setForeground(Color.BLUE);
-		label.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 24));
-		label.setBounds(84, 235, 350, 340);
-		slPanel.add(label);
+		}	
 	}
 }
