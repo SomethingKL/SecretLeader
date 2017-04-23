@@ -1,4 +1,8 @@
 package entity;
+/**This is our secret leader player list.
+ * it reads from a file containing the names of players in the game.
+ * and then draws those names on screen
+ */
 
 import java.awt.BasicStroke;
 import java.awt.Font;
@@ -11,11 +15,6 @@ import java.io.IOException;
 import framework.TCPClient;
 import ui.SLPanel;
 public class ResultsBox {
-	/**This is our secret leader player list.
-	 * it reads from a file containing the names of players in the game.
-	 * and then draws those names on screen
-	 */
-
 
 	/**box around the list*/
 	private Rectangle box;

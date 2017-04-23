@@ -65,13 +65,17 @@ public class PlayerList {
 				g2d.setColor(Color.RED);
 			}else{ 
 				g2d.setColor(Color.black);
-				}
+			}
 			
 			g2d.drawString(players[k], point.x+2, y+HEIGHT/11);
 		
 		}
 	}
 	
+	/**
+	 * Sets the username of the player
+	 * @param user, the user of the game
+	 */
 	public void setUserName(String user){
 		userName = user;
 	}

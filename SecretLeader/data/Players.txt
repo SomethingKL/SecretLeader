@@ -1,5 +1,6 @@
 #Player Names
 a
-asdf
-johnny
-drew
+a
+ccc
+max
+a

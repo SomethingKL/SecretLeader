@@ -1,5 +1,6 @@
 #Player Names
 a Blue Team
-asdf Secret Leader
-johnny Blue Team
-drew Red Team
+a Secret Leader
+ccc Blue Team
+max Red Team
+a Blue Team

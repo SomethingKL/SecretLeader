@@ -82,7 +82,6 @@ public class SLPanel extends SLCanvas{
 			}
 			//voting if the chancellor will be elected or not
 			else if(state == GameState.VOTING){
-			 
 				this.setBackground(new Color(255,255,255));
 				control.draw(g2d, this,state);
 				if(control.hasVoted() == true){

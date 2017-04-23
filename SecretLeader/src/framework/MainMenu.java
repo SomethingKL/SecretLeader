@@ -42,8 +42,6 @@ public class MainMenu extends JPanel {
 	private boolean nextScreen = false;
 	
 	public MainMenu(SLPanel slPanelIn){
-		//Have to set the file to false to begin with; otherwise everyone will go to the wrong screen to start
-		//set the file
 		//set the files
 		initGameFiles();
 
@@ -268,8 +266,9 @@ public class MainMenu extends JPanel {
 			//if there are '\n's the game will break. So, I take them out.
 			tmpString = tmpString.replace('\n',' ');
 			tmpString = tmpString.replaceAll("\\s", "");
+			
 			//to make sure all of the inputs are correct.
-			if(tmpString != null && !tmpString.isEmpty()){
+			if(tmpString != null && !tmpString.isEmpty()){ //&& isRepeat(tmpString) == false will go here when the real game is ran
 				userName = tmpString;
 				//make the person put a name!
 				slPanel.removeAll();
@@ -297,6 +296,22 @@ public class MainMenu extends JPanel {
 				waitingScreen();
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param name, the string entered by the user
+	 * @return true if the name has been used and false if it has not been used
+	 */
+	public boolean isRepeat(String name){
+		String[] checkPlayers = client.readFile("data/Players.txt");
+		for(int k = 0; k < checkPlayers.length; k++){
+			if(checkPlayers[0].equals(name)){
+				//dialog box?
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

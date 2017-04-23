@@ -35,7 +35,10 @@ public class RedGameOver{
 		this.image = image.getScaledInstance(WIDTH, HEIGHT, 0);
 		}
 	public void draw(Graphics2D g2d, SLPanel panel){
+
+
 		g2d.drawImage(this.image, box.x, box.y, panel);
+
 		roles = client.readFile("data/Roles.txt");
 		int blueY = 440;
 		int redY = 440;

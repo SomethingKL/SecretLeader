@@ -1,4 +1,4 @@
 #name of the President
-johnny
-#name of the Chancellor
 a
+#name of the Chancellor
+max
