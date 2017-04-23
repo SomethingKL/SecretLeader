@@ -14,7 +14,7 @@ import ui.SLPanel;
 
 public class Entity{
 	/**box around the entity*/
-	private Rectangle box;
+	protected Rectangle box;
 	/**image for this part*/
 	private Image image;
 	

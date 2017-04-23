@@ -5,6 +5,7 @@
  * The main point of this is to reduce the work of our panel.
  */
 package framework;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -48,6 +49,8 @@ public class Controller{
 	private PolicySelection PS;
 	/** Where game information is displayed**/
 	private ResultsBox informationBox;
+	/**The button to select the chancellor*/
+	private ChancellorButton select;
 
 	//this builds all of the possible pieces on the board.
 	public Controller(String userNameIn) throws IOException{
@@ -57,6 +60,8 @@ public class Controller{
 		playerID = userNameIn;
 		role = new PlayerCard(new Point(0,0), tmpRole + "Card.jpg");
 		players = new PlayerList(new Point(5,305));
+		players.setUserName(playerID);
+		select = new ChancellorButton(new Point(760, 600),new String("SelectChancellor.jpg"),playerID);
 		blueBoard = new Board(new Point(200,0), "Blue.jpg");
 		redBoard = new Board(new Point(200,300), "Red.jpg");
 		yes = new Votecard(new Point(650,610),ImageIO.read(new File("data/YesCard.PNG")),"yes");
@@ -73,8 +78,6 @@ public class Controller{
 	 */
 	public void draw(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
 		updateBoard(g2d, slPanel,state);
-		
-		
 		
 		//display the player card
 		role.draw(g2d, slPanel);
@@ -94,14 +97,16 @@ public class Controller{
 	 */
 	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) throws IOException {
 		state = state2;
-		if(state2 == state.VOTING){
+		String[] roles = client.readFile("data/Turn.txt");
+		if(state == state.VOTING){
 			yes.draw(g2d, slPanel);
 			no.draw(g2d, slPanel);
 			if(yes.isNextState() || no.isNextState()){
 				nextScreen = true;
 			}
 		}
-		else if(state2 == state.POLICY){
+		
+		else if(state == state.POLICY){
 			//only display for the president then only for the chancellor
 			PS.draw(g2d, slPanel);
 			nextScreen = PS.isNextState();
@@ -111,6 +116,10 @@ public class Controller{
 		}
 		else if(state == GameState.REDGAMEOVER){
 			RedGameOver.draw(g2d, slPanel);
+		}
+		else if(state == GameState.SELECTION && roles[0].equals(playerID)){
+			select.draw(g2d,slPanel);
+			
 		}
 		
 	}
@@ -203,7 +212,7 @@ public class Controller{
 					client.writeToFile("1");
 					client.close();
 					//get new chancellor here from a file
-					String tmpChan = new String("c");
+					String[] tmpChan = client.readFile("data/ProposedChancellor.txt");
 					
 					//write the chancellor to the file
 					String[] full=	client.readFile("data/Turn.txt");
@@ -211,7 +220,7 @@ public class Controller{
 					client.writeToFile("#name of the President");
 					client.writeToFile(full[0]);
 					client.writeToFile("#name of the Chancellor");
-					client.writeToFile(tmpChan);
+					client.writeToFile(tmpChan[0]);
 					client.close();
 					
 					//sets the file for the mode
@@ -221,7 +230,6 @@ public class Controller{
 					client.close();
 
 				}
-				
 			//this will reset the voting file after the vote has been completed.
 			/**
 			 * client.openToWrite("data/VotingFile.txt");
@@ -229,10 +237,14 @@ public class Controller{
 			 */
 				
 			}
+			
+			yes.setNextState(false);
+			no.setNextState(false);
 			//if all players haven't voted yet
 		}
 		players.click(e,state);
 		PS.click(e,state);
+		select.click(e, state);
 	}
 	
 	/**
@@ -284,10 +296,8 @@ public class Controller{
 						
 				if(tmpS.equals(new String("Secret"))){
 					tmpS = "Red";
-					
 				}
 			}	
-
 		}
 		return tmpS;
 	}

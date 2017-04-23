@@ -18,7 +18,7 @@ import framework.*;
 public class SLPanel extends SLCanvas{
 	/**State
 	 * PLAYING for when it's your turn and WAITING for when it's not your turn*/
-	public static enum GameState{JOINING, PLAYING, VOTING, WAITING, POLICY, BLUEGAMEOVER, REDGAMEOVER}
+	public static enum GameState{JOINING, PLAYING, VOTING, WAITING, POLICY,SELECTION, BLUEGAMEOVER, REDGAMEOVER}
 	private static GameState state;
 	/**Used for implementing the game
 	 */
@@ -56,6 +56,16 @@ public class SLPanel extends SLCanvas{
 			}
 		}
 		
+		else if(state == GameState.SELECTION){
+			try{ 
+				this.setBackground(new Color(255,255,255));
+				control.draw(g2d, this,state);
+				//if the game gets here while in the policy stage then the new chancellor needs to get selected
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
 		//the beginning screen of the game
 		else if(state == GameState.JOINING){
 			try{
@@ -68,9 +78,9 @@ public class SLPanel extends SLCanvas{
 					userName = begin.getUserName();
 					removeAll();
 					//setRoles();
-					state = GameState.POLICY;
+					//state = GameState.POLICY;
 					control = new Controller(userName);
-//					//getRole(userName);
+					//getRole(userName);
 					
 				}
 			} catch(IOException e){
@@ -173,6 +183,9 @@ public class SLPanel extends SLCanvas{
 		}
 		else if(stateInfo[0].equals("WAITING")){
 			state = GameState.WAITING;
+		}
+		else if(stateInfo[0].equals("SELECTION")){
+			state = GameState.SELECTION;
 		}
 		
 	}

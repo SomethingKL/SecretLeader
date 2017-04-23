@@ -300,7 +300,7 @@ public class PolicySelection {
 		//set the file to move on to the next stage of the game
 		else{
 			client.openToWrite("data/state.txt");
-			client.writeToFile("WAITING");
+			client.writeToFile("SELECTION");
 			client.close();
 		}
 		

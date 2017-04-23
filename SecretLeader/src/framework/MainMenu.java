@@ -66,8 +66,8 @@ public class MainMenu extends JPanel {
 	 * Resets all of the files for the game
 	 */
 	public void initGameFiles(){
-		int blue = 4;
-		int red = 5;
+		int blue = 0;
+		int red = 0;
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");
 		client.writeToFile(String.valueOf(blue));
@@ -261,7 +261,7 @@ public class MainMenu extends JPanel {
 			client.openToWrite("data/state.txt");
 			//this needs to be the waiting screen where the president has a chance to select
 			//his chancellor
-			client.writeToFile("VOTING");
+			client.writeToFile("SELECTION");
 			client.close();
 		}
 	}

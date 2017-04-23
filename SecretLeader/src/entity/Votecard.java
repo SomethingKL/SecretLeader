@@ -102,4 +102,10 @@ public class Votecard {
 		}
 		return false;
 	}
+	
+	
+	public void setNextState(boolean set){
+		nextState = set;
+	}
+		
 }
