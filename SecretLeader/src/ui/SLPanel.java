@@ -6,13 +6,16 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
 import entity.BlueGameOver;
+import entity.PolicyCard;
 import entity.RedGameOver;
+import entity.Votecard;
 import framework.*;
 
 public class SLPanel extends SLCanvas{
@@ -50,7 +53,7 @@ public class SLPanel extends SLCanvas{
 	/**{@literal} called from repaint()
 	 */
 	public void canvasDraw(Graphics2D g2d) {
-		
+
 		// maybe if First state then controller paint x
 		// and if Second state then controller paint y
 		try{ 
@@ -164,6 +167,24 @@ public class SLPanel extends SLCanvas{
 			state = GameState.SELECTION;
 		}
 		
+		//checking to see if the chancellor has the secret leader
+		if(state == GameState.POLICY){
+			try{
+				//if the secret leader is elected chancellor
+				PolicyCard card1 = new PolicyCard(new Point(0,0),"Blue");
+				String[] secret = client.readFile("data/Roles.txt");
+				String [] BoardInfo = client.readFile("data/Board.txt");
+				String[] position = client.readFile("data/Turn.txt");
+				int red = Integer.parseInt(BoardInfo[1]);
+				if(3 <=red && card1.checkLeader(secret,position[1])){
+					client.openToWrite("data/state.txt");
+					client.writeToFile("REDGAMEOVER");
+					client.close();
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	

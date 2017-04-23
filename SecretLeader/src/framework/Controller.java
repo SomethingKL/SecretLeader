@@ -234,11 +234,11 @@ public class Controller{
 				client.openToWrite("data/ProposedChancellor.txt");
 				client.writeToFile("None");
 				client.close();
-			//this will reset the voting file after the vote has been completed.
-			/**
-			 * client.openToWrite("data/VotingFile.txt");
-			 * client.close();
-			 */
+				//this will reset the voting file after the vote has been completed.
+			
+				client.openToWrite("data/VotingFile.txt");
+				client.close();
+			 
 				
 			}
 			

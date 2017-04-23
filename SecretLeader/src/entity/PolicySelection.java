@@ -285,6 +285,8 @@ public class PolicySelection {
 		client.writeToFile("#number of Red victories");
 		client.writeToFile(String.valueOf(red));
 		client.close();
+		
+		String[] secret = client.readFile("data/Roles.txt");
 		//check if there are 5 blue policies and change state
 		if(blue == 5){
 			client.openToWrite("data/state.txt");

@@ -1,13 +1,6 @@
 #Player Names
 a
+b
 a
-ccc
+jake
 a
-asfdasdf
-afdsa
-asdfasdf
-aaa
-adsfsa
-asfda
-aaa
-afds

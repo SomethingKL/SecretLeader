@@ -1,1 +1,6 @@
-
+#Player Names
+a Blue Team
+b Secret Leader
+a Blue Team
+jake Red Team
+a Blue Team
