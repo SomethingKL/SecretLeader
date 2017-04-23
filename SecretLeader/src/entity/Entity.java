@@ -2,13 +2,12 @@
  */
 package entity;
 
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-
-import javax.swing.JComponent;
 
 import ui.SLPanel;
 
@@ -37,6 +36,23 @@ public class Entity{
 	public void draw(Graphics2D g2d, SLPanel panel){
 		g2d.drawImage(this.image, box.x, box.y, panel);
 	}
+	/**
+	 * draws the image on the graphics panel with opacity optional
+	 * @param g2d
+	 * @param panel
+	 * @param isOpaque
+	 */
+	public void draw(Graphics2D g2d, SLPanel panel, boolean isOpaque){
+		float opacity;
+		if(isOpaque){
+			opacity = 0.5f;
+		} else {
+			opacity = 1f;
+		}
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+		g2d.drawImage(this.image, box.x, box.y, panel);
+	}
+	
 	
 	/**@return x gets location of the top left corner*/
 	public int getX(){

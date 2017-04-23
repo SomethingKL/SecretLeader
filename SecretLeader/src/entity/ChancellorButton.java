@@ -17,9 +17,9 @@ import ui.SLPanel.GameState;
 public class ChancellorButton extends Entity{
 	
 	/**final width of the frame*/
-	private static final int WIDTH  = 300;
+	private static final int WIDTH  = 250;
 	/**final height of the frame*/
-	private static final int HEIGHT = 150;
+	private static final int HEIGHT = 125;
 	/**reads relevant game information*/
 	private TCPClient client = new TCPClient();
 	/**the userName of the player **/
