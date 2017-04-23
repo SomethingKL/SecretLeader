@@ -139,7 +139,7 @@ public class MainMenu extends JPanel {
 		
 	
 		//need to set the bounds of the button to add it.
-		field.setBounds(450,300,300,50);
+		field.setBounds(500,300,300,50);
 		field.setPreferredSize(new Dimension(300,50));
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC,25);
 		field.setFont(font);
@@ -156,13 +156,13 @@ public class MainMenu extends JPanel {
 		//userNameLabel settings
 		userNameLabel.setFont(font);
 		userNameLabel.setPreferredSize(new Dimension(400,50));
-		userNameLabel.setBounds(410,250,400,50);
+		userNameLabel.setBounds(470,250,400,50);
 		userNameLabel.setForeground(new Color(200,20,20));
 		
 		//submit button settings
 		submit.setFont(font);
 		submit.setPreferredSize(new Dimension(400,50));
-		submit.setBounds(400,400,400,50);
+		submit.setBounds(450,400,400,50);
 		submit.addActionListener(new submitButtonAction());
 		submit.setBackground(new Color(200,20,20));
 		submit.setHoverBackgroundColor(Color.GRAY);
@@ -202,7 +202,7 @@ public class MainMenu extends JPanel {
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC,25);
 		waitingLabel.setFont(font);
 		waitingLabel.setPreferredSize(new Dimension(600,50));
-		waitingLabel.setBounds(375,250,600,50);
+		waitingLabel.setBounds(425,250,600,50);
 		waitingLabel.setForeground(new Color(200,20,20));
 		
 		//once the game has enough players to play
@@ -210,7 +210,7 @@ public class MainMenu extends JPanel {
 			ColorButton startGame = new ColorButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
-			startGame.setBounds(400,400,400,50);
+			startGame.setBounds(450,400,400,50);
 			startGame.addActionListener(new nextScreenButton());
 			startGame.setBackground(new Color(200,20,20));
 	
