@@ -56,4 +56,13 @@ public class PolicyCard extends Entity{
 		this.resetImage(ImageIO.read(new File("data/"+type+"Policy.jpg")));
 		this.type = type;
 	}
+
+	public boolean checkLeader(String[] secret, String playerID) {
+		for(int k = 0; k < secret.length;k++){
+			if(secret[k].equals(playerID + " Secret Leader")){
+				return true;
+			}
+		}
+		return false;
+	}
 }

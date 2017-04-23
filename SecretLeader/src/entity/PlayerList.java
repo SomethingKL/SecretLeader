@@ -53,12 +53,12 @@ public class PlayerList {
 	 */
 	public void draw(Graphics2D g2d, SLPanel panel){
 		Font font = new Font("Copperplate Gothic Bold", Font.ITALIC, HEIGHT/10);
-		
 		g2d.setFont(font);
 		g2d.setStroke(new BasicStroke(2));
 		
 		for(int k=0;k<players.length&&k<10;k++){
 			int y = point.y+k*HEIGHT/10;
+			
 			g2d.setColor(Color.black);
 			g2d.draw(box[k]);
 			if(colorPlayer[k] == true){
@@ -68,7 +68,6 @@ public class PlayerList {
 			}
 			
 			g2d.drawString(players[k], point.x+2, y+HEIGHT/11);
-		
 		}
 	}
 	

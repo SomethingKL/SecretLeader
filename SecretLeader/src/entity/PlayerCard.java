@@ -11,6 +11,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import framework.TCPClient;
+
 public class PlayerCard extends Entity{
 	/**final width of the frame*/
 	private static final int WIDTH  = 200;

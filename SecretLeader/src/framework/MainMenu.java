@@ -213,7 +213,8 @@ public class MainMenu extends JPanel {
 			startGame.setBounds(450,400,400,50);
 			startGame.addActionListener(new nextScreenButton());
 			startGame.setBackground(new Color(200,20,20));
-	
+			startGame.setHoverBackgroundColor(Color.GRAY);
+			startGame.setPressedBackgroundColor(Color.GRAY);
 			slPanel.add(startGame);
 		}
 		

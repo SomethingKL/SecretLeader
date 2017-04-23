@@ -1,1 +1,5 @@
-
+#Player Names
+a Blue Team
+b Secret Leader
+a Blue Team
+max Red Team
