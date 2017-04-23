@@ -1,6 +1,1 @@
-#Player Names
-a Blue Team
-a Secret Leader
-ccc Blue Team
-a Red Team
-asfdasdf Blue Team
+

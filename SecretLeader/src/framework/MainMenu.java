@@ -207,12 +207,13 @@ public class MainMenu extends JPanel {
 		
 		//once the game has enough players to play
 		if(scores.length >= 4){
-			JButton startGame = new JButton("Click here to start!");
+			ColorButton startGame = new ColorButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
 			startGame.setBounds(400,400,400,50);
 			startGame.addActionListener(new nextScreenButton());
 			startGame.setBackground(new Color(200,20,20));
+	
 			slPanel.add(startGame);
 		}
 		
@@ -276,10 +277,7 @@ public class MainMenu extends JPanel {
 			//this will put the game to the waiting screen
 			String tmpString = field.getText();
 			
-			//if there are '\n's the game will break. So, I take them out.
-			tmpString = tmpString.replace('\n',' ');
-			tmpString = tmpString.replaceAll("\\s", "");
-			
+	
 			//to make sure all of the inputs are correct.
 			if(tmpString != null && !tmpString.isEmpty()){ //&& isRepeat(tmpString) == false will go here when the real game is ran
 				userName = tmpString;
