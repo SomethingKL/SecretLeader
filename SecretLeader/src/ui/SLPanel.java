@@ -117,7 +117,8 @@ public class SLPanel extends SLCanvas{
 			}
 			
 			//States when the game is going to be different from user to user, when the vote passes.
-			if(state != GameState.WAITING || client.readFile("data/state.txt")[0].equals(new String("POLICY"))){
+			if(state != GameState.WAITING || client.readFile("data/state.txt")[0].equals(new String("POLICY")) ||
+					client.readFile("data/state.txt")[0].equals(new String("REDGAMEOVER"))){
 				setState();
 			}
 			else if(state == GameState.POLICY && client.readFile("data/state.txt")[0].equals(new String("WAITING"))){
@@ -168,23 +169,6 @@ public class SLPanel extends SLCanvas{
 		}
 		
 		//checking to see if the chancellor has the secret leader
-		if(state == GameState.POLICY){
-			try{
-				//if the secret leader is elected chancellor
-				PolicyCard card1 = new PolicyCard(new Point(0,0),"Blue");
-				String[] secret = client.readFile("data/Roles.txt");
-				String [] BoardInfo = client.readFile("data/Board.txt");
-				String[] position = client.readFile("data/Turn.txt");
-				int red = Integer.parseInt(BoardInfo[1]);
-				if(3 <=red && card1.checkLeader(secret,position[1])){
-					client.openToWrite("data/state.txt");
-					client.writeToFile("REDGAMEOVER");
-					client.close();
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	

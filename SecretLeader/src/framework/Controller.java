@@ -224,10 +224,30 @@ public class Controller{
 					client.writeToFile(tmpChan[0]);
 					client.close();
 					
-					//sets the file for the mode
-					client.openToWrite("data/state.txt");
-					client.writeToFile("POLICY");
-					client.close();
+					try{
+						//if the secret leader is elected chancellor
+						PolicyCard card1 = new PolicyCard(new Point(0,0),"Blue");
+						String[] secret = client.readFile("data/Roles.txt");
+						String [] BoardInfo = client.readFile("data/Board.txt");
+						String[] position = client.readFile("data/Turn.txt");
+						int red = Integer.parseInt(BoardInfo[1]);
+						System.out.println("Does it get here?");
+						if(3 <=red && card1.checkLeader(secret,position[1])){
+							client.openToWrite("data/state.txt");
+							client.writeToFile("REDGAMEOVER");
+							System.out.println("Does this turn into a gameover");
+							client.close();
+						}else{
+							System.out.println("Nope");
+							//sets the file for the mode
+							client.openToWrite("data/state.txt");
+							client.writeToFile("POLICY");
+							client.close();
+						}
+					}catch(Exception e2){
+						e2.printStackTrace();
+					}
+
 
 				}
 				//resets the proposed chancellor file

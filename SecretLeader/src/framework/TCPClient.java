@@ -5,6 +5,8 @@
 package framework;
 
 import java.io.*;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class TCPClient {
@@ -40,6 +42,7 @@ public class TCPClient {
 	 */
 	public void openToWrite(String name){
 		try{
+			//Runtime.getRuntime().exec("attrib +H myHiddenFile.java");
 			writer = new FileWriter(name);
 		}catch(Exception e){
 			System.out.println(e);

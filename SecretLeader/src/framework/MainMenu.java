@@ -59,7 +59,7 @@ public class MainMenu extends JPanel {
 	 */
 	public void initGameFiles(){
 		int blue = 4;
-		int red = 4;
+		int red =3;
 		
 		//the starting screen information
 		client.readFile("data/Board.txt");
