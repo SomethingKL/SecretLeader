@@ -47,7 +47,6 @@ public class MainMenu extends JPanel {
 		initGameFiles();
 		
 		
-		
 		client.readFile("data/Board.txt");
 		System.out.println(client.getLength("data/Board.txt"));
 		
@@ -82,6 +81,10 @@ public class MainMenu extends JPanel {
 		
 		client.openToWrite("data/Roles.txt");
 		client.writeToFile("");
+		client.close();
+		
+		client.openToWrite("data/ProposedChancellor.txt");
+		client.writeToFile("None");
 		client.close();
 		/*
 		client.openToWrite("data/Voting.txt");
