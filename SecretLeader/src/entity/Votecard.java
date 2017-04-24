@@ -42,6 +42,11 @@ public class Votecard {
 		playerID = user;
 		//box = new Rectangle(point.x, point.y, WIDTH, HEIGHT);
 	}
+	
+	/**constructor for unit testing*/
+	public Votecard() {
+	}
+	
 	/**{@literal}creates the list of players playing
 	 */
 	public void draw(Graphics2D g2d, SLPanel panel){

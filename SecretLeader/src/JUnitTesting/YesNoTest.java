@@ -1,8 +1,6 @@
 package JUnitTesting;
 
 import static org.junit.Assert.*;
-
-
 import org.junit.Test;
 
 import entity.Votecard;
@@ -16,14 +14,12 @@ public class YesNoTest {
 	
 	@Test
 	public void test() {
-		for(int i = 0; i < play.length; i++){
-			System.out.println(play[i]);
-		}
 		if(votes.getNoCount() <= players/2){
 			System.out.println("vote passes");
 			assert(true);
 		}
 		else{
+			System.out.println("vote fails");
 			assert(false);
 		}
 		
