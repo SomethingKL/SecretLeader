@@ -17,7 +17,7 @@ public class PlayerListTest {
 	@Test
 	public void test() {
 		try {
-			lst = new PlayerList(new Point(5,305));
+			lst = new PlayerList(new Point(5,305),"blue");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

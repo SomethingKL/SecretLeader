@@ -1,1 +1,5 @@
-
+#Player Names
+one Blue Team
+four Secret Leader
+three Blue Team
+two Red Team

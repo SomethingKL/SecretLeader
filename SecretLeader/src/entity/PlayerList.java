@@ -30,25 +30,42 @@ public class PlayerList {
 	/**used to get the list of players*/
 	private TCPClient client = new TCPClient();
 	/** the color values of the players */
-	private boolean[] colorPlayer;
+	private int[] colorPlayer;
 	/** the username of the player */
 	private String userName;
 	
-	public PlayerList(Point start) throws IOException{
+	public PlayerList(Point start, String role) throws IOException{
 		 this.point = start;
 		 //get the current players
 		 players = client.readFile("data/Players.txt");
 		 box = new Rectangle[players.length];
-		 colorPlayer = new boolean[players.length];
+		 colorPlayer = new int[players.length];
 		 
 		 for(int k=0;k<players.length&&k<10;k++){
 			 int y = point.y+k*HEIGHT/10;
 			 Rectangle player = new Rectangle(point.x, y, WIDTH, HEIGHT/10);
 			 box[k] = player;
-			 colorPlayer[k] = false;
+			 colorPlayer[k] = 0;
+		 }
+		 if(role.compareTo("Red")==0)
+			 for(int k=3;k<colorPlayer.length;k++)
+				 if(k%2==1)
+					 colorPlayer[k] = 2;
+		 for(int k=0;k<players.length&&k<10;k++){
+			 int i = rn(0,players.length-1);
+			 String temp = players[k];
+			 players[k] = players[i];
+			 players[i] = temp;
+			 int h = colorPlayer[k];
+			 colorPlayer[k] = colorPlayer[i];
+			 colorPlayer[i] = h;
 		 }
 	}
-	
+	//Pre: takes a minimun and maximum value inclusively
+	//Post: returns a random number within that range
+	int rn(int min, int max){    
+	   return (int)(Math.random()*(max-min+1))+min;
+	}
 	/**{@literal}creates the list of players playing
 	 */
 	public void draw(Graphics2D g2d, SLPanel panel){
@@ -61,7 +78,9 @@ public class PlayerList {
 			
 			g2d.setColor(Color.black);
 			g2d.draw(box[k]);
-			if(colorPlayer[k] == true){
+			if(colorPlayer[k] == 1){
+				g2d.setColor(Color.GREEN);
+			}else if(colorPlayer[k] == 2){
 				g2d.setColor(Color.RED);
 			}else{ 
 				g2d.setColor(Color.black);
@@ -93,14 +112,14 @@ public class PlayerList {
 		String[] roles = client.readFile("data/Turn.txt");
 		
 		for(int k=0;k<players.length&&k<10;k++){
-			colorPlayer[k] = false;
+			colorPlayer[k] = 0;
 			if(box[k].contains(e.getPoint()) && roles[0].equals(userName)){
 				client.openToWrite("data/ProposedChancellor.txt");
 				client.writeToFile(players[k]);
 				
 				//fixes the colors of the players
-				if(colorPlayer[k] == false){
-					colorPlayer[k] = true;
+				if(colorPlayer[k] != 1){
+					colorPlayer[k] = 1;
 				}
 			}
 		}

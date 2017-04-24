@@ -60,8 +60,12 @@ public class Controller{
 		//String tmpRole = getRole(userNameIn);
 		String tmpRole = getRole(userNameIn);
 		playerID = userNameIn;
-		role = new PlayerCard(new Point(0,0), tmpRole + "Card.jpg");
-		players = new PlayerList(new Point(5,305));
+		if(tmpRole.compareTo("Secret")==0){
+			role = new PlayerCard(new Point(0,0), "RedLeader.jpg");
+		}else{
+			role = new PlayerCard(new Point(0,0), tmpRole + "Card.jpg");
+		}
+		players = new PlayerList(new Point(5,305),tmpRole);
 		players.setUserName(playerID);
 		select = new ChancellorButton(new Point(760, 600),new String("SelectChancellor.jpg"),playerID);
 		blueBoard = new Board(new Point(200,0), "Blue.jpg");
@@ -320,10 +324,6 @@ public class Controller{
 				tmpS = scores[i];
 				String [] tmpA = tmpS.split(" ");
 				tmpS = tmpA[1];
-						
-				if(tmpS.equals(new String("Secret"))){
-					tmpS = "Red";
-				}
 			}	
 		}
 		return tmpS;
