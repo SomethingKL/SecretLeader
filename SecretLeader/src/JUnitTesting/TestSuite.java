@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 // all test classes included in suite go here
 @Suite.SuiteClasses({
    SLTest.class,
-   //SLTest1.class
+   PolicyCardTest.class,
+   PlayerListTest.class
 })
 
 public class TestSuite {  

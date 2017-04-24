@@ -80,6 +80,12 @@ public class PlayerList {
 		userName = user;
 	}
 	/**
+	 * Gets the length of the player list
+	 */
+	public int getPlayerslength(){
+		return players.length;
+	}
+	/**
 	 * @param e, the mouse click
 	 * @param state, the current state of the game
 	 */
