@@ -33,10 +33,13 @@ public class Votecard {
 	//whether to move on from the last state or not
 	private boolean nextState = false;
 	
-	public Votecard(Point point,Image image,String typeIn) throws IOException{
+	private String playerID;
+	
+	public Votecard(Point point,Image image,String typeIn,String user) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH, HEIGHT);
 		this.image = image.getScaledInstance(WIDTH, HEIGHT, 0);
 		type = typeIn;
+		playerID = user;
 		//box = new Rectangle(point.x, point.y, WIDTH, HEIGHT);
 	}
 	/**{@literal}creates the list of players playing
@@ -54,23 +57,10 @@ public class Votecard {
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint()) && state == GameState.VOTING){
 			//int length = client.getLength("data/VotingFile.txt");
-			String[] votes = client.readFile("data/VotingFile.txt");
-			
-			client.openToWrite("data/VotingFile.txt");
-			try{
-				for(int i = 0;i < votes.length; i++){
-					client.writeToFile(votes[i]);
-				}
-			}catch(Exception er){
-				System.out.println("The file is empty at the beginning of the game");
-			}
-
+			//String[] votes = client.readFile("data/VotingFile.txt");
+			client.openToWrite("data/Voting/Vote" + playerID + ".txt");
 			client.writeToFile(type);
 			client.close();
-			
-			//may be an issue here; for reading and writing to the voting file at the same time!
-			//may also be an issue with the mainmenu later on
-			
 			nextState = true;
 			return true;
 		}
@@ -112,5 +102,53 @@ public class Votecard {
 	public void setNextState(boolean set){
 		nextState = set;
 	}
-		
+	
+	/**
+	 * Creates the voting file for each player
+	 */
+	public void createVoteFiles(){
+		String[] players = client.readFile("data/Players.txt");
+		for(int k = 0; k < players.length;k++){
+			client.openToWrite("data/Voting/Vote" + players[k] + ".txt");
+			client.writeToFile("None");
+			client.close();
+		}
+	}
+	/**
+	 * Empties all of the voting files
+	 */
+	public void resetVoteCards(){
+		createVoteFiles();
+	}
+	
+	/**Gets the number of the votes that have been casted this round
+	 * 
+	 * @return count, the number of votes made
+	 */
+	public int getVoteCount(){
+		int count = 0;
+		String[] players = client.readFile("data/Players.txt");
+		for(int k = 0; k < players.length; k++){
+			if(client.readFile("data/Voting/Vote" + players[k]+".txt")[0].equals(new String("None")) == false){
+				count +=1;
+			}
+		}
+		return count;
+	}
+	
+	/**Gets the amount of no's in the file
+	 * @return no, the amount of no's in the VotingFile.txt
+	 */
+	public int getNoCount(){
+		int no = 0;
+		String[] players = client.readFile("data/Players.txt");
+		for(int k = 0; k < players.length; k++){
+			if(client.readFile("data/Voting/Vote" + players[k]+".txt")[0].equals(new String("no")) == true){
+				no +=1;
+			}
+		}
+		return no;
+	}
+	
+	
 }

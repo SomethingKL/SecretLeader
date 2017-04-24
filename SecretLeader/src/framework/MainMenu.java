@@ -90,10 +90,9 @@ public class MainMenu extends JPanel {
 		client.openToWrite("data/ProposedChancellor.txt");
 		client.writeToFile("None");
 		client.close();
-		/*
-		client.openToWrite("data/Voting.txt");
-		client.close();*/
-		//client.openToWrite("data/VotingFile.txt");
+		
+		//reset the players file
+		//client.openToWrite("data/Players.txt");
 		//client.close();
 		
 		///will have a ton more stuff for the initial game files here
@@ -206,7 +205,7 @@ public class MainMenu extends JPanel {
 		waitingLabel.setForeground(new Color(200,20,20));
 		
 		//once the game has enough players to play
-		if(scores.length >= 4){
+		if(scores.length >= 2){
 			ColorButton startGame = new ColorButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));

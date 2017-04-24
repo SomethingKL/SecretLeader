@@ -64,8 +64,9 @@ public class Controller{
 		select = new ChancellorButton(new Point(760, 600),new String("SelectChancellor.jpg"),playerID);
 		blueBoard = new Board(new Point(200,0), "Blue.jpg");
 		redBoard = new Board(new Point(200,300), "Red.jpg");
-		yes = new Votecard(new Point(650,610),ImageIO.read(new File("data/YesCard.PNG")),"yes");
-		no = new Votecard(new Point(905,610),ImageIO.read(new File("data/NoCard.PNG")),"no");
+		yes = new Votecard(new Point(650,610),ImageIO.read(new File("data/YesCard.PNG")),"yes",playerID);
+		yes.createVoteFiles();
+		no = new Votecard(new Point(905,610),ImageIO.read(new File("data/NoCard.PNG")),"no",playerID);
 		PS = new PolicySelection(new Point(750,620),playerID);
 		BlueGameOver = new BlueGameOver(new Point(0,0),ImageIO.read(new File("data/BlueGameOverBackground.png")));
 		RedGameOver = new RedGameOver(new Point(0,0),ImageIO.read(new File("data/RedGameOverBackground.png")));
@@ -107,7 +108,6 @@ public class Controller{
 				nextScreen = true;
 			}
 		}
-		
 		else if(state == state.POLICY){
 			//only display for the president then only for the chancellor
 			PS.draw(g2d, slPanel);
@@ -187,14 +187,14 @@ public class Controller{
 		if(yesBool || noBool){
 			nextScreen = true;
 			int players = client.getLength("data/Players.txt");
-			int votes = client.getLength("data/VotingFile.txt");
+			int votes = yes.getVoteCount();
 			System.out.println(players +" " + votes);
 			
 			//makes sure that all of the players have voted
 			if(votes == players){
 				//if the vote has not passed, this goes to the waiting screen until the 
 				//president selects another chancellor
-				if(PS.getNoCount() >= players/2){
+				if(yes.getNoCount() >= players/2){
 					
 					client.openToWrite("data/displayInfo.txt");
 					client.writeToFile("2");
@@ -203,6 +203,7 @@ public class Controller{
 					client.openToWrite("data/state.txt");
 					client.writeToFile("SELECTION");
 					client.close();
+					PS.setNewPositions();
 				}
 				
 				//if the vote has passed, this goes to the policy selection screen
@@ -224,8 +225,9 @@ public class Controller{
 					client.writeToFile(tmpChan[0]);
 					client.close();
 					
+					//if the secret leader is elected chancellor
 					try{
-						//if the secret leader is elected chancellor
+						
 						PolicyCard card1 = new PolicyCard(new Point(0,0),"Blue");
 						String[] secret = client.readFile("data/Roles.txt");
 						String [] BoardInfo = client.readFile("data/Board.txt");
@@ -247,18 +249,17 @@ public class Controller{
 					}catch(Exception e2){
 						e2.printStackTrace();
 					}
-
-
+					
+					
 				}
 				//resets the proposed chancellor file
 				client.openToWrite("data/ProposedChancellor.txt");
 				client.writeToFile("None");
 				client.close();
+				
 				//this will reset the voting file after the vote has been completed.
-			
-				client.openToWrite("data/VotingFile.txt");
-				client.close();
-			 
+				yes.resetVoteCards();
+				
 				
 			}
 			
@@ -299,7 +300,6 @@ public class Controller{
 		
 		//no chancellor to start the game so random characters are selected
 		client.writeToFile("&&&&&&&&&&&&&&&&&&$");
-		client.writeToFile("b");
 		client.close();
 	}
 	
@@ -325,5 +325,4 @@ public class Controller{
 		}
 		return tmpS;
 	}
-	
 }

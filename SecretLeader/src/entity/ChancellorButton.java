@@ -49,7 +49,6 @@ public class ChancellorButton extends Entity{
 				client.writeToFile("3");
 				client.close();
 			}
-	
 		}
 	}
 }

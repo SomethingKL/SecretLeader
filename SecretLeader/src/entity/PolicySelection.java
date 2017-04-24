@@ -46,7 +46,7 @@ public class PolicySelection {
 	//random integer to decide if a card is red or blue
 	private int randInt = 0;
 	/** the number of players in the game */
-	private int  playerInt;
+	private int playerInt;
 
 	public PolicySelection(Point point,String userName) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH*4, HEIGHT);
@@ -194,7 +194,6 @@ public class PolicySelection {
 				catch(Exception ee){
 					ee.printStackTrace();
 				}
-				setNewPositions();
 				//need to reset the file to appear on the presidents screen after the vote
 				client.openToWrite("data/leaveStarting.txt");
 				client.writeToFile("#Which screen to be on; 1 for the presidents screen; 2 for the chancellors screen");
@@ -202,42 +201,12 @@ public class PolicySelection {
 				client.close();
 				
 				nextState = true;
+				setNewPositions();
 			}
 		}
 	}
 	
-	
-	/**
-	 * Sets the positions of the new president
-	 */
-	private void setNewPositions() {
-		//gets the roles of the game currently
-		String[] roles = client.readFile("data/Turn.txt");
-		String[] players = client.readFile("data/Players.txt");
-		while(players.length < playerInt){
-			players = client.readFile("data/Players.txt");
-		}
-		
-		int spot = 0;
-		for(int i = 0; i < players.length;i++){
-			if(roles[0].equals(players[i])){
-				spot = i;
-			}
-		}
-		//sets the new spot for the president
-		if(spot == players.length-1){
-			spot = 0;
-		}
-		else{
-			spot +=1;
-		}
-		client.openToWrite("data/Turn.txt");
-		client.writeToFile("#name of the President");
-		client.writeToFile(players[spot]);
-		client.writeToFile("#name of the Chancellor");
-		client.writeToFile(roles[1]);
-		client.close();
-	}
+
 
 	/**Sets the number of blue and red cards in a file. Which updates the board
 	 * @param blue, the number of blue cards
@@ -301,20 +270,6 @@ public class PolicySelection {
 		return nextState;
 	}
 	
-	/**Gets the amount of no's in the file
-	 * @return no, the amount of no's in the VotingFile.txt
-	 */
-	public int getNoCount(){
-		int no = 0;
-		String[] voteString = client.readFile("data/VotingFile.txt");
-		for(int i = 0; i <client.getLength("data/VotingFile.txt"); i++){
-			if(voteString[i].equals(new String("no"))){
-				no+=1;
-			}
-		}
-		return no;
-	}
-	
 	/**
 	 * Will reset the cards for the president
 	 * @throws IOException, if the picture doesn't open
@@ -340,4 +295,39 @@ public class PolicySelection {
 			}
 		}
 	}
+	
+	/**
+	 * Sets the positions of the new president
+	 */
+	public void setNewPositions() {
+		
+		int playerInt = client.getLength("data/Players.txt");
+		//gets the roles of the game currently
+		String[] roles = client.readFile("data/Turn.txt");
+		String[] players = client.readFile("data/Players.txt");
+		while(players.length < playerInt){
+			players = client.readFile("data/Players.txt");
+		}
+		
+		int spot = 0;
+		for(int i = 0; i < players.length;i++){
+			if(roles[0].equals(players[i])){
+				spot = i;
+			}
+		}
+		//sets the new spot for the president
+		if(spot == players.length-1){
+			spot = 0;
+		}
+		else{
+			spot +=1;
+		}
+		client.openToWrite("data/Turn.txt");
+		client.writeToFile("#name of the President");
+		client.writeToFile(players[spot]);
+		client.writeToFile("#name of the Chancellor");
+		client.writeToFile(roles[1]);
+		client.close();
+	}
+	
 }
