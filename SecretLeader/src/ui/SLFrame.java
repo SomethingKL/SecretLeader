@@ -4,9 +4,18 @@
 package ui;
 
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.nio.*;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import framework.TCPClient;
 
 public class SLFrame extends JFrame{
 	/**final width of the frame*/
@@ -16,6 +25,21 @@ public class SLFrame extends JFrame{
 	
 	public SLFrame() {
 		initWindow();
+		
+		//deletes files on closing of the frame
+	    addWindowListener(new WindowAdapter() {
+	        public void windowClosing(WindowEvent e) {
+        		TCPClient client = new TCPClient();
+        		String[] players = client.readFile("data/Players.txt");
+        		for(int k = 0; k < players.length;k++){
+        			File file = new File("data/Voting/Vote" + players[k]+".txt");
+        			file.delete();
+        		}
+        		//resets the players file
+	        	client.openToWrite("data/Players.txt");
+	        	client.close();
+	        }
+	      });
 	}
 	
 	/**{@literal} Initializes game window
@@ -28,8 +52,9 @@ public class SLFrame extends JFrame{
 		this.setSize(WIDTH, HEIGHT);
 		this.setVisible(true);
 		this.setResizable(false);
-		
+
 		Image icon = new ImageIcon("data/GameIcon.JPG").getImage();
 		this.setIconImage(icon);
 	}
+	
 }

@@ -70,7 +70,6 @@ public class ResultsBox {
 	public void click(MouseEvent e, SLPanel.GameState state) {
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint())){
-			System.out.println("The new box");
 		}
 	}
 }

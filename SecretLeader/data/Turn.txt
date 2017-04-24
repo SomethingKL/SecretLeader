@@ -1,4 +1,4 @@
 #name of the President
-br
-#name of the Chancellor
 a
+#name of the Chancellor
+&&&&&&&&&&&&&&&&&&$

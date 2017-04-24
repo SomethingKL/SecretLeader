@@ -37,6 +37,9 @@ public class PolicyCard extends Entity{
 		return type;
 	}
 	
+	/**
+	 * Flip the value of the policy card selected
+	 */
 	public void flipKept(){
 		if(cardKept == true){
 			cardKept = false;
@@ -46,6 +49,11 @@ public class PolicyCard extends Entity{
 		}
 		return;
 	}
+	
+	public void setKept(boolean side){
+		cardKept = false;
+	}
+	
 	
 	/**Sets a new picture for the policycard
 	 * 

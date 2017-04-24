@@ -142,6 +142,12 @@ public class PolicySelection {
 				client.writeToFile(cat);
 				client.close();
 				
+				card1.setKept(false);
+				card2.setKept(false);
+				card3.setKept(false);
+				card4.setKept(false);
+				card5.setKept(false);
+				
 			}
 		}
 		
@@ -199,6 +205,13 @@ public class PolicySelection {
 				client.writeToFile("#Which screen to be on; 1 for the presidents screen; 2 for the chancellors screen");
 				client.writeToFile("1");
 				client.close();
+				
+				//resetting the selection of the cards
+				card1.setKept(false);
+				card2.setKept(false);
+				card3.setKept(false);
+				card4.setKept(false);
+				card5.setKept(false);
 				
 				nextState = true;
 				setNewPositions();

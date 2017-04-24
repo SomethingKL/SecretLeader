@@ -68,6 +68,7 @@ public class PlayerList {
 			}
 			
 			g2d.drawString(players[k], point.x+2, y+HEIGHT/11);
+			g2d.setColor(Color.black);
 		}
 	}
 	

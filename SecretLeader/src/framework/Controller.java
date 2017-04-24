@@ -5,7 +5,9 @@
  * The main point of this is to reduce the work of our panel.
  */
 package framework;
+import java.awt.BasicStroke;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -88,6 +90,12 @@ public class Controller{
 		//yes.draw(g2d,slPanel);
 		informationBox.draw(g2d, slPanel);
 		displayOfficialPosition(g2d, slPanel);
+	
+		g2d.setFont(new Font("Copperplate Gothic Bold", Font.ITALIC, 18));
+		g2d.setStroke(new BasicStroke(2));
+		g2d.drawString("User Name: ", 1215, 250);
+		g2d.setFont(new Font("Copperplate Gothic Bold", Font.ITALIC, 25));
+		g2d.drawString(playerID, 1210, 270);
 		
 		updateSelction(g2d,slPanel,state);
 	}
@@ -188,8 +196,6 @@ public class Controller{
 			nextScreen = true;
 			int players = client.getLength("data/Players.txt");
 			int votes = yes.getVoteCount();
-			System.out.println(players +" " + votes);
-			
 			//makes sure that all of the players have voted
 			if(votes == players){
 				//if the vote has not passed, this goes to the waiting screen until the 
@@ -233,14 +239,11 @@ public class Controller{
 						String [] BoardInfo = client.readFile("data/Board.txt");
 						String[] position = client.readFile("data/Turn.txt");
 						int red = Integer.parseInt(BoardInfo[1]);
-						System.out.println("Does it get here?");
 						if(3 <=red && card1.checkLeader(secret,position[1])){
 							client.openToWrite("data/state.txt");
 							client.writeToFile("REDGAMEOVER");
-							System.out.println("Does this turn into a gameover");
 							client.close();
 						}else{
-							System.out.println("Nope");
 							//sets the file for the mode
 							client.openToWrite("data/state.txt");
 							client.writeToFile("POLICY");
@@ -313,7 +316,6 @@ public class Controller{
 		String tmpS= scores[0];
 		for(int i = 0; i <scores.length; i++){
 			if(players[i].equals(userName)){
-				System.out.println(scores[i]);
 				tmpS = scores[i];
 				String [] tmpA = tmpS.split(" ");
 				tmpS = tmpA[1];

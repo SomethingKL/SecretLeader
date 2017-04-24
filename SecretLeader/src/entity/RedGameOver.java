@@ -20,7 +20,7 @@ public class RedGameOver{
 	/**box around the list*/
 	private Rectangle box;
 	/**final width of the frame*/
-	private static final int WIDTH  = 1180;
+	private static final int WIDTH  = 1400;
 	/**final height of the frame*/
 	private static final int HEIGHT = 825;
 	/**image for this part*/

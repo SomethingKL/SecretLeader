@@ -58,8 +58,8 @@ public class MainMenu extends JPanel {
 	 * Resets all of the files for the game
 	 */
 	public void initGameFiles(){
-		int blue = 4;
-		int red =3;
+		int blue = 0;
+		int red =0;
 		
 		//the starting screen information
 		client.readFile("data/Board.txt");
@@ -90,10 +90,6 @@ public class MainMenu extends JPanel {
 		client.openToWrite("data/ProposedChancellor.txt");
 		client.writeToFile("None");
 		client.close();
-		
-		//reset the players file
-		//client.openToWrite("data/Players.txt");
-		//client.close();
 		
 		///will have a ton more stuff for the initial game files here
 		
@@ -205,7 +201,7 @@ public class MainMenu extends JPanel {
 		waitingLabel.setForeground(new Color(200,20,20));
 		
 		//once the game has enough players to play
-		if(scores.length >= 2){
+		if(scores.length >= 2 && scores.length <= 10){
 			ColorButton startGame = new ColorButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
@@ -237,7 +233,6 @@ public class MainMenu extends JPanel {
 		String tmpS= scores[0];
 		for(int i = 0; i <length; i++){
 			if(players[i].equals(userName)){
-				System.out.println(scores[i]);
 				tmpS = scores[i];
 				String [] tmpA = tmpS.split(" ");
 				tmpS = tmpA[1];	
