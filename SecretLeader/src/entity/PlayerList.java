@@ -97,7 +97,6 @@ public class PlayerList {
 			if(box[k].contains(e.getPoint()) && roles[0].equals(userName)){
 				client.openToWrite("data/ProposedChancellor.txt");
 				client.writeToFile(players[k]);
-				System.out.println(players[k]);
 				
 				//fixes the colors of the players
 				if(colorPlayer[k] == false){

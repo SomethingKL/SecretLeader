@@ -201,7 +201,7 @@ public class MainMenu extends JPanel {
 		waitingLabel.setForeground(new Color(200,20,20));
 		
 		//once the game has enough players to play
-		if(scores.length >= 2 && scores.length <= 10){
+		if(scores.length >= 4 && scores.length <= 10){
 			ColorButton startGame = new ColorButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
@@ -274,7 +274,7 @@ public class MainMenu extends JPanel {
 			
 	
 			//to make sure all of the inputs are correct.
-			if(tmpString != null && !tmpString.isEmpty()){ //&& isRepeat(tmpString) == false will go here when the real game is ran
+			if(tmpString != null && !tmpString.isEmpty() && isRepeat(tmpString) == false){  
 				userName = tmpString;
 				//make the person put a name!
 				slPanel.removeAll();

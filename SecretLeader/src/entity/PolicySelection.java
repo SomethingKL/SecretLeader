@@ -79,7 +79,7 @@ public class PolicySelection {
 	public void draw(Graphics2D g2d, SLPanel panel) throws IOException{
 		String[] turnInfo = client.readFile("data/Turn.txt");
 		String[] setPiece = client.readFile("data/leaveStarting.txt");
-		while(setPiece.length < 1 && turnInfo.length< 2){
+		while(setPiece.length < 1 && turnInfo.length< 3){
 			setPiece = client.readFile("data/leaveStarting.txt");
 			turnInfo = client.readFile("data/Turn.txt");
 		}
@@ -112,9 +112,12 @@ public class PolicySelection {
 	 */
 	public void click(MouseEvent e, SLPanel.GameState state) {
 		String[] setPiece = client.readFile("data/leaveStarting.txt");
+		String[] roles = client.readFile("data/Turn.txt");
+		
 		//this is the border of things that can be clicked
 		//has to be in the right gamestate, right point and in the right part of the game
-		if(box.contains(e.getPoint()) && state == SLPanel.GameState.POLICY && setPiece[0].equals(new String("1"))){
+		if(box.contains(e.getPoint()) && state == SLPanel.GameState.POLICY && setPiece[0].equals(new String("1"))
+				&& roles[0].equals(playerID)){
 			//if each button has been clicked
 			if(card1Box.contains(e.getPoint())){
 				card1.flipKept();
@@ -142,17 +145,19 @@ public class PolicySelection {
 				client.writeToFile(cat);
 				client.close();
 				
+				//resets the opagueness of the card
 				card1.setKept(false);
 				card2.setKept(false);
 				card3.setKept(false);
-				card4.setKept(false);
-				card5.setKept(false);
+				//card4.setKept(false);
+				//card5.setKept(false);
 				
 			}
 		}
 		
 		//the chancellor picks the policy
-		else if(box.contains(e.getPoint()) && state == SLPanel.GameState.POLICY && setPiece[0].equals(new String("2"))){
+		else if(box.contains(e.getPoint()) && state == SLPanel.GameState.POLICY && setPiece[0].equals(new String("2"))
+				&& roles[1].equals(playerID)){
 			//getting the board information from the file
 			String[] boardInfo = client.readFile("data/Board.txt");
 			int blue = Integer.parseInt(boardInfo[0]);
@@ -190,7 +195,6 @@ public class PolicySelection {
 		
 			//cuts out the third box area!
 			if(card1Box.contains(e.getPoint()) || card2Box.contains(e.getPoint())){
-				System.out.println("Cut out that box!");
 				new Thread(() -> setCardStates(newBlue,newRed)).start();
 				
 				//resets the cards for the next policy selection
@@ -212,6 +216,15 @@ public class PolicySelection {
 				card3.setKept(false);
 				card4.setKept(false);
 				card5.setKept(false);
+				
+				roles = client.readFile("data/Turn.txt");
+				client.openToWrite("data/Turn.txt");
+				client.writeToFile("#number of Blue victories");
+				client.writeToFile(roles[0]);
+				client.writeToFile("#number of Red victories");
+				client.writeToFile("&&&&&&&&&&*");
+				client.close();
+				///////////////////client.openToWrite(name);
 				
 				nextState = true;
 				setNewPositions();

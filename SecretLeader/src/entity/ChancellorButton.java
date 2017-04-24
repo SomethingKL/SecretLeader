@@ -35,7 +35,6 @@ public class ChancellorButton extends Entity{
 	 * @param state, the current state of the game
 	 */
 	public void click(MouseEvent e,SLPanel.GameState state) {
-		System.out.println(state);
 		String[] roles = client.readFile("data/Turn.txt");
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint()) && state == GameState.SELECTION && userName.equals(roles[0])){

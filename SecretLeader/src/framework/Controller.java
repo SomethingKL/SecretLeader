@@ -109,6 +109,10 @@ public class Controller{
 	private void updateSelction(Graphics2D g2d, SLPanel slPanel, GameState state2) throws IOException {
 		state = state2;
 		String[] roles = client.readFile("data/Turn.txt");
+		while(roles.length < 2){
+			roles = client.readFile("data/Turn.txt");
+		}
+		
 		if(state == state.VOTING){
 			yes.draw(g2d, slPanel);
 			no.draw(g2d, slPanel);
@@ -289,13 +293,10 @@ public class Controller{
 	 * Sets up the first president in the "Turn.txt" file. Does not set chancellor
 	 */
 	public void firstPresident(){
-		int length = client.getLength("data/Players.txt");
-		client.close();
-		String[] scores = new String[length];
-		scores = client.readFile("data/Players.txt");
+		String [] scores = client.readFile("data/Players.txt");
 		
 		//String firstPres = scores[3];
-		String firstPres = "a";
+		String firstPres = scores[1];
 		client.openToWrite("data/Turn.txt");
 		client.writeToFile("#name of the President");
 		client.writeToFile(firstPres);

@@ -176,8 +176,7 @@ public class SLPanel extends SLCanvas{
 	/**{@literal} called when mouse is clicked
 	 */
 	public void mouseReleasedFramework(MouseEvent e){
-		//menu.click(e);
-		
+		System.out.println("Current Gamestate for user: " + state);
 		//at the menuning of the game this won't be up. 
 		//So, once the game has been started this clicking can be on.
 		//Otherwise, a ton of error will be thrown.
