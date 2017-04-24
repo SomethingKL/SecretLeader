@@ -1,24 +1,14 @@
 package entity;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Color.*;
-import javax.imageio.ImageIO;
-import java.util.*;
 import framework.TCPClient;
 import ui.SLPanel;
-import ui.SLPanel.GameState;
 
 public class PolicySelection {
 	/**box around the list*/
@@ -68,16 +58,11 @@ public class PolicySelection {
 		client.close();
 		//sets the ID of the player
 		playerID = userName;
-		//need to make these randomized
-		
-		//need to make these randomized
-		Random cardRandomizer = new Random();
-		
+		//need to make these randomized		
 		card1 = new PolicyCard(new Point(760, 620),"Blue");
 		card2 = new PolicyCard(new Point(900, 620),"Red");
 		card3 = new PolicyCard(new Point(1040,620),"Blue");
-		//////////////how to change the image
-		//card1.getNewImage("Red");
+		//image change: card1.getNewImage("Red");
 		resetCards();
 
 		card1Box = new Rectangle(760,620,WIDTH,HEIGHT);
@@ -85,7 +70,6 @@ public class PolicySelection {
 		card3Box = new Rectangle(1040,620,WIDTH,HEIGHT);
 		
 		playerInt = client.getLength("data/Players.txt");
-		
 	}
 	
 	/**{@literal}
@@ -133,33 +117,17 @@ public class PolicySelection {
 		if(box.contains(e.getPoint()) && state == SLPanel.GameState.POLICY && setPiece[0].equals(new String("1"))){
 			//if each button has been clicked
 			if(card1Box.contains(e.getPoint())){
-				if(card1.getCardKept()){
-					card1.flipKept();
-					//need to figure out how to change the color of a rectangle
-					//need to look like a highlight
-				}
-				else{
-					card1.flipKept();
-				}
+				card1.flipKept();
 			}
 			//if card2 has a click
 			else if(card2Box.contains(e.getPoint())){
-				if(card2.getCardKept()){
-					card2.flipKept();
-				}
-				else{
-					card2.flipKept();
-				}
+				card2.flipKept();
 			}
 			//if card3 has a click
 			else if(card3Box.contains(e.getPoint())){
-				if(card3.getCardKept()){
-					card3.flipKept();
-				}
-				else{
-					card3.flipKept();
-				}
+				card3.flipKept();
 			}
+			
 			//resets the board if two are selected
 			if(resetBoard()){
 				//go to the next screen
@@ -213,15 +181,13 @@ public class PolicySelection {
 			//update to the board file!
 			final int newBlue = blue;
 			final int newRed = red;
-			//some point here the president needs to be reset
 		
 			//cuts out the third box area!
 			if(card1Box.contains(e.getPoint()) || card2Box.contains(e.getPoint())){
 				System.out.println("Cut out that box!");
-				new Thread(() -> doWork(newBlue,newRed)).start();
+				new Thread(() -> setCardStates(newBlue,newRed)).start();
 				
 				//resets the cards for the next policy selection
-				//setNewPositions();
 				try{
 					resetCards();
 				}
@@ -277,7 +243,7 @@ public class PolicySelection {
 	 * @param blue, the number of blue cards
 	 * @param red, the number of red cards
 	 */
-	private void doWork(int blue, int red) {
+	private void setCardStates(int blue, int red) {
 		//set the board
 		client.openToWrite("data/Board.txt");
 		client.writeToFile("#number of Blue victories");
@@ -286,7 +252,6 @@ public class PolicySelection {
 		client.writeToFile(String.valueOf(red));
 		client.close();
 		
-		String[] secret = client.readFile("data/Roles.txt");
 		//check if there are 5 blue policies and change state
 		if(blue == 5){
 			client.openToWrite("data/state.txt");
@@ -305,9 +270,7 @@ public class PolicySelection {
 			client.writeToFile("SELECTION");
 			client.close();
 		}
-		
 		return;
-	
 	}
 
 	/**
@@ -376,7 +339,5 @@ public class PolicySelection {
 				card.getNewImage("Red");
 			}
 		}
-		//this can reset the card
-		//card1.getNewImage("Red");
 	}
 }
