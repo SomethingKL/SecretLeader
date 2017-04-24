@@ -8,8 +8,8 @@ import org.junit.runners.Suite;
 // all test classes included in suite go here
 @Suite.SuiteClasses({
    SLTest.class,
-   //nextTest.class
+   //SLTest1.class
 })
 
-public class TestSuite {   
+public class TestSuite {  
 }  
