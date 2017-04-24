@@ -1,6 +1,4 @@
-/**This is our secret leader board.
- * It holds all the board information for one team.
- */
+
 package entity;
 
 import java.awt.Dimension;
@@ -13,6 +11,9 @@ import javax.imageio.ImageIO;
 
 import ui.SLPanel;
 
+/**This is our secret leader board.
+ * It holds all the board information for one team.
+ */
 public class Board extends Entity{
 	/**final width of the frame*/
 	private static final int WIDTH  = 950;
@@ -21,6 +22,11 @@ public class Board extends Entity{
 	/**an array holding the VictoryCards*/
 	private VictoryCard[] cards;
 	
+	/**
+	 * @param point, spot on the board
+	 * @param name, the  type of cards being displayed
+	 * @throws IOException, if the image doesn't exist
+	 */
 	public Board(Point point, String name) throws IOException{
 		super(point, new Dimension(WIDTH, HEIGHT), ImageIO.read(new File("data/"+name)));
 	}

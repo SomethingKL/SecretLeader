@@ -1,7 +1,4 @@
-/**This is our secret leader canvas (hence SL before canvas).
- * The Canvas is an abstraction of both the JPanel and the MouseListener.
- * The main point of this is to reduce the work of our panel.
- */
+
 package ui;
 
 import java.awt.Color;
@@ -12,8 +9,15 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+/**This is our secret leader canvas (hence SL before canvas).
+ * The Canvas is an abstraction of both the JPanel and the MouseListener.
+ * The main point of this is to reduce the work of our panel.
+ */
 public abstract class SLCanvas extends JPanel implements MouseListener{
 
+	/**
+	 * Does the upper level drawing of the game
+	 */
 	public SLCanvas() {
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);

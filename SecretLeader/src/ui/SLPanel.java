@@ -1,7 +1,4 @@
-/**This is our secret leader panel (hence SL before panel).
- * We can use this to keep track of the game state.
- * Basically when to do what eg. when to open the voting frame.
- */
+
 package ui;
 
 import java.awt.Color;
@@ -18,6 +15,10 @@ import entity.RedGameOver;
 import entity.Votecard;
 import framework.*;
 
+/**This is our secret leader panel (hence SL before panel).
+ * We can use this to keep track of the game state.
+ * Basically when to do what eg. when to open the voting frame.
+ */
 public class SLPanel extends SLCanvas{
 	/**States**
 	 * JOINING: The starting portion of the game
@@ -40,6 +41,9 @@ public class SLPanel extends SLCanvas{
 	/** the userName of the player */
 	private String userName;
 	
+	/**
+	 * Runs the logic of the stage of the game
+	 */
 	public SLPanel(){
 		super();
 		client.openToWrite("data/state.txt");
@@ -50,7 +54,8 @@ public class SLPanel extends SLCanvas{
 		state = GameState.JOINING;
 	}
 	@Override
-	/**{@literal} called from repaint()
+	/**
+	 * {@literal} called from repaint()
 	 */
 	public void canvasDraw(Graphics2D g2d) {
 
@@ -67,7 +72,7 @@ public class SLPanel extends SLCanvas{
 				control.draw(g2d, this,state);
 			}
 
-			//the menuning screen of the game
+			//the menuing screen of the game
 			else if(state == GameState.JOINING){
 				menu.setTextArea();
 				menu.waitingScreen();

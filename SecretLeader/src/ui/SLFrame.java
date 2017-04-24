@@ -1,6 +1,4 @@
-/**This is our secret leader frame (hence SL before frame).
- * We can use this as the main user interface.
- */
+
 package ui;
 
 import java.awt.Image;
@@ -17,17 +15,23 @@ import javax.swing.JFrame;
 
 import framework.TCPClient;
 
+/**This is our secret leader frame (hence SL before frame).
+ * We can use this as the main user interface.
+ */
 public class SLFrame extends JFrame{
 	/**final width of the frame*/
 	private static final int WIDTH  = 1400;
 	/**final height of the frame*/
 	private static final int HEIGHT = 825;
 	
+	/**
+	 * Initializes the games window and initial files
+	 */
 	public SLFrame() {
 		initWindow();
 		
 		//deletes files on closing of the frame
-	    addWindowListener(new WindowAdapter() {
+	    addWindowListener(new WindowAdapter(){
 	        public void windowClosing(WindowEvent e) {
         		TCPClient client = new TCPClient();
         		String[] players = client.readFile("data/Players.txt");

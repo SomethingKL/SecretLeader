@@ -5,15 +5,25 @@ import java.awt.Graphics;
 
 import javax.swing.JButton;
 
+/**
+ * @author Jacob Krantz
+ *Custom button
+ */
 public class ColorButton extends JButton {
 	
 	private Color hoverBackgroundColor;
 	private Color pressedBackgroundColor;
 	
+	/**
+	 * For testing
+	 */
 	public ColorButton() {
 		this(null);
 	}
 	
+	/**
+	 * @param text, button to be put into the text
+	 */
 	public ColorButton(String text) {
 		super(text);
 		super.setContentAreaFilled(false);

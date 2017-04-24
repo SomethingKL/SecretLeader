@@ -1,7 +1,4 @@
-/**This is our secret leader central file reader.
- * Basically this class just reads and writes from the central file(s).
- * once we have our code working we can try to implement this with networking
- */
+
 package framework;
 
 import java.io.*;
@@ -9,12 +6,19 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+/**This is our secret leader central file reader.
+ * Basically this class just reads and writes from the central file(s).
+ * once we have our code working we can try to implement this with networking
+ */
 public class TCPClient {
 	/**used to write to the file*/
 	private static FileWriter writer;
 	/**constant representing carriage return*/
 	private final static char newline = '\n';
 	
+	/**
+	 * Has no constructor
+	 */
 	public TCPClient(){
 	}
 	/**@param name of the file being read from

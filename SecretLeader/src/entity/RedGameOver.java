@@ -14,6 +14,9 @@ import javax.imageio.ImageIO;
 import framework.TCPClient;
 import ui.SLPanel;
 
+/**
+ * Responsible for the ending game screen for the red team.
+ */
 public class RedGameOver{
 	/**reads relevant game information*/
 	private TCPClient client = new TCPClient();
@@ -34,6 +37,11 @@ public class RedGameOver{
 		box = new Rectangle(point.x, point.y,WIDTH, HEIGHT);
 		this.image = image.getScaledInstance(WIDTH, HEIGHT, 0);
 		}
+	
+	/** Drawing the contents of the blue game over screen
+	 * @param g2d, the graphic
+	 * @param panel, the panel of the game
+	 */
 	public void draw(Graphics2D g2d, SLPanel panel){
 		// I put a delay in for the game over screen; because why not!?
 		/*

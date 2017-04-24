@@ -1,12 +1,7 @@
 package framework;
-
 import java.awt.Color;
 import java.awt.Dimension;
-/**This runs the beginning frame
- * There is currently a warning at line ?. The program doesn't like to read in a null string from a file. 
- * It has something to do with the action submitActionListener
- * 
- */
+
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -23,27 +18,32 @@ import javax.swing.text.DefaultStyledDocument;
 
 import ui.SLPanel;
 
-//import javax.awt.DocumentSizeFilter;
+/**This runs the beginning frame
+ * There is currently a warning at line ?. The program doesn't like to read in a null string from a file. 
+ * It has something to do with the action submitActionListener
+ */
 public class MainMenu extends JPanel {
 	/**reads relevant game information*/
 	private TCPClient client = new TCPClient();
-	//I do not want this to repaint another button everytime
+	/** I do not want this to repaint another button everytime */
 	private boolean repaint= false;
 	
 	private SLPanel slPanel;
-	//label above the text pane
+	/** label above the text panel */
 	private JLabel userNameLabel;
-	//where the user puts their input
+	/** where the user puts their input */
 	private JTextPane field;
-	//the button that sends the user to the next screen
+	/**the button that sends the user to the next screen */
 	private ColorButton submit;
-	//the name of the user for the game
+	/** the name of the user for the game */
 	private String userName = "User";
-	//where the screen should be at
+	/**where the screen should be at */
 	private boolean waitingScreen = false;
-	//whether the game can go to the next state or not
+	/**whether the game can go to the next state or not */
 	private boolean nextScreen = false;
 	
+	/**takes in the current panel
+	 */
 	public MainMenu(SLPanel slPanelIn){
 		//set the files
 		initGameFiles();
@@ -274,7 +274,7 @@ public class MainMenu extends JPanel {
 			
 	
 			//to make sure all of the inputs are correct.
-			if(tmpString != null && !tmpString.isEmpty() && isRepeat(tmpString) == false){  
+			if(tmpString != null && !tmpString.isEmpty() && isRepeat(tmpString)== false){  
 				userName = tmpString;
 				//make the person put a name!
 				slPanel.removeAll();
@@ -312,8 +312,7 @@ public class MainMenu extends JPanel {
 	public boolean isRepeat(String name){
 		String[] checkPlayers = client.readFile("data/Players.txt");
 		for(int k = 0; k < checkPlayers.length; k++){
-			if(checkPlayers[0].equals(name)){
-				//dialog box?
+			if(checkPlayers[k].equals(name)){
 				return true;
 			}
 		}

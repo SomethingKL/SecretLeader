@@ -1,5 +1,5 @@
 #Player Names
-one Blue Team
-four Secret Leader
-three Blue Team
-two Red Team
+max Blue Team
+gavin Secret Leader
+drew Blue Team
+asfda Red Team

@@ -1,8 +1,5 @@
 package entity;
-/**This is our secret leader player list.
- * it reads from a file containing the names of players in the game.
- * and then draws those names on screen
- */
+
 
 import java.awt.BasicStroke;
 import java.awt.Font;
@@ -15,7 +12,10 @@ import java.io.IOException;
 import framework.TCPClient;
 import ui.SLPanel;
 
-
+/**This is our secret leader player list.
+ * it reads from a file containing the names of players in the game.
+ * and then draws those names on screen
+ */
 public class ResultsBox {
 
 	/**box around the list*/
@@ -29,9 +29,14 @@ public class ResultsBox {
 	
 	private final String header = "Status Area";
 	
+	/**
+	 * @param point on the board
+	 * @throws IOException, if the file is not found
+	 */
 	public ResultsBox(Point point) throws IOException{
 		box = new Rectangle(point.x, point.y, WIDTH, HEIGHT);
 	}
+	
 	/**{@literal}creates the list of players playing
 	 */
 	public void draw(Graphics2D g2d, SLPanel panel){
@@ -67,6 +72,11 @@ public class ResultsBox {
 		g2d.drawString(string1st, box.x,box.y+HEIGHT/2);
 		g2d.drawString(string2nd, box.x,box.y+HEIGHT/2+20);
 	}
+	
+	/**
+	 * @param e, the action of mouseclick
+	 * @param state, current stage of the game
+	 */
 	public void click(MouseEvent e, SLPanel.GameState state) {
 		//this is the border of things that can be clicked
 		if(box.contains(e.getPoint())){

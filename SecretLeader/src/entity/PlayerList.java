@@ -1,7 +1,4 @@
-/**This is our secret leader player list.
- * it reads from a file containing the names of players in the game.
- * and then draws those names on screen
- */
+
 package entity;
 
 import java.awt.BasicStroke;
@@ -16,6 +13,10 @@ import java.io.IOException;
 import framework.TCPClient;
 import ui.SLPanel;
 
+/**This is our secret leader player list.
+ * it reads from a file containing the names of players in the game.
+ * and then draws those names on screen
+ */
 public class PlayerList {
 	/**box around the list*/
 	private Rectangle[] box;
@@ -34,6 +35,11 @@ public class PlayerList {
 	/** the username of the player */
 	private String userName;
 	
+	/**
+	 * @param start, spot on the board
+	 * @param role, role of the player
+	 * @throws IOException, file not found
+	 */
 	public PlayerList(Point start, String role) throws IOException{
 		 this.point = start;
 		 //get the current players
@@ -47,10 +53,20 @@ public class PlayerList {
 			 box[k] = player;
 			 colorPlayer[k] = 0;
 		 }
-		 if(role.compareTo("Red")==0)
-			 for(int k=3;k<colorPlayer.length;k++)
+		 if(role.compareTo("Red")==0){
+			 for(int k=0;k<colorPlayer.length;k++){
 				 if(k%2==1)
 					 colorPlayer[k] = 2;
+				 else
+					 colorPlayer[k] = 4;
+			 }
+			 colorPlayer[1] = 3;
+		 }
+		 System.out.println(role);
+		 if(role.compareTo("Secret") ==0){
+			 colorPlayer[1] =3;
+		 }
+		 
 		 for(int k=0;k<players.length&&k<10;k++){
 			 int i = rn(0,players.length-1);
 			 String temp = players[k];
@@ -61,11 +77,13 @@ public class PlayerList {
 			 colorPlayer[i] = h;
 		 }
 	}
+	
 	//Pre: takes a minimun and maximum value inclusively
 	//Post: returns a random number within that range
 	int rn(int min, int max){    
 	   return (int)(Math.random()*(max-min+1))+min;
 	}
+	
 	/**{@literal}creates the list of players playing
 	 */
 	public void draw(Graphics2D g2d, SLPanel panel){
@@ -82,7 +100,12 @@ public class PlayerList {
 				g2d.setColor(Color.GREEN);
 			}else if(colorPlayer[k] == 2){
 				g2d.setColor(Color.RED);
-			}else{ 
+			}else if(colorPlayer[k] == 3){
+				g2d.setColor(Color.ORANGE);
+			}else if(colorPlayer[k] ==4){
+				g2d.setColor(Color.BLUE);
+			}
+			else{ 
 				g2d.setColor(Color.black);
 			}
 			

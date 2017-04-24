@@ -1,5 +1,4 @@
-/**Anything that has an image and is drawn is an entity
- */
+
 package entity;
 
 import java.awt.AlphaComposite;
@@ -11,12 +10,14 @@ import java.awt.Rectangle;
 
 import ui.SLPanel;
 
+/**Anything that has an image and is drawn is an entity. 
+ * Most classes inside of the package extend this class
+ */
 public class Entity{
 	/**box around the entity*/
 	protected Rectangle box;
 	/**image for this part*/
 	private Image image;
-	
 	/**final width of the frame*/
 	private static final int WIDTH  = 540;
 	/**final height of the frame*/
@@ -24,7 +25,11 @@ public class Entity{
 	/**the size of the image**/
 	private Dimension dim;
 	
-	
+	/**
+	 * @param location,the spot on the board
+	 * @param size, the size of the picture
+	 * @param image, the image to go on the screen
+	 */
 	public Entity(Point location, Dimension size, Image image){
 		dim = size;
 		box = new Rectangle(location.x, location.y, size.width, size.height);
@@ -36,8 +41,9 @@ public class Entity{
 	public void draw(Graphics2D g2d, SLPanel panel){
 		g2d.drawImage(this.image, box.x, box.y, panel);
 	}
+	
 	/**
-	 * draws the image on the graphics panel with opacity optional
+	 * Draws the image on the graphics panel with opacity optional
 	 * @param g2d
 	 * @param panel
 	 * @param isOpaque

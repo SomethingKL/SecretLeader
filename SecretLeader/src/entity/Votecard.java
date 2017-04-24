@@ -1,8 +1,5 @@
 package entity;
-/**
- * This is both the voting card for yes and no. 
- * Has an action listener
- */
+
 import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -16,6 +13,10 @@ import framework.TCPClient;
 import ui.SLPanel;
 import ui.SLPanel.GameState;
 
+/**
+ * This is both the voting card for yes and no. 
+ * Has an action listener
+ */
 public class Votecard {
 	
 	/**box around the list*/
@@ -24,15 +25,15 @@ public class Votecard {
 	private static final int WIDTH  = 240;
 	/**final height of the frame*/
 	private static final int HEIGHT = 145;
-	//where the image is at
+	/**where the image is at */
 	private TCPClient client = new TCPClient();
 	/**image for this part*/
 	private Image image;
-	//what type of card is this
+	/**what type of card is this */
 	private String type;
-	//whether to move on from the last state or not
+	/**whether to move on from the last state or not */
 	private boolean nextState = false;
-	
+	/**username of the player */
 	private String playerID;
 	
 	public Votecard(Point point,Image image,String typeIn,String user) throws IOException{
@@ -42,6 +43,7 @@ public class Votecard {
 		playerID = user;
 		//box = new Rectangle(point.x, point.y, WIDTH, HEIGHT);
 	}
+	
 	/**
 	 * for testing purposes
 	 */

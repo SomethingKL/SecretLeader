@@ -14,6 +14,9 @@ import framework.TCPClient;
 import ui.SLPanel;
 import ui.SLPanel.GameState;
 
+/**
+ * Button for the selection of the chancellor
+ */
 public class ChancellorButton extends Entity{
 	
 	/**final width of the frame*/
@@ -25,6 +28,12 @@ public class ChancellorButton extends Entity{
 	/**the userName of the player **/
 	private String userName;
 	
+	/**
+	 * @param point on the board
+	 * @param name, the user name of the player
+	 * @param userNameIn, 
+	 * @throws IOException, if the image is not there
+	 */
 	public ChancellorButton(Point point,String name,String userNameIn) throws IOException{
 		super(point, new Dimension(WIDTH, HEIGHT), ImageIO.read(new File("data/SelectChancellor.jpg")));
 		userName = userNameIn;

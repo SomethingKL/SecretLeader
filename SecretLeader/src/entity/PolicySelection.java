@@ -10,6 +10,10 @@ import java.util.Random;
 import framework.TCPClient;
 import ui.SLPanel;
 
+/**
+ * @author Max
+ * This runs all of the policy selecting for the president and chancellor.
+ */
 public class PolicySelection {
 	/**box around the list*/
 	private Rectangle box;
@@ -48,6 +52,11 @@ public class PolicySelection {
 	/** the number of players in the game */
 	private int playerInt;
 
+	/**
+	 * @param point, spot on the board
+	 * @param userName, the name of the current user
+	 * @throws IOException, if a file cannot be found
+	 */
 	public PolicySelection(Point point,String userName) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH*4, HEIGHT);
 		

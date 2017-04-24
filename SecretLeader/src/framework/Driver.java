@@ -1,9 +1,10 @@
- /**This is just to begin the the program
- */
+
 package framework;
 
 import ui.SLFrame;
 
+/**This is just to begin the the program
+*/
 public class Driver {
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")

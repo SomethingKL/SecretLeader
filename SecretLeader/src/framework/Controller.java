@@ -1,9 +1,4 @@
-/**This is our secret leader controller.
- * SLPanel decides when to do a task, like read from a central file,
- * 		but this class performs the actual work.
- * Basically this class knows what to do when its told to do work.
- * The main point of this is to reduce the work of our panel.
- */
+
 package framework;
 import java.awt.BasicStroke;
 import java.awt.Dimension;
@@ -22,6 +17,12 @@ import entity.*;
 import ui.SLPanel;
 import ui.SLPanel.GameState;
 
+/**This is our secret leader controller.
+ * SLPanel decides when to do a task, like read from a central file,
+ * 		but this class performs the actual work.
+ * Basically this class knows what to do when its told to do work.
+ * The main point of this is to reduce the work of our panel.
+ */
 public class Controller{
 	/**reads relevant game information*/
 	private TCPClient client = new TCPClient();
@@ -54,12 +55,15 @@ public class Controller{
 	/**The button to select the chancellor */
 	private ChancellorButton select;
 
-	//this builds all of the possible pieces on the board.
+	/**Runs most of the logic in the game
+	 * @param userNameIn, the username of the player
+	 * @throws IOException, file cannot be found
+	 */
 	public Controller(String userNameIn) throws IOException{
 		firstPresident();
-		//String tmpRole = getRole(userNameIn);
 		String tmpRole = getRole(userNameIn);
 		playerID = userNameIn;
+		System.out.println(tmpRole);
 		if(tmpRole.compareTo("Secret")==0){
 			role = new PlayerCard(new Point(0,0), "RedLeader.jpg");
 		}else{
@@ -81,7 +85,12 @@ public class Controller{
 		firstPresident();
 	}
 	
-	/**{@literal}draws all the current game images
+	/**
+	 * {@literal}draws all the current game images
+	 * @param g2d, graphics
+	 * @param slPanel, panel being displayed on
+	 * @param state, current stage of the game
+	 * @throws IOException,file cannot be found
 	 */
 	public void draw(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
 		
@@ -142,9 +151,12 @@ public class Controller{
 		
 	}
 	
-	/**{@literal}draws the board as it currently is
+	/**
+	 * @param g2d, graphics
+	 * @param slPanel, panel is use
+	 * @param state, stage of the game
+	 * @throws IOException, file cannot be found
 	 */
-	//want to put the current state of the game right. Ye and ne cards
 	private void updateBoard(Graphics2D g2d, SLPanel slPanel,SLPanel.GameState state) throws IOException{
 		//this gets the current scores
 		client.close();
@@ -166,6 +178,8 @@ public class Controller{
 	}
 	
 	/**{@literal}draws the chancellor or president card if you are either
+	 * 	@param g2d, the graphic
+	 * @param slPanel, the panel in use
 	 */
 	private void displayOfficialPosition(Graphics2D g2d, SLPanel slPanel) throws IOException{
 		//get the current turn information
@@ -290,6 +304,10 @@ public class Controller{
 		return nextScreen;
 	}
 	
+	/**
+	 * has the vote been made
+	 * @param voted
+	 */
 	public void setHasVoted(boolean voted){
 		nextScreen = voted;
 	}
@@ -311,6 +329,10 @@ public class Controller{
 		client.close();
 	}
 	
+	/**Get the role of the current use
+	 * @param userName, the user of the game
+	 * @return the role of the user
+	 */
 	public String getRole(String userName){
 		String[] players = client.readFile("data/Players.txt");
 		String [] scores = client.readFile("data/Roles.txt");

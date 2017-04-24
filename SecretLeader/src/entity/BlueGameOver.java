@@ -1,5 +1,6 @@
 package entity;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,6 +18,9 @@ import javax.swing.JLabel;
 import framework.TCPClient;
 import ui.SLPanel;
 
+/**
+ * Responsible for the ending game screen for the blue team.
+ */
 public class BlueGameOver{
 	/**reads relevant game information*/
 	private TCPClient client = new TCPClient();
@@ -33,11 +37,23 @@ public class BlueGameOver{
 	/**stores read in from roles.txt*/
 	private String[] roles;
 	
+	/**
+	 * 
+	 * @param point, spot on the board
+	 * @param image, the image to go on the screen
+	 * @throws IOException, if the image is not found
+	 */
 	public BlueGameOver(Point point, Image image) throws IOException{
 		box = new Rectangle(point.x, point.y,WIDTH, HEIGHT);
 		this.image = image.getScaledInstance(WIDTH, HEIGHT, 0);
 		}
+	
+	/** Drawing the contents of the blue game over screen
+	 * @param g2d, the graphic
+	 * @param panel, the panel of the game
+	 */
 	public void draw(Graphics2D g2d, SLPanel panel){
+		
 		// I put a delay in for the game over screen; because why not!?
 		/*
 		try{
