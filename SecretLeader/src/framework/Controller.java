@@ -216,7 +216,7 @@ public class Controller{
 		boolean noBool = no.click(e, state);
 		if(yesBool || noBool){
 			nextScreen = true;
-			int players = client.getLength("data/Players.txt");
+			int players = client.readFile("data/Players.txt").length;
 			int votes = yes.getVoteCount();
 			//makes sure that all of the players have voted
 			if(votes == players){

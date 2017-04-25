@@ -201,7 +201,7 @@ public class MainMenu extends JPanel {
 		waitingLabel.setForeground(new Color(200,20,20));
 		
 		//once the game has enough players to play
-		if(scores.length >= 4 && scores.length <= 10){
+		if(scores.length >= 2 && scores.length <= 10){
 			ColorButton startGame = new ColorButton("Click here to start!");
 			startGame.setFont(font);
 			startGame.setPreferredSize(new Dimension(400,50));
@@ -225,7 +225,7 @@ public class MainMenu extends JPanel {
 	 */
 	public String getRole(String userName){
 		setRoles();
-		int length = client.getLength("data/Roles.txt");
+		int length = client.readFile("data/Roles.txt").length;
 		String[] scores = new String[length];
 		scores = client.readFile("data/Roles.txt");
 		client.close();
@@ -324,8 +324,8 @@ public class MainMenu extends JPanel {
 	 */
 	public void setRoles(){
 		TCPClient getFile = new TCPClient();
-		String[] scores = new String[getFile.getLength("data/Players.txt")];
-		int length = getFile.getLength("data/Players.txt");
+		int length = getFile.readFile("data/Players.txt").length;
+		String[] scores = new String[length];
 		scores = getFile.readFile("data/Players.txt");
 		getFile.openToWrite("data/Roles.txt");
 		getFile.writeToFile("#Player Names");

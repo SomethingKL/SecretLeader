@@ -78,7 +78,7 @@ public class PolicySelection {
 		card2Box = new Rectangle(900,620,WIDTH,HEIGHT);
 		card3Box = new Rectangle(1040,620,WIDTH,HEIGHT);
 		
-		playerInt = client.getLength("data/Players.txt");
+		playerInt = client.readFile("data/Players.txt").length;
 	}
 	
 	/**{@literal}
@@ -335,8 +335,6 @@ public class PolicySelection {
 	 * Sets the positions of the new president
 	 */
 	public void setNewPositions() {
-		
-		int playerInt = client.getLength("data/Players.txt");
 		//gets the roles of the game currently
 		String[] roles = client.readFile("data/Turn.txt");
 		String[] players = client.readFile("data/Players.txt");
