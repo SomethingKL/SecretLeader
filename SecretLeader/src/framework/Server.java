@@ -35,6 +35,7 @@ public class Server{
 				}
 			}
 		}catch(IOException e){
+			System.out.println("some other server thing");
 			e.printStackTrace();
 		}
 	}
@@ -61,6 +62,7 @@ public class Server{
 			br.close();
 			return answer;
 		}catch(Exception e){
+			System.out.println("it's reading the file");
 			System.out.println(e);
 		}
 		return null;
